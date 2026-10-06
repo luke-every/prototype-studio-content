@@ -105,6 +105,35 @@
       "archived": false,
       "figmaUrl": "https://www.figma.com/design/8YuV1x4IlYbPcgK0H4nMG5/Website?node-id=5661-24113",
       "notionUrl": "https://app.notion.com/p/every-foods/A-B-test-Onboarding-Quiz-and-product-recommendation-for-new-customer-acquisition-3cdec93dc06180118d8ce89262b3e694"
+    },
+    {
+      "slug": "hello-world",
+      "teamSlug": "playground",
+      "projectSlug": null,
+      "name": "Hello World",
+      "description": "A playful animated Hello World page.",
+      "owner": {
+        "login": "luke-mcewan",
+        "name": "Luke McEwan"
+      },
+      "preview": {
+        "tint": [
+          "#e8e6e1",
+          "#8b8880"
+        ],
+        "caption": "Hello World",
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0d609334a3ed0934b865a7d63819f287a6fa2410/p/hello-world/v0-1/index.html"
+      },
+      "currentVersion": "hello-world-v0.1",
+      "created": {
+        "by": {
+          "login": "luke-mcewan",
+          "name": "Luke McEwan"
+        },
+        "at": "2026-10-06"
+      },
+      "updatedAt": "2026-10-06T15:15:11.149Z",
+      "archived": false
     }
   ],
   "versions": [
@@ -133,6 +162,19 @@
       },
       "createdAt": "2026-10-06T08:35:55.936Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/142cc468d8a5f97d4581d8d0e875a645964782dc/p/every-quiz-v3/v3-0/index.html"
+    },
+    {
+      "id": "hello-world-v0.1",
+      "prototypeSlug": "hello-world",
+      "version": "v0.1",
+      "title": "First pass",
+      "changes": "Bouncing 'Hello World' lettering with a pulsing heart on a pink-to-blue gradient. Animations are disabled for reduced-motion users.",
+      "author": {
+        "login": "luke-mcewan",
+        "name": "Luke McEwan"
+      },
+      "createdAt": "2026-10-06T15:15:11.149Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0d609334a3ed0934b865a7d63819f287a6fa2410/p/hello-world/v0-1/index.html"
     }
   ]
 }
