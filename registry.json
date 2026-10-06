@@ -1,0 +1,123 @@
+{
+  "teams": [
+    {
+      "slug": "acquisition",
+      "name": "Acquisition",
+      "remit": "Arriving and deciding",
+      "description": "Everything between landing on us for the first time and understanding what we would send you.",
+      "lead": {
+        "login": "luke-every",
+        "name": "Luke"
+      },
+      "members": [
+        {
+          "login": "luke-every",
+          "name": "Luke"
+        }
+      ],
+      "created": {
+        "by": {
+          "login": "luke-every",
+          "name": "Luke"
+        },
+        "at": "2026-09-21"
+      },
+      "archived": false
+    },
+    {
+      "slug": "retention",
+      "name": "Retention",
+      "remit": "Staying, pausing, coming back",
+      "description": "The long middle of the relationship. Changing a plan, taking a break, and everything we send when nobody asked.",
+      "lead": {
+        "login": "luke-every",
+        "name": "Luke"
+      },
+      "members": [
+        {
+          "login": "luke-every",
+          "name": "Luke"
+        }
+      ],
+      "created": {
+        "by": {
+          "login": "luke-every",
+          "name": "Luke"
+        },
+        "at": "2026-09-21"
+      },
+      "archived": false
+    },
+    {
+      "slug": "playground",
+      "name": "Playground",
+      "remit": "No brief, no promises",
+      "description": "Work with nothing riding on it. Some of it becomes real. Most of it is here to settle an argument.",
+      "lead": {
+        "login": "luke-every",
+        "name": "Luke"
+      },
+      "members": [
+        {
+          "login": "luke-every",
+          "name": "Luke"
+        }
+      ],
+      "created": {
+        "by": {
+          "login": "luke-every",
+          "name": "Luke"
+        },
+        "at": "2026-09-21"
+      },
+      "archived": false
+    }
+  ],
+  "projects": [],
+  "prototypes": [
+    {
+      "slug": "every-quiz-v3",
+      "teamSlug": "acquisition",
+      "projectSlug": null,
+      "name": "Every quiz v3",
+      "description": "The Every product quiz: intro, questions, reinforcement steps, loader and personalised results.",
+      "owner": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "preview": {
+        "tint": [
+          "#e8e6e1",
+          "#8b8880"
+        ],
+        "caption": "Every quiz v3",
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/76a1a6bea6cf0f59a31d8b6edcfda1ec42be3222/p/every-quiz-v3/v0-1/index.html"
+      },
+      "currentVersion": "every-quiz-v3-v0.1",
+      "created": {
+        "by": {
+          "login": "luke",
+          "name": "Luke"
+        },
+        "at": "2026-10-06"
+      },
+      "updatedAt": "2026-10-06T08:05:58.805Z",
+      "archived": false
+    }
+  ],
+  "versions": [
+    {
+      "id": "every-quiz-v3-v0.1",
+      "prototypeSlug": "every-quiz-v3",
+      "version": "v0.1",
+      "title": "Responsive intro, new motion and meal modal",
+      "changes": "Added a 1024px breakpoint: intro goes image-left/copy-right, question and reinforcement steps sit in a 544px column. Rebuilt step animations (x-axis blur, cross-over exit, softer easing), press scale on options, and progress that counts reinforcement steps. Loader now hands over to results automatically. Satisfaction step has a Continue button and a neutral default face. New goal, household and eater icons, copy updates, and the meal modal rebuilt to match the website's MealDetailModal (no reviews).",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-06T08:05:58.803Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/76a1a6bea6cf0f59a31d8b6edcfda1ec42be3222/p/every-quiz-v3/v0-1/index.html"
+    }
+  ]
+}
