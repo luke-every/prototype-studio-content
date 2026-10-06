@@ -91,9 +91,9 @@
           "#8b8880"
         ],
         "caption": "Every quiz v3",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/76a1a6bea6cf0f59a31d8b6edcfda1ec42be3222/p/every-quiz-v3/v0-1/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/142cc468d8a5f97d4581d8d0e875a645964782dc/p/every-quiz-v3/v3-0/index.html"
       },
-      "currentVersion": "every-quiz-v3-v0.1",
+      "currentVersion": "every-quiz-v3-v3.0",
       "created": {
         "by": {
           "login": "luke",
@@ -101,7 +101,7 @@
         },
         "at": "2026-10-06"
       },
-      "updatedAt": "2026-10-06T08:05:58.805Z",
+      "updatedAt": "2026-10-06T08:35:55.939Z",
       "archived": false
     }
   ],
@@ -118,6 +118,19 @@
       },
       "createdAt": "2026-10-06T08:05:58.803Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/76a1a6bea6cf0f59a31d8b6edcfda1ec42be3222/p/every-quiz-v3/v0-1/index.html"
+    },
+    {
+      "id": "every-quiz-v3-v3.0",
+      "prototypeSlug": "every-quiz-v3",
+      "version": "v3.0",
+      "title": "Controls in the studio",
+      "changes": "Added studio.json so the studio can drive the quiz from its controls: start point (homepage, quiz, loader, results), results page A or B, bundle, and challenge. No change to the quiz itself.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-06T08:35:55.936Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/142cc468d8a5f97d4581d8d0e875a645964782dc/p/every-quiz-v3/v3-0/index.html"
     }
   ]
 }
