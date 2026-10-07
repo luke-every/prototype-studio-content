@@ -1,0 +1,112 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A"
+        },
+        {
+          "value": "b",
+          "label": "B"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Bundle",
+      "type": "choice",
+      "default": "protein",
+      "when": {
+        "control": "start",
+        "is": "results"
+      },
+      "options": [
+        {
+          "value": "protein",
+          "label": "Protein"
+        },
+        {
+          "value": "lighter",
+          "label": "Lighter"
+        },
+        {
+          "value": "postpartum",
+          "label": "Postpartum"
+        },
+        {
+          "value": "better",
+          "label": "Balanced"
+        }
+      ]
+    },
+    {
+      "id": "challenge",
+      "label": "Challenge",
+      "type": "choice",
+      "default": "any",
+      "when": {
+        "control": "variant",
+        "is": "b"
+      },
+      "options": [
+        {
+          "value": "any",
+          "label": "Any"
+        },
+        {
+          "value": "time",
+          "label": "Time"
+        },
+        {
+          "value": "decide",
+          "label": "Deciding"
+        },
+        {
+          "value": "balance",
+          "label": "Balance"
+        },
+        {
+          "value": "waste",
+          "label": "Waste"
+        },
+        {
+          "value": "cooking",
+          "label": "Cooking"
+        },
+        {
+          "value": "budget",
+          "label": "Budget"
+        }
+      ]
+    }
+  ]
+}
