@@ -91,9 +91,9 @@
           "#8b8880"
         ],
         "caption": "Questionnaire / Recommendation page",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/4e90aa6c033d4c6d4f24fe9081f243b73aa1a98b/p/every-quiz-v3/v3-3/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/74c0435b2f5aff31b296a5493a829d826a0aa502/p/every-quiz-v3/v3-4/index.html"
       },
-      "currentVersion": "every-quiz-v3-v3.3",
+      "currentVersion": "every-quiz-v3-v3.4",
       "created": {
         "by": {
           "login": "luke",
@@ -101,7 +101,7 @@
         },
         "at": "2026-10-06"
       },
-      "updatedAt": "2026-10-07T11:08:35.379Z",
+      "updatedAt": "2026-10-07T11:20:52.898Z",
       "archived": false,
       "figmaUrl": "https://www.figma.com/design/8YuV1x4IlYbPcgK0H4nMG5/Website?node-id=5661-24113",
       "notionUrl": "https://app.notion.com/p/every-foods/A-B-test-Onboarding-Quiz-and-product-recommendation-for-new-customer-acquisition-3cdec93dc06180118d8ce89262b3e694"
@@ -214,6 +214,19 @@
       },
       "createdAt": "2026-10-07T11:08:35.379Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/4e90aa6c033d4c6d4f24fe9081f243b73aa1a98b/p/every-quiz-v3/v3-3/index.html"
+    },
+    {
+      "id": "every-quiz-v3-v3.4",
+      "prototypeSlug": "every-quiz-v3",
+      "version": "v3.4",
+      "title": "Quiz flow map",
+      "changes": "Added a flow of every quiz step (homepage, ten quiz steps, loader, results A and B) so the studio can draw it. Added a ?step= link parameter (with start=quiz) so each step opens directly with sample answers filled in.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-07T11:20:52.895Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/74c0435b2f5aff31b296a5493a829d826a0aa502/p/every-quiz-v3/v3-4/index.html"
     }
   ]
 }
