@@ -1,0 +1,290 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A"
+        },
+        {
+          "value": "b",
+          "label": "B"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Bundle",
+      "type": "choice",
+      "default": "protein",
+      "when": {
+        "control": "start",
+        "is": "results"
+      },
+      "options": [
+        {
+          "value": "protein",
+          "label": "Protein"
+        },
+        {
+          "value": "lighter",
+          "label": "Lighter"
+        },
+        {
+          "value": "postpartum",
+          "label": "Postpartum"
+        },
+        {
+          "value": "better",
+          "label": "Balanced"
+        }
+      ]
+    },
+    {
+      "id": "challenge",
+      "label": "Challenge",
+      "type": "choice",
+      "default": "any",
+      "when": {
+        "control": "variant",
+        "is": "b"
+      },
+      "options": [
+        {
+          "value": "any",
+          "label": "Any"
+        },
+        {
+          "value": "time",
+          "label": "Time"
+        },
+        {
+          "value": "decide",
+          "label": "Deciding"
+        },
+        {
+          "value": "balance",
+          "label": "Balance"
+        },
+        {
+          "value": "waste",
+          "label": "Waste"
+        },
+        {
+          "value": "cooking",
+          "label": "Cooking"
+        },
+        {
+          "value": "budget",
+          "label": "Budget"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "screens": [
+      {
+        "id": "home",
+        "name": "Homepage",
+        "params": {}
+      },
+      {
+        "id": "q0",
+        "name": "Intro",
+        "params": {
+          "start": "quiz"
+        }
+      },
+      {
+        "id": "q1",
+        "name": "Goal",
+        "params": {
+          "start": "quiz",
+          "step": "1"
+        }
+      },
+      {
+        "id": "q2",
+        "name": "Goal, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "2"
+        }
+      },
+      {
+        "id": "q3",
+        "name": "Satisfaction",
+        "params": {
+          "start": "quiz",
+          "step": "3"
+        }
+      },
+      {
+        "id": "q4",
+        "name": "Challenges",
+        "params": {
+          "start": "quiz",
+          "step": "4"
+        }
+      },
+      {
+        "id": "q5",
+        "name": "Challenge, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "5"
+        }
+      },
+      {
+        "id": "q6",
+        "name": "Week",
+        "params": {
+          "start": "quiz",
+          "step": "6"
+        }
+      },
+      {
+        "id": "q7",
+        "name": "Household",
+        "params": {
+          "start": "quiz",
+          "step": "7"
+        }
+      },
+      {
+        "id": "q8",
+        "name": "Eater",
+        "params": {
+          "start": "quiz",
+          "step": "8"
+        }
+      },
+      {
+        "id": "q9",
+        "name": "Watch",
+        "params": {
+          "start": "quiz",
+          "step": "9"
+        }
+      },
+      {
+        "id": "loader",
+        "name": "Loader",
+        "params": {
+          "start": "loader"
+        }
+      },
+      {
+        "id": "ra",
+        "name": "Results A",
+        "params": {
+          "start": "results",
+          "variant": "a"
+        }
+      },
+      {
+        "id": "rb",
+        "name": "Results B",
+        "params": {
+          "start": "results",
+          "variant": "b"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "home",
+        "to": "q0",
+        "label": "Find your routine"
+      },
+      {
+        "from": "q0",
+        "to": "q1",
+        "label": "Continue"
+      },
+      {
+        "from": "q1",
+        "to": "q2",
+        "label": "Continue"
+      },
+      {
+        "from": "q2",
+        "to": "q3",
+        "label": "Continue"
+      },
+      {
+        "from": "q3",
+        "to": "q4",
+        "label": "Continue"
+      },
+      {
+        "from": "q4",
+        "to": "q5",
+        "label": "Continue"
+      },
+      {
+        "from": "q5",
+        "to": "q6",
+        "label": "Continue"
+      },
+      {
+        "from": "q6",
+        "to": "q7",
+        "label": "Continue"
+      },
+      {
+        "from": "q7",
+        "to": "q8",
+        "label": "Continue"
+      },
+      {
+        "from": "q8",
+        "to": "q9",
+        "label": "Continue"
+      },
+      {
+        "from": "q9",
+        "to": "loader",
+        "label": "Continue"
+      },
+      {
+        "from": "loader",
+        "to": "ra",
+        "label": "Variant A"
+      },
+      {
+        "from": "loader",
+        "to": "rb",
+        "label": "Variant B"
+      }
+    ]
+  }
+}
