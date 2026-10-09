@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/85894d54eb8e10a25bebb98ec26791ec22553db4/p/bundle-component-exploration/v0-1/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5d124aeae6b3d2b823331cc939a52b74d5efb9a9/p/bundle-component-exploration/v0-2/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.1",
+      "currentVersion": "bundle-component-exploration-v0.2",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-09T09:11:58.095Z",
+      "updatedAt": "2026-10-09T09:14:18.830Z",
       "archived": false
     }
   ],
@@ -282,6 +282,19 @@
       },
       "createdAt": "2026-10-09T09:11:58.091Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/85894d54eb8e10a25bebb98ec26791ec22553db4/p/bundle-component-exploration/v0-1/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.2",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.2",
+      "title": "Fix images on the studio",
+      "changes": "The logo, hero photo and replacement dish photos used absolute paths, so they 404ed under the studio's sub-path. They are now relative, and the meal modal resolves its photo before the URL changes. Nothing else changed.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-09T09:14:18.830Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5d124aeae6b3d2b823331cc939a52b74d5efb9a9/p/bundle-component-exploration/v0-2/index.html"
     }
   ]
 }
