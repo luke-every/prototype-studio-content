@@ -1,0 +1,36 @@
+{
+  "controls": [
+    {
+      "id": "v",
+      "label": "Variant",
+      "type": "choice",
+      "default": "baseline",
+      "options": [
+        {
+          "value": "baseline",
+          "label": "Baseline"
+        },
+        {
+          "value": "1",
+          "label": "1: Subhead sentence"
+        },
+        {
+          "value": "2",
+          "label": "2: Ticks"
+        },
+        {
+          "value": "3",
+          "label": "3: Shelves"
+        },
+        {
+          "value": "4",
+          "label": "4: Circle cards"
+        },
+        {
+          "value": "5",
+          "label": "5: Featured card"
+        }
+      ]
+    }
+  ]
+}
