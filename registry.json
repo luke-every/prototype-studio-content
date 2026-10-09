@@ -134,6 +134,35 @@
       },
       "updatedAt": "2026-10-06T15:15:11.149Z",
       "archived": true
+    },
+    {
+      "slug": "bundle-component-exploration",
+      "teamSlug": "acquisition",
+      "projectSlug": null,
+      "name": "Bundle component exploration",
+      "description": "Explorations of the product page's bundle component for Perfect Portions: hero, box picker, meal cards and meal modal.",
+      "owner": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "preview": {
+        "tint": [
+          "#e8e6e1",
+          "#8b8880"
+        ],
+        "caption": "Bundle component exploration",
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/85894d54eb8e10a25bebb98ec26791ec22553db4/p/bundle-component-exploration/v0-1/index.html"
+      },
+      "currentVersion": "bundle-component-exploration-v0.1",
+      "created": {
+        "by": {
+          "login": "luke",
+          "name": "Luke"
+        },
+        "at": "2026-10-09"
+      },
+      "updatedAt": "2026-10-09T09:11:58.095Z",
+      "archived": false
     }
   ],
   "versions": [
@@ -240,6 +269,19 @@
       },
       "createdAt": "2026-10-07T12:59:27.510Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/dffab497bdda6c59ca1721e5f7ec3f3b3179003a/p/every-quiz-v3/v3-5/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.1",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.1",
+      "title": "Perfect Portions PDP: baseline and five variants",
+      "changes": "First version of the top of the Perfect Portions product page: header, hero, bundle box picker with price card, meals section and meal modal, built front end only with live Storyblok meals. Variant switcher in the studio covers five takes on the meals section: subhead sentence, tick chips, shelves by product type, circle recipe cards with tighter padding, and a featured one-at-a-time carousel with key ingredients. Variants 4 and 5 also override some meal photos and shorten the meal descriptions.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-09T09:11:58.091Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/85894d54eb8e10a25bebb98ec26791ec22553db4/p/bundle-component-exploration/v0-1/index.html"
     }
   ]
 }
