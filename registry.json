@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/3973ea18ae43bd7a70cd497daa1b5e72374c4e76/p/bundle-component-exploration/v0-4/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/26489d19a4a95916a151663b8e9ba681cc9abdd5/p/bundle-component-exploration/v0-5/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.4",
+      "currentVersion": "bundle-component-exploration-v0.5",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-12T08:15:52.748Z",
+      "updatedAt": "2026-10-12T08:18:18.600Z",
       "archived": false
     }
   ],
@@ -321,6 +321,19 @@
       },
       "createdAt": "2026-10-12T08:15:52.748Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/3973ea18ae43bd7a70cd497daa1b5e72374c4e76/p/bundle-component-exploration/v0-4/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.5",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.5",
+      "title": "Fix page shift when menu modal opens",
+      "changes": "Opening 'See the full menu' removed the page scrollbar and shifted the content sideways. The shared scroll-lock hook now keeps the scrollbar's width as padding, as the meal detail modal already did.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-12T08:18:18.600Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/26489d19a4a95916a151663b8e9ba681cc9abdd5/p/bundle-component-exploration/v0-5/index.html"
     }
   ]
 }
