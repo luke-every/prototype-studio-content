@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0f761bbf95592a092a58ac726067948535a7da09/p/bundle-component-exploration/v0-6/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/b19fb64ff2aff00bcc20361e58832e508743aa79/p/bundle-component-exploration/v0-7/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.6",
+      "currentVersion": "bundle-component-exploration-v0.7",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-12T11:55:14.830Z",
+      "updatedAt": "2026-10-12T15:38:02.699Z",
       "archived": false
     }
   ],
@@ -347,6 +347,19 @@
       },
       "createdAt": "2026-10-12T11:55:14.826Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0f761bbf95592a092a58ac726067948535a7da09/p/bundle-component-exploration/v0-6/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.7",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.7",
+      "title": "v4 as a 2x3 grid",
+      "changes": "v4 now shows only the first six meals in a static 2-column, 3-row grid instead of the carousel, with new card photos for the beetroot salad and ratatouille. Ratatouille is 7th in the box order, so its photo is not visible yet.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-12T15:38:02.699Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/b19fb64ff2aff00bcc20361e58832e508743aa79/p/bundle-component-exploration/v0-7/index.html"
     }
   ]
 }
