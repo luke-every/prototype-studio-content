@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5d124aeae6b3d2b823331cc939a52b74d5efb9a9/p/bundle-component-exploration/v0-2/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/173d97d11cc0c64eaefc9b309f17e02116ca0fb7/p/bundle-component-exploration/v0-3/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.2",
+      "currentVersion": "bundle-component-exploration-v0.3",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-09T09:14:18.830Z",
+      "updatedAt": "2026-10-12T08:08:35.834Z",
       "archived": false
     }
   ],
@@ -295,6 +295,19 @@
       },
       "createdAt": "2026-10-09T09:14:18.830Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5d124aeae6b3d2b823331cc939a52b74d5efb9a9/p/bundle-component-exploration/v0-2/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.3",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.3",
+      "title": "Swipe, dock and teaser for meal modal",
+      "changes": "Added v6 (v4 with swipe between meals in the meal modal, story-style progress and a first-open 'swipe to explore' hint), v7 (floating thumbnail dock to jump between meals) and v8 (floating 'Up next' teaser). Ticks chips on v2-v4 now use the bundle purple at 25% opacity. Removed the grabber bar from the meal modal.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-12T08:08:35.833Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/173d97d11cc0c64eaefc9b309f17e02116ca0fb7/p/bundle-component-exploration/v0-3/index.html"
     }
   ]
 }
