@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/b19fb64ff2aff00bcc20361e58832e508743aa79/p/bundle-component-exploration/v0-7/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/ae8b88ab7c746483dc21f4429ff68b63aff7334b/p/bundle-component-exploration/v0-8/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.7",
+      "currentVersion": "bundle-component-exploration-v0.8",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-12T15:38:02.699Z",
+      "updatedAt": "2026-10-12T15:42:19.773Z",
       "archived": false
     }
   ],
@@ -360,6 +360,19 @@
       },
       "createdAt": "2026-10-12T15:38:02.699Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/b19fb64ff2aff00bcc20361e58832e508743aa79/p/bundle-component-exploration/v0-7/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.8",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.8",
+      "title": "New v4 card photos",
+      "changes": "v4 (2x3 grid of the first six meals) now uses new card photos for bami goreng, butter chicken, bolognese, chili sin carne, dal delight and the beetroot salad. Ratatouille's photo is uploaded but that meal is 7th in the box, so it does not show.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-12T15:42:19.773Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/ae8b88ab7c746483dc21f4429ff68b63aff7334b/p/bundle-component-exploration/v0-8/index.html"
     }
   ]
 }
