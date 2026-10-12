@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/26489d19a4a95916a151663b8e9ba681cc9abdd5/p/bundle-component-exploration/v0-5/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0f761bbf95592a092a58ac726067948535a7da09/p/bundle-component-exploration/v0-6/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.5",
+      "currentVersion": "bundle-component-exploration-v0.6",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-12T08:18:18.600Z",
+      "updatedAt": "2026-10-12T11:55:14.830Z",
       "archived": false
     }
   ],
@@ -334,6 +334,19 @@
       },
       "createdAt": "2026-10-12T08:18:18.600Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/26489d19a4a95916a151663b8e9ba681cc9abdd5/p/bundle-component-exploration/v0-5/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.6",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.6",
+      "title": "New v4, renumbered variants, v1 tiles",
+      "changes": "Added a new v4 (circle cards using the story's own recipe photos) and shifted the old v4-v8 to v5-v9. v1 now has v6's outlined nutrition tiles under the subhead and none below the menu button. Subheads on v1 and v6 use 16px body text and new copy (100% plant based, low sugar, no artificial additives, ~500 calories). More space (48px) above the meals headline on mobile in every variant.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-12T11:55:14.826Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/0f761bbf95592a092a58ac726067948535a7da09/p/bundle-component-exploration/v0-6/index.html"
     }
   ]
 }
