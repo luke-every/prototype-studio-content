@@ -22,5 +22,25 @@
     "likes": [
       "Luke"
     ]
+  },
+  {
+    "id": "6ddea54f-159c-4dd0-9588-7f705c3c049a",
+    "n": 2,
+    "author": {
+      "login": "luke",
+      "name": "Luke"
+    },
+    "at": "2026-10-13T14:28:28.195Z",
+    "text": "Test comment",
+    "anchor": {
+      "screen": "/p/account-discover/v0-2",
+      "selector": "#recs-heading",
+      "text": "More meals for you",
+      "page": "skip to content all meals my plan season",
+      "x": 0.5904603745733001,
+      "y": 0.030897609382051095,
+      "fx": 0.29523809523809524,
+      "fy": 0.39317375886524825
+    }
   }
 ]
