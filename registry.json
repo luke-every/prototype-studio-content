@@ -91,9 +91,9 @@
           "#8b8880"
         ],
         "caption": "Questionnaire / Recommendation page",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/2a8d40796ed07e1543bf589679b5ecf19a825154/p/every-quiz-v3/v3-6/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/43f9014bb481278c7fa927f002404574f2be344b/p/every-quiz-v3/v3-7/index.html"
       },
-      "currentVersion": "every-quiz-v3-v3.6",
+      "currentVersion": "every-quiz-v3-v3.7",
       "created": {
         "by": {
           "login": "luke",
@@ -101,7 +101,7 @@
         },
         "at": "2026-10-06"
       },
-      "updatedAt": "2026-10-13T15:20:37.189Z",
+      "updatedAt": "2026-10-13T15:28:28.922Z",
       "archived": false,
       "figmaUrl": "https://www.figma.com/design/8YuV1x4IlYbPcgK0H4nMG5/Website?node-id=5661-24113",
       "notionUrl": "https://app.notion.com/p/every-foods/A-B-test-Onboarding-Quiz-and-product-recommendation-for-new-customer-acquisition-3cdec93dc06180118d8ce89262b3e694"
@@ -480,6 +480,19 @@
       },
       "createdAt": "2026-10-13T15:20:37.189Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/2a8d40796ed07e1543bf589679b5ecf19a825154/p/every-quiz-v3/v3-6/index.html"
+    },
+    {
+      "id": "every-quiz-v3-v3.7",
+      "prototypeSlug": "every-quiz-v3",
+      "version": "v3.7",
+      "title": "Gut health goal option",
+      "changes": "Added \"Improve my gut health\" as a fifth option on the goal question. It reuses the balanced-diet icon for now and routes to The Back to Better Bundle, since gut health has no bundle of its own yet.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T15:28:28.920Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/43f9014bb481278c7fa927f002404574f2be344b/p/every-quiz-v3/v3-7/index.html"
     }
   ]
 }
