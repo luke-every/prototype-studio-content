@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/7fd77b0a142fbb106817a124bc5858c9fff7ad51/p/bundle-component-exploration/v1-0/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/185afa5063f83352ca7192caa73961d5dac4e712/p/bundle-component-exploration/v1-1/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v1.0",
+      "currentVersion": "bundle-component-exploration-v1.1",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-13T11:56:13.075Z",
+      "updatedAt": "2026-10-13T14:22:45.550Z",
       "archived": false
     },
     {
@@ -454,6 +454,19 @@
       },
       "createdAt": "2026-10-13T14:09:16.871Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/4dde51dfffd4d36c11b1635d739aae31e1079a65/p/account-discover/v0-2/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v1.1",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v1.1",
+      "title": "Variant 4 joined grid and menu modal",
+      "changes": "Variant 4: meal cards joined into one bordered grid (no gaps, #eee strokes, 18px clipped frame) with the last row cut in half and faded as a preview, the menu button then the nutrition tiles below. New Perfect Portions Menu modal with a 12/16/20 iOS-style switcher; tapping a recipe pushes it in as a page inside the modal with a back animation, scroll position kept, and recipe data fetched once and prefetched.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T14:22:45.550Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/185afa5063f83352ca7192caa73961d5dac4e712/p/bundle-component-exploration/v1-1/index.html"
     }
   ]
 }
