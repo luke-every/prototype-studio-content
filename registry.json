@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/ae8b88ab7c746483dc21f4429ff68b63aff7334b/p/bundle-component-exploration/v0-8/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5e16f8952725509f046f019a918e552f65d6114b/p/bundle-component-exploration/v0-9/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.8",
+      "currentVersion": "bundle-component-exploration-v0.9",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-12T15:42:19.773Z",
+      "updatedAt": "2026-10-13T11:55:34.869Z",
       "archived": false
     },
     {
@@ -415,6 +415,19 @@
       },
       "createdAt": "2026-10-13T10:57:30.951Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/13e5f57c931ffea6a174c82f23c04bf5cac102ab/p/account-discover/v0-1/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v0.9",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v0.9",
+      "title": "Curated meal modal tags (v10)",
+      "changes": "Added variant 10 (?v=10): the meal modal shows a curated tag set instead of every filter value. Vegan first, No Soy/Gluten/Garlic/Onion exclusions, merged fibre tag, one protein and one sugar tag, heat only when Medium or Very spicy. Other Without, fat and calorie tags are hidden in the modal only.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T11:55:34.865Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5e16f8952725509f046f019a918e552f65d6114b/p/bundle-component-exploration/v0-9/index.html"
     }
   ]
 }
