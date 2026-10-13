@@ -59,5 +59,25 @@
       "fx": 0.38045535840770645,
       "fy": 0.23212258490015245
     }
+  },
+  {
+    "id": "240f21e9-34e3-488c-8c57-e9004f63bb89",
+    "n": 3,
+    "author": {
+      "login": "luke",
+      "name": "Luke"
+    },
+    "at": "2026-10-13T07:58:23.155Z",
+    "text": "test",
+    "anchor": {
+      "screen": "/p/bundle-component-exploration/v0-8",
+      "selector": "body > main > div > div:nth-of-type(1) > div:nth-of-type(2) > section > div > div:nth-of-type(1) > div:nth-of-type(1) > div",
+      "text": "",
+      "page": "excellent perfect portions zero guesswor",
+      "x": 0.3415971631959201,
+      "y": 0.15086901473296507,
+      "fx": 0.3415971631959201,
+      "fy": 0.12376069022931961
+    }
   }
 ]
