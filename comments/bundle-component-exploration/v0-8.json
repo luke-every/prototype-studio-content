@@ -18,5 +18,25 @@
       "fx": 0.7690476190476191,
       "fy": 0.4228469865891097
     }
+  },
+  {
+    "id": "d88c3485-1ac3-43d3-8ab0-5a98a722089b",
+    "n": 2,
+    "author": {
+      "login": "victor",
+      "name": "Victor"
+    },
+    "at": "2026-10-13T07:21:11.329Z",
+    "text": "Test comment notification",
+    "anchor": {
+      "screen": "/p/bundle-component-exploration/v0-8",
+      "selector": "body > main > div > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div > h2 > span",
+      "text": "perfectly portioned.",
+      "page": "excellent perfect portions zero guesswor",
+      "x": 0.15212288955717368,
+      "y": 0.4388020833333323,
+      "fx": 0.17777777777777776,
+      "fy": 0.4233317175634189
+    }
   }
 ]
