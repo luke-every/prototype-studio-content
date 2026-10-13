@@ -163,6 +163,35 @@
       },
       "updatedAt": "2026-10-12T15:42:19.773Z",
       "archived": false
+    },
+    {
+      "slug": "account-discover",
+      "teamSlug": "retention",
+      "projectSlug": null,
+      "name": "Account Discover",
+      "description": "Redesign v2 of the Every Account Discover page.",
+      "owner": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "preview": {
+        "tint": [
+          "#e8e6e1",
+          "#8b8880"
+        ],
+        "caption": "Account Discover",
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/13e5f57c931ffea6a174c82f23c04bf5cac102ab/p/account-discover/v0-1/index.html"
+      },
+      "currentVersion": "account-discover-v0.1",
+      "created": {
+        "by": {
+          "login": "luke",
+          "name": "Luke"
+        },
+        "at": "2026-10-13"
+      },
+      "updatedAt": "2026-10-13T10:57:30.951Z",
+      "archived": false
     }
   ],
   "versions": [
@@ -373,6 +402,19 @@
       },
       "createdAt": "2026-10-12T15:42:19.773Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/ae8b88ab7c746483dc21f4429ff68b63aff7334b/p/bundle-component-exploration/v0-8/index.html"
+    },
+    {
+      "id": "account-discover-v0.1",
+      "prototypeSlug": "account-discover",
+      "version": "v0.1",
+      "title": "Imported designer prototype",
+      "changes": "First upload of another designer's Discover redesign v2 HTML prototype, pushed as-is to see how the studio handles it.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T10:57:30.951Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/13e5f57c931ffea6a174c82f23c04bf5cac102ab/p/account-discover/v0-1/index.html"
     }
   ]
 }
