@@ -38,5 +38,25 @@
       "fx": 0.17777777777777776,
       "fy": 0.4233317175634189
     }
+  },
+  {
+    "id": "a127da12-126f-4f44-86f0-91b10aaef071",
+    "n": 3,
+    "author": {
+      "login": "victor",
+      "name": "Victor"
+    },
+    "at": "2026-10-13T07:34:42.762Z",
+    "text": "Another test comment here",
+    "anchor": {
+      "screen": "/p/bundle-component-exploration/v0-8",
+      "selector": "body > main > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div > aside > div:nth-of-type(1) > h2",
+      "text": "What's in your box?",
+      "page": "excellent perfect portions zero guesswor",
+      "x": 0.21415770609318993,
+      "y": 0.8043811274509781,
+      "fx": 0.2468253968253968,
+      "fy": 0.7834868314751979
+    }
   }
 ]
