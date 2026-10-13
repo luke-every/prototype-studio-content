@@ -180,9 +180,9 @@
           "#8b8880"
         ],
         "caption": "Account Discover",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/13e5f57c931ffea6a174c82f23c04bf5cac102ab/p/account-discover/v0-1/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/4dde51dfffd4d36c11b1635d739aae31e1079a65/p/account-discover/v0-2/index.html"
       },
-      "currentVersion": "account-discover-v0.1",
+      "currentVersion": "account-discover-v0.2",
       "created": {
         "by": {
           "login": "luke",
@@ -190,8 +190,8 @@
         },
         "at": "2026-10-13"
       },
-      "updatedAt": "2026-10-13T10:57:30.951Z",
-      "archived": true
+      "updatedAt": "2026-10-13T14:09:16.871Z",
+      "archived": false
     }
   ],
   "versions": [
@@ -441,6 +441,19 @@
       },
       "createdAt": "2026-10-13T11:56:13.075Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/7fd77b0a142fbb106817a124bc5858c9fff7ad51/p/bundle-component-exploration/v1-0/index.html"
+    },
+    {
+      "id": "account-discover-v0.2",
+      "prototypeSlug": "account-discover",
+      "version": "v0.2",
+      "title": "Assets linked into subfolders",
+      "changes": "Moved the redesign's image, icon, illustration and font references to point into the organised account-discover-assets subfolders so everything loads. Meals.png now uses featured-classic-reset-bowl-Meals.png.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T14:09:16.871Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/4dde51dfffd4d36c11b1635d739aae31e1079a65/p/account-discover/v0-2/index.html"
     }
   ]
 }
