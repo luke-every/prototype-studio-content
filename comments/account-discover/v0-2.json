@@ -1,0 +1,23 @@
+[
+  {
+    "id": "e56fe700-ca4c-4d58-b3f2-912e3c740ce1",
+    "n": 1,
+    "author": {
+      "login": "victor",
+      "name": "Victor"
+    },
+    "at": "2026-10-13T14:26:56.676Z",
+    "text": "Thoughts?",
+    "anchor": {
+      "screen": "/p/account-discover/v0-2",
+      "selector": "#main > section:nth-of-type(4) > div:nth-of-type(2) > button:nth-of-type(2) > span:nth-of-type(1) > span",
+      "text": "Crunchy Beetroot Salad",
+      "page": "skip to content all meals my plan season",
+      "flowScreen": "page",
+      "x": 0.8642262392903637,
+      "y": 0.929284581732297,
+      "fx": 0.618157119734356,
+      "fy": 0.4572908341564482
+    }
+  }
+]
