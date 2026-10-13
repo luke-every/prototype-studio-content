@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every Account — Discover (Redesign v2)</title>
+<style>
+  @font-face { font-family:'ABC Diatype'; src:url('fonts/ABCDiatype-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'ABC Diatype'; src:url('fonts/ABCDiatype-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
+  @font-face { font-family:'ABC Diatype'; src:url('fonts/ABCDiatype-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'ABC Marist'; src:url('fonts/ABCMarist-Book.woff2') format('woff2'); font-weight:400; font-display:swap; }
+
+  :root{
+    --white:#FFFFFF; --bone:#FAFAF8; --paper:#FAF7F2; --off-white:#F4F0EA;
+    --page-bg:#FFFFFF; --cream-deep:#E2DBD0; --linen:#CFC7B7;
+    --warm-stone:#574A41; --light-text:#3F3530; --brown:#372D27; --near-black:#1A0F0A;
+    --stroke-warm:rgba(55,45,39,0.10); --stroke-warm-2:rgba(55,45,39,0.18);
+    --signal-orange:#FFD392; --olive:#8E8F52; --olive-bg:#EDEEDD;
+    --sky:#7C9BB4; --sky-bg:#E7EEF2;
+    --terracotta:#C46A4B; --terracotta-bg:#F5E6DF;
+    --plum:#8C5A73; --plum-bg:#F1E3EA;
+    --font-sans:'ABC Diatype',-apple-system,'Helvetica Neue',sans-serif;
+    --font-serif:'ABC Marist',Georgia,'Times New Roman',serif;
+    --radius-sm:10px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px; --radius-pill:999px;
+    --shadow-1:0 1px 3px rgba(55,45,39,.06);
+    --shadow-2:0 4px 16px rgba(55,45,39,.10);
+    --shadow-3:0 16px 40px rgba(55,45,39,.14);
+    --header-h:64px;
+    --tabs-h:48px;
+    --container: 1200px;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; overflow-x:hidden;}
+  body{
+    margin:0; background:var(--page-bg); color:var(--light-text);
+    font-family:var(--font-sans); -webkit-font-smoothing:antialiased;
+  }
+  img{display:block; max-width:100%;}
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  .wrap{max-width:var(--container); margin:0 auto; padding:0 24px;}
+
+  .eyebrow{
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    font-weight:600; color:var(--warm-stone);
+  }
+  .h-serif{ font-family:var(--font-serif); font-weight:400; color:var(--near-black); line-height:1.1; }
+  .btn{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:12px 22px; border-radius:var(--radius-pill);
+    font-weight:600; font-size:14px; border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:active{ transform:scale(.97); }
+  .btn-dark{ background:var(--near-black); color:var(--paper); }
+  .btn-dark:hover{ box-shadow:var(--shadow-2); }
+  .btn-outline{ background:transparent; border-color:var(--stroke-warm-2); color:var(--near-black); }
+  .btn-secondary{ background:var(--white); color:var(--near-black); }
+  .btn-secondary:hover{ box-shadow:var(--shadow-2); }
+  .btn-secondary-gray{ background:var(--off-white); color:var(--near-black); }
+  .btn-secondary-gray:hover{ box-shadow:var(--shadow-2); }
+  .btn-block{ display:flex; width:100%; justify-content:center; }
+
+  /* ===== Skip link ===== */
+  .skip-link{
+    position:absolute; left:8px; top:-48px; z-index:200;
+    background:var(--near-black); color:var(--paper); padding:10px 16px;
+    border-radius:var(--radius-sm); transition:top .15s ease;
+  }
+  .skip-link:focus{ top:8px; }
+
+  /* =========================================================
+     HEADER — fixed, shrinks on scroll instead of disappearing
+     (fixes PRIO2 "nav bar disappears on scroll": the old pattern
+     hid it to save space on long pages like All Meals; here it
+     stays reachable at all times but compresses its own height)
+     ========================================================= */
+  header.app-header{
+    position:sticky; top:0; z-index:100;
+    background:#FFFFFF;
+    border-bottom:1px solid var(--stroke-warm);
+    transition:box-shadow .2s ease;
+  }
+  header.app-header.is-scrolled{ box-shadow:var(--shadow-1); }
+  nav.tabs{
+    display:flex; gap:20px; align-items:center;
+    height:var(--header-h); transition:height .18s ease;
+  }
+  header.app-header.is-scrolled nav.tabs{ height:52px; }
+  .tab-text{
+    font-size:14px; font-weight:600; color:var(--warm-stone); white-space:nowrap;
+  }
+  .tab-text:hover{ color:var(--near-black); }
+  .tab-icon{
+    width:38px; height:38px; border-radius:11px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--warm-stone);
+  }
+  .tab-icon svg{ width:18px; height:18px; }
+  .tab-icon.active{ background:var(--near-black); color:var(--paper); }
+  .tab-menu{ margin-left:auto; border:0; background:none; cursor:pointer; }
+
+  /* =========================================================
+     ACCOUNT MENU — opens from the hamburger icon, mirrors the
+     live site's settings overview (minus the Discover/All meals/
+     My Plan links, which already live in the tab bar above it).
+     ========================================================= */
+  .account-menu{
+    position:absolute; top:calc(100% + 8px); right:24px; z-index:200;
+    background:var(--white); border-radius:var(--radius-lg); box-shadow:var(--shadow-3);
+    padding:16px; display:flex; flex-direction:column; gap:2px; min-width:230px;
+  }
+  .account-menu[hidden]{ display:none; }
+  .account-menu .locale{
+    display:flex; align-items:center; gap:12px; margin:2px 0 10px 4px;
+    font-size:15px; color:var(--near-black);
+  }
+  .account-menu .locale .flag{
+    width:32px; height:32px; border-radius:50%; overflow:hidden; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1;
+  }
+  .account-menu a{
+    display:flex; align-items:center; gap:14px; padding:10px 4px;
+    font-size:15px; color:var(--near-black); border-radius:8px;
+  }
+  .account-menu a:hover{ background:var(--off-white); }
+  .account-menu a svg{ width:20px; height:20px; flex-shrink:0; color:var(--warm-stone); }
+
+  section[aria-labelledby="offering-heading"]{
+    border-radius:var(--radius-xl);
+  }
+  section[aria-labelledby="recs-heading"]{
+    border-radius:var(--radius-xl);
+  }
+  section[aria-labelledby="bundles-heading"]{
+    border-radius:var(--radius-xl);
+  }
+  section[aria-labelledby="feature-heading"]{
+    border-radius:var(--radius-xl);
+  }
+  /* =========================================================
+     SEASONAL HERO — the campaign the whole business leans on.
+     Full-bleed, responsive art direction (separate mobile/desktop
+     crops), distinct from every other card on the page.
+     ========================================================= */
+  .seasonal{ padding-top:18px; padding-bottom:32px; }
+  .seasonal-card{
+    position:relative; border-radius:var(--radius-xl); overflow:hidden;
+    background:var(--brown); box-shadow:var(--shadow-3);
+    min-height:260px; display:flex; align-items:flex-end;
+  }
+  .seasonal-card picture, .seasonal-card img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  }
+  .seasonal-card::after{
+    /* Darkens the whole card, not just the bottom edge, so the headline
+       stays readable regardless of what's behind it in the photo (WCAG contrast) */
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(15,10,7,.30) 0%, rgba(15,10,7,.45) 40%, rgba(15,10,7,.86) 100%);
+  }
+  .seasonal-content{ position:relative; z-index:2; padding:20px; color:var(--paper); width:100%; }
+  .seasonal-badge{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,.16); backdrop-filter:blur(6px);
+    color:var(--signal-orange); font-size:12px; font-weight:700;
+    letter-spacing:.04em; text-transform:uppercase;
+    padding:6px 12px; border-radius:var(--radius-pill); margin-bottom:12px;
+  }
+  .seasonal-badge .dot{ width:6px; height:6px; border-radius:50%; background:var(--signal-orange); }
+  /* Explicit color (not inherited) so this always wins over .h-serif's
+     near-black default — that clash was the actual contrast bug. */
+  .seasonal-content h1{
+    color:var(--paper); font-size:clamp(24px,5.5vw,36px); margin:0 0 8px;
+    text-shadow:0 2px 14px rgba(0,0,0,.45);
+  }
+  .seasonal-content p{
+    font-size:14px; max-width:440px; margin:0 0 16px; line-height:1.5;
+    text-shadow:0 1px 8px rgba(0,0,0,.4);
+  }
+  .seasonal-cta-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  @media(min-width:1024px){
+    .seasonal-card{ min-height:320px; }
+    .seasonal-content{ padding:32px; }
+  }
+
+  /* =========================================================
+     SECTION HEADINGS (shared)
+     ========================================================= */
+  .section{ padding-top:32px; padding-bottom:32px; }
+  .section-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:18px; gap:12px; }
+  .section-head h2{ font-size:clamp(21px,3.6vw,28px); margin:0 0 6px; }
+  .section-head p{ margin:0; font-size:14px; color:var(--warm-stone); max-width:520px; }
+  .see-all{ font-size:13px; font-weight:700; white-space:nowrap; border-bottom:1px solid currentColor; padding-bottom:2px; }
+  .arrow-link{
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    width:32px; height:32px; color:inherit;
+    border:0; background:none; padding:0; cursor:pointer;
+  }
+  .arrow-link svg{ width:20px; height:20px; }
+
+  /* =========================================================
+     PRODUCT OFFERING — the full range at a glance
+     (fixes "Discover doesn't show meals/smoothies/shots/breakfasts")
+     ========================================================= */
+  .offering-scroller{
+    display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding-bottom:4px; scrollbar-width:none;
+  }
+  .offering-scroller::-webkit-scrollbar{ display:none; }
+  .offer-chip{
+    scroll-snap-align:start; flex:0 0 auto;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    width:84px;
+  }
+  .offer-chip .ring{
+    width:64px; height:64px; border-radius:50%; overflow:hidden;
+    border:1px solid var(--stroke-warm);
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .offer-chip:hover .ring{ box-shadow:var(--shadow-2); transform:translateY(-2px); }
+  .offer-chip .ring img{ width:100%; height:100%; object-fit:cover; }
+  .offer-chip span.name{ font-size:12.5px; font-weight:600; text-align:center; color:var(--near-black); }
+  .offer-chip.is-active .ring{ box-shadow:0 0 0 2px var(--near-black); }
+  @media(min-width:768px){
+    .offering-scroller{ flex-wrap:wrap; justify-content:flex-start; overflow:visible; }
+    .offer-chip{ width:96px; }
+  }
+
+  /* =========================================================
+     EDITORIAL — one fun-fact card per category, underneath the
+     chips. Only appears once its matching chip above is tapped;
+     full-bleed to the screen edge, with the fact always visible
+     (no expand/collapse). The arrow is a real link to that
+     category's meals.
+     ========================================================= */
+  .editorial-scroller{ margin:16px 0 0; }
+  .editorial-scroller[hidden]{ display:none; }
+
+  .editorial-card{
+    padding:20px 24px;
+    display:flex; flex-direction:column; gap:10px;
+    margin:0 -24px; border-radius:var(--radius-xl);
+  }
+  @media(min-width:768px){ .editorial-card{ margin:0; } }
+  .editorial-card[hidden]{ display:none; }
+  .editorial-eyebrow{ font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--warm-stone); }
+  .editorial-title-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .editorial-card .arrow-link{
+    width:28px; height:28px; flex-shrink:0; background:var(--white); border-radius:50%; color:var(--near-black);
+  }
+  .editorial-card .arrow-link svg{ width:15px; height:15px; }
+
+  .editorial-card h3{ margin:0; font-size:19px; font-family:var(--font-serif); font-weight:400; color:var(--near-black); }
+  .editorial-fact{ margin:0; font-size:14px; color:var(--warm-stone); line-height:1.5; max-width:520px; }
+
+  /* =========================================================
+     BUNDLES — each type visually distinct (own photo + own
+     tint + own goal tag), so users stop seeing "one product"
+     ========================================================= */
+  .bundle-grid{
+    display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+    scrollbar-width:none; margin:0 -24px; padding:0 24px 4px;
+  }
+  .bundle-grid::-webkit-scrollbar{ display:none; }
+  @media(min-width:768px){ .bundle-grid{ margin:0; padding:0 0 4px; } }
+  @media(min-width:1024px){
+    .bundle-grid{ display:grid; grid-template-columns:repeat(3,1fr); overflow:visible; }
+  }
+
+  .bundle-card{
+    scroll-snap-align:start; flex:0 0 74%;
+    border-radius:var(--radius-lg); overflow:hidden; background:var(--white);
+    border:1px solid var(--stroke-warm); display:flex; flex-direction:column;
+    box-shadow:var(--shadow-1); transition:box-shadow .15s ease, transform .15s ease;
+  }
+  @media(min-width:480px){ .bundle-card{ flex-basis:50%; } }
+  @media(min-width:768px){ .bundle-card{ flex-basis:33%; } }
+  @media(min-width:1024px){ .bundle-card{ flex-basis:auto; } }
+  .bundle-card:hover{ box-shadow:var(--shadow-2); transform:translateY(-3px); }
+  /* Per-bundle tint, matching the "Bundle Card" component's own color
+     variants in Figma (node 343:752) rather than a flat white card. */
+  .bundle-card.is-balance .bundle-body{ background:linear-gradient(200deg, #F0ECF2 0%, var(--white) 70%); }
+  .bundle-card.is-recovery .bundle-body{ background:linear-gradient(200deg, #F7EAC5 0%, var(--white) 70%); }
+  .bundle-card.is-protein .bundle-body{ background:linear-gradient(200deg, #DCEDD0 0%, var(--white) 70%); }
+  .bundle-media{ position:relative; aspect-ratio:1/1; overflow:hidden; }
+  .bundle-media img{ width:100%; height:100%; object-fit:cover; }
+  .bundle-tag{
+    font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--warm-stone);
+  }
+
+  .bundle-body{ padding:16px; display:flex; flex-direction:column; gap:6px; flex:1; }
+  .bundle-body h3{ margin:0; font-size:17px; font-family:var(--font-serif); font-weight:400; color:var(--near-black); }
+  .bundle-body p{ margin:0; font-size:13px; color:var(--warm-stone); line-height:1.5; flex:1; }
+  .bundle-link{ margin-top:6px; font-size:13px; font-weight:700; color:var(--near-black); }
+
+  /* =========================================================
+     PERSONALISED MEAL RECOMMENDATIONS ("more meals for you")
+     Card pattern matches every-foods.com's own bundle "included
+     meals" grid: plain photo tile, name revealed on hover/tap via
+     a bottom scrim, single info affordance bottom-right — that
+     progressive disclosure is this build's answer to PRIO2's
+     "how do we show 2-3 labels on mobile" question, instead of
+     stacking label pills on a small card.
+     ========================================================= */
+  .meal-scroller{
+    display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+    scrollbar-width:none; padding-bottom:4px; margin:0 -24px; padding-left:24px; padding-right:24px;
+  }
+  .meal-scroller::-webkit-scrollbar{ display:none; }
+  @media(min-width:768px){
+    .meal-scroller{ margin:0; padding-left:0; padding-right:0; display:grid; grid-template-columns:repeat(4,1fr); gap:14px; overflow:visible; }
+  }
+  .meal-card{
+    scroll-snap-align:start; flex:0 0 42%;
+    position:relative; aspect-ratio:1/1; border-radius:var(--radius-lg);
+    overflow:hidden; background:var(--off-white); border:0; padding:0; cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  @media(min-width:480px){ .meal-card{ flex-basis:31%; } }
+  @media(min-width:768px){ .meal-card{ flex-basis:auto; } }
+  .meal-card img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .meal-card .name-scrim{
+    position:absolute; inset:0; display:flex; align-items:flex-end;
+    padding:10px 44px 10px 10px;
+    background:linear-gradient(180deg, rgba(30,20,10,0) 45%, rgba(30,20,10,.65) 100%);
+  }
+  .meal-card .name-scrim span{ color:var(--paper); font-size:12.5px; font-weight:600; text-align:left; }
+  .meal-card .info-dot{
+    position:absolute; bottom:8px; right:8px; width:28px; height:28px; border-radius:50%;
+    background:rgba(255,255,255,.8); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .meal-card .info-dot svg{ width:14px; height:14px; color:var(--near-black); }
+
+  /* =========================================================
+     SINGLE FEATURED RECOMMENDATION
+     ========================================================= */
+  .feature-card{
+    display:grid; grid-template-columns:1fr; border-radius:var(--radius-xl);
+    overflow:hidden; background:var(--white); border:1px solid var(--stroke-warm); box-shadow:var(--shadow-2);
+  }
+  @media(min-width:768px){ .feature-card{ grid-template-columns:1fr 1fr; } }
+  .feature-media{ aspect-ratio:16/10; }
+  @media(min-width:768px){ .feature-media{ aspect-ratio:auto; height:100%; min-height:320px; } }
+  .feature-media img{ width:100%; height:100%; object-fit:cover; }
+  .feature-body{ padding:28px; display:flex; flex-direction:column; justify-content:center; gap:12px; }
+  .feature-body h2{ margin:0; font-size:clamp(24px,4vw,32px); }
+  .feature-body p{ margin:0; font-size:14.5px; color:var(--warm-stone); line-height:1.6; max-width:420px; }
+
+  /* =========================================================
+     DISCOUNT MILESTONES — matches Figma "New Customer Account"
+     node 165:1952 ("Your discount milestones").
+     ========================================================= */
+  .discount-card{
+    background:var(--off-white); border:1px solid var(--stroke-warm); box-shadow:var(--shadow-1);
+    border-radius:var(--radius-xl);
+    padding:20px; display:flex; flex-direction:column; gap:24px;
+  }
+  .discount-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .discount-pct{ font-family:var(--font-serif); font-weight:400; font-size:clamp(34px,7vw,44px); color:var(--terracotta); line-height:1; margin:0 0 8px; }
+  .discount-body{ margin:0; font-size:14.5px; color:var(--warm-stone); max-width:280px; line-height:1.5; }
+  .discount-side{ display:flex; flex-direction:column; align-items:flex-end; gap:10px; flex-shrink:0; }
+  .discount-chip{
+    background:var(--white); color:var(--near-black); font-size:12px; font-weight:700;
+    padding:6px 14px; border-radius:var(--radius-pill); white-space:nowrap;
+  }
+  .discount-mascot{ width:64px; height:64px; }
+  .discount-mascot img{ width:100%; height:100%; object-fit:contain; mix-blend-mode:multiply; }
+
+  .discount-stepper{ display:flex; align-items:flex-start; }
+  .discount-step{ display:flex; flex-direction:column; align-items:center; gap:10px; flex-shrink:0; width:52px; }
+  .discount-step .circle{
+    width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; flex-shrink:0;
+    background:none; border:1px solid var(--stroke-warm-2); color:var(--warm-stone);
+  }
+  .discount-step .circle svg{ width:14px; height:14px; }
+  .discount-step .step-label{ font-size:12.5px; font-weight:600; color:var(--near-black); white-space:nowrap; }
+  .discount-step .step-sub{ font-size:11.5px; color:var(--warm-stone); white-space:nowrap; }
+  .discount-step.is-done .circle{ background:var(--terracotta); border-color:var(--terracotta); color:var(--white); }
+  .discount-step.is-done .step-sub{ color:var(--warm-stone); }
+  .discount-step.is-current .circle{ background:var(--near-black); border:2px solid var(--terracotta); color:var(--white); }
+  .discount-step.is-current .step-sub{ color:var(--warm-stone); }
+  .discount-connector{ flex:1; height:2px; margin-top:13px; background:var(--stroke-warm-2); min-width:12px; }
+  .discount-connector.is-lit{ background:var(--terracotta); }
+
+  .discount-banner{
+    display:flex; align-items:center; gap:10px; background:var(--white); border-radius:var(--radius-md);
+    padding:10px 14px;
+  }
+  .discount-banner .info-dot{
+    width:20px; height:20px; border-radius:50%; background:var(--near-black); color:var(--white);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:700;
+  }
+  .discount-banner p{ margin:0; font-size:13px; color:var(--warm-stone); }
+
+  /* =========================================================
+     DESKTOP 2-COLUMN LAYOUT — matches Figma "Desktop - 3" (node
+     502:39821): seasonal + discount milestones move into a right
+     sidebar alongside the main content column.
+     ========================================================= */
+  @media(min-width:1024px){
+    main{
+      display:grid; grid-template-columns:1fr 360px; column-gap:32px;
+      grid-template-areas:
+        "offering seasonal"
+        "bundles  discount"
+        "meals    discount"
+        "feature  discount";
+      align-items:start;
+    }
+    section[aria-labelledby="seasonal-heading"]{ grid-area:seasonal; padding-top:20px; }
+    section[aria-labelledby="offering-heading"]{ grid-area:offering; }
+    section[aria-labelledby="bundles-heading"]{ grid-area:bundles; }
+    section[aria-labelledby="recs-heading"]{ grid-area:meals; }
+    section[aria-labelledby="feature-heading"]{ grid-area:feature; }
+    section[aria-label="Discount milestones"]{ grid-area:discount; }
+  }
+
+  /* =========================================================
+     FOOTER — matches Figma "footer" component (node 352:6682)
+     ========================================================= */
+  footer{ background:var(--white); margin-top:32px; }
+  .footer-top{ display:flex; flex-direction:column; gap:24px; padding:24px 24px 0; max-width:560px; margin:0 auto; }
+  .footer-brand{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+  .footer-brand img{ height:21px; width:auto; }
+  .footer-brand p{ margin:0; font-size:14px; color:var(--near-black); }
+  .footer-social{ display:flex; gap:12px; align-items:center; }
+  .footer-social a{
+    width:28px; height:28px; border-radius:50%; display:flex;
+    align-items:center; justify-content:center; color:var(--near-black); flex-shrink:0;
+  }
+  .footer-social img{ width:16px; height:16px; }
+  .footer-social svg{ width:28px; height:28px; }
+
+  .footer-menu{ max-width:560px; margin:0 auto; }
+  .footer-accordion{ border-bottom:1px solid #D1D5DB; }
+  .footer-accordion summary{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:24px; font-size:18px; color:var(--near-black); cursor:pointer; list-style:none;
+  }
+  .footer-accordion summary::-webkit-details-marker{ display:none; }
+  .footer-accordion summary svg{ width:16px; height:16px; flex-shrink:0; transition:transform .15s ease; }
+  .footer-accordion[open] summary svg{ transform:rotate(180deg); }
+  .footer-accordion .footer-links{ display:flex; flex-direction:column; gap:14px; padding:0 24px 24px; }
+  .footer-accordion .footer-links a{ font-size:14px; color:var(--warm-stone); }
+  .footer-accordion .footer-links a:hover{ color:var(--near-black); }
+
+  .footer-payments{
+    display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:center;
+    padding:32px 24px; max-width:560px; margin:0 auto;
+  }
+  .footer-payments img{ height:20px; width:auto; }
+  .pay-card{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:20px; border:1px solid rgba(0,0,0,.2); border-radius:4px;
+    font-size:6.5px; font-weight:700; letter-spacing:-.02em; color:var(--warm-stone);
+  }
+
+  .footer-reviews{
+    border-top:1px solid #D1D5DB; display:flex; flex-direction:column; align-items:center; gap:12px;
+    padding:32px 24px 40px;
+  }
+  .footer-reviews img.logo{ height:19px; }
+  .footer-reviews .rating{ display:flex; align-items:center; gap:6px; }
+  .footer-reviews .rating span{ font-size:16px; color:var(--near-black); }
+  .footer-reviews .rating img{ height:12px; }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="app-header" id="appHeader">
+  <div class="wrap">
+    <nav class="tabs" aria-label="Account sections">
+      <a class="tab-icon active" href="#" aria-label="Discover" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1v-9"/></svg>
+      </a>
+      <a class="tab-text" href="#">All meals</a>
+      <a class="tab-text" href="account-myplan-redesign-v2.html">My Plan</a>
+      <button type="button" class="tab-icon tab-menu" id="menuBtn" aria-label="Settings and more" aria-haspopup="true" aria-expanded="false" aria-controls="accountMenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <div class="account-menu" id="accountMenu" role="menu" hidden>
+    <span class="locale">
+      <span class="flag" aria-hidden="true">🇬🇧</span>
+      English
+    </span>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="10.5" r="3"/><path d="M12 21s7-6.5 7-11.5a7 7 0 1 0-14 0C5 14.5 12 21 12 21Z"/></svg>
+      Track Delivery
+    </a>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M3 12h18"/><path d="M12 8v13"/><path d="M12 8c-1.8 0-3.5-1-3.5-2.8A2.2 2.2 0 0 1 10.7 3c1.8 0 2.8 2 2.8 2s1-2 2.8-2a2.2 2.2 0 0 1 2.2 2.2C18.5 7 16.8 8 15 8"/></svg>
+      every Gift Cards
+    </a>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      Order History
+    </a>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09a1.7 1.7 0 0 0-1.56 1.04Z"/></svg>
+      Accounts &amp; Settings
+    </a>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.4 2.3c-.9.4-1.4 1-1.4 2"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+      Help &amp; FAQ
+    </a>
+    <a href="#" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      Log out
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- SEASONAL BUNDLE -->
+  <section class="wrap seasonal" aria-labelledby="seasonal-heading">
+    <div class="seasonal-card">
+      <picture>
+        <source media="(min-width:768px)" srcset="Backtobetter%20hero%20desk.png">
+        <img src="Backtobetter%20hero.png" alt="Back to Better seasonal bundle — a plate of colourful reset-focused meals">
+      </picture>
+      <div class="seasonal-content">
+        <span class="seasonal-badge"><span class="dot"></span> Seasonal Edit · Available Now</span>
+        <h1 class="h-serif" id="seasonal-heading">Back to Better</h1>
+        <p>A gentle reset for the season ahead — three meals built to ease your gut, energy and focus back into rhythm.</p>
+        <div class="seasonal-cta-row">
+          <a class="btn btn-secondary btn-block" href="bundle-back-to-better.html">See what's inside</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT OFFERING -->
+  <section class="wrap section" aria-labelledby="offering-heading">
+    <div class="section-head">
+      <div>
+        <h2 class="h-serif" id="offering-heading">Everything you can order</h2>
+        <p>Meals are just the start — browse the full range in one place.</p>
+      </div>
+    </div>
+    <div class="offering-scroller">
+      <a class="offer-chip" href="#" data-category="breakfast">
+        <span class="ring"><img src="every-chip-breakfast.jpg" alt=""></span>
+        <span class="name">Breakfast</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="smoothies">
+        <span class="ring"><img src="every-chip-smoothies.jpg" alt=""></span>
+        <span class="name">Smoothies</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="salads">
+        <span class="ring"><img src="every-chip-salads.jpg" alt=""></span>
+        <span class="name">Salads</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="shots">
+        <span class="ring"><img src="every-chip-shots.jpg" alt=""></span>
+        <span class="name">Shots</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="meals">
+        <span class="ring"><img src="every-chip-meals.jpg" alt=""></span>
+        <span class="name">Meals</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="sweet-snacks">
+        <span class="ring"><img src="every-chip-sweet-snacks.jpg" alt=""></span>
+        <span class="name">Sweet Snacks</span>
+      </a>
+      <a class="offer-chip" href="#" data-category="toppings">
+        <span class="ring"><img src="every-chip-addons.jpg" alt=""></span>
+        <span class="name">Toppings</span>
+      </a>
+    </div>
+
+    <div class="editorial-scroller" id="editorialScroller" hidden>
+      <div class="editorial-card" data-category="breakfast" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All breakfast &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-breakfast">Our oats are soaked overnight, not cooked — locking in more B vitamins than a hot bowl.</p>
+      </div>
+
+      <div class="editorial-card" data-category="smoothies" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All smoothies &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-smoothies">They're cold-pressed, not blended — keeping more of the fruit's natural nutrients intact.</p>
+      </div>
+
+      <div class="editorial-card" data-category="salads" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All salads &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-salads">Dressed right before sealing, so the greens stay crisp until you open the pack.</p>
+      </div>
+
+      <div class="editorial-card" data-category="shots" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All shots &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-shots">Slow-juiced at low temperatures to protect the vitamin C that heat would destroy.</p>
+      </div>
+
+      <div class="editorial-card" data-category="meals" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All meals &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-meals">Flash-chilled within 30 minutes of cooking to lock in flavour without freezing.</p>
+      </div>
+
+      <div class="editorial-card" data-category="sweet-snacks" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All sweet snacks &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-sweet-snacks">Naturally sweetened with dates, never refined sugar.</p>
+      </div>
+
+      <div class="editorial-card" data-category="toppings" hidden>
+        <div class="editorial-title-row">
+          <span class="editorial-eyebrow">Did you know?</span>
+          <a class="see-all" href="#">All toppings &rarr;</a>
+        </div>
+        <p class="editorial-fact" id="fact-toppings">Roasted in small batches so every jar stays crunchy, not stale.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUNDLE TYPES -->
+  <section class="wrap section" aria-labelledby="bundles-heading">
+    <div class="section-head">
+      <div>
+        <h2 class="h-serif" id="bundles-heading">Find the bundle for your goal</h2>
+      </div>
+    </div>
+    <div class="bundle-grid">
+
+      <article class="bundle-card is-balance">
+        <div class="bundle-media">
+          <img src="figma-assets/bundle-hero-perfect-portions.png" alt="Perfect Portions Plan">
+        </div>
+        <div class="bundle-body">
+          <span class="bundle-tag">Balance</span>
+          <h3>Perfect Portions Plan</h3>
+          <p>A 3-month plan built around balanced habits — ~23g protein and 11g fibre per meal, ready in under 10 minutes.</p>
+          <a class="bundle-link" href="bundle-perfect-portions-plan.html">from €5.47 / meal &rarr;</a>
+        </div>
+      </article>
+
+      <article class="bundle-card is-recovery">
+        <div class="bundle-media">
+          <img src="figma-assets/bundle-hero-postpartum.png" alt="The New Parent Bundle">
+        </div>
+        <div class="bundle-body">
+          <span class="bundle-tag">Recovery</span>
+          <h3>The New Parent Bundle</h3>
+          <p>Nutrient-dense, ready-made meals for the weeks after birth — no cooking, no planning.</p>
+          <a class="bundle-link" href="bundle-postpartum-bundle.html">from €5.89 / meal &rarr;</a>
+        </div>
+      </article>
+
+      <article class="bundle-card is-protein">
+        <div class="bundle-media">
+          <img src="figma-assets/bundle-hero-protein.png" alt="Protein Bundle">
+        </div>
+        <div class="bundle-body">
+          <span class="bundle-tag">Protein</span>
+          <h3>Protein Bundle</h3>
+          <p>23g of protein in every meal — no powders, bars or planning required.</p>
+          <a class="bundle-link" href="bundle-protein-bundle.html">from €5.67 / meal &rarr;</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PERSONALISED MEAL RECOMMENDATIONS -->
+  <section class="wrap section" aria-labelledby="recs-heading">
+    <div class="section-head">
+      <div>
+        <h2 class="h-serif" id="recs-heading">More meals for you</h2>
+      </div>
+      <a class="see-all" href="#">More &rarr;</a>
+    </div>
+    <div class="meal-scroller">
+
+      <button type="button" class="meal-card" aria-label="View details for Sesame Quinoa Salad">
+        <img src="every-meal-sesame-quinoa.jpg" alt="Sesame Quinoa Salad">
+        <span class="name-scrim"><span>Sesame Quinoa Salad</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Crunchy Beetroot Salad">
+        <img src="every-meal-beetroot-salad.jpg" alt="Crunchy Beetroot Salad">
+        <span class="name-scrim"><span>Crunchy Beetroot Salad</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Brilliant Bolognese">
+        <img src="every-meal-bolognese.jpg" alt="Brilliant Bolognese">
+        <span class="name-scrim"><span>Brilliant Bolognese</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Red Pesto Gnocchi">
+        <img src="every-meal-red-pesto-gnocchi.jpg" alt="Red Pesto Gnocchi — contains nuts">
+        <span class="name-scrim"><span>Red Pesto Gnocchi</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Pasta Arrabbiata">
+        <img src="every-meal-arrabbiata.jpg" alt="Pasta Arrabbiata">
+        <span class="name-scrim"><span>Pasta Arrabbiata</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Paella Del Sol">
+        <img src="every-meal-paella.jpg" alt="Paella Del Sol">
+        <span class="name-scrim"><span>Paella Del Sol</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Dal Delight">
+        <img src="every-meal-dal-delight.jpg" alt="Dal Delight">
+        <span class="name-scrim"><span>Dal Delight</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+      <button type="button" class="meal-card" aria-label="View details for Naked Taco">
+        <img src="every-meal-naked-taco.jpg" alt="Naked Taco">
+        <span class="name-scrim"><span>Naked Taco</span></span>
+        <span class="info-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- SINGLE FEATURED RECOMMENDATION -->
+  <section class="wrap section" aria-labelledby="feature-heading">
+    <article class="feature-card">
+      <div class="feature-media">
+        <img src="Meals.png" alt="The Classic Reset Bowl">
+      </div>
+      <div class="feature-body">
+        <span class="eyebrow">Most ordered this month</span>
+        <h2 class="h-serif" id="feature-heading">The Classic Reset Bowl</h2>
+        <p>Your top pick three months running — warm grains, roasted veg and a herb dressing. We've kept a spot for it in your next box.</p>
+        <div>
+          <a class="btn btn-block btn-secondary-gray" href="#">Add to next box</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- DISCOUNT MILESTONES -->
+  <section class="wrap section" aria-label="Discount milestones">
+    <div class="discount-card">
+      <div class="discount-top">
+        <div>
+          <p class="discount-pct">15%</p>
+          <p class="discount-body">You&rsquo;ve unlocked 15% off your next 2 orders</p>
+        </div>
+        <div class="discount-side">
+          <span class="discount-chip">1 in 3 complete</span>
+          <span class="discount-mascot" aria-hidden="true">
+            <img src="Illustrations/Every_character_A 2.png" alt="">
+          </span>
+        </div>
+      </div>
+      <div class="discount-stepper">
+        <div class="discount-step is-done">
+          <span class="circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L19 7"/></svg></span>
+          <span class="step-label">Order 1</span>
+          <span class="step-sub">20% off</span>
+        </div>
+        <span class="discount-connector is-lit"></span>
+        <div class="discount-step is-current">
+          <span class="circle">2</span>
+          <span class="step-label">Order 2</span>
+          <span class="step-sub">15% off</span>
+        </div>
+        <span class="discount-connector"></span>
+        <div class="discount-step">
+          <span class="circle">3</span>
+          <span class="step-label">Order 3</span>
+          <span class="step-sub">15% off</span>
+        </div>
+        <span class="discount-connector"></span>
+        <div class="discount-step">
+          <span class="circle">4+</span>
+        </div>
+      </div>
+      <div class="discount-banner">
+        <span class="info-dot" aria-hidden="true">i</span>
+        <p>Pausing your subscription keeps your discount.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="every_logo.svg" alt="Every">
+      <p>Don&rsquo;t be shy, come say hi!</p>
+    </div>
+    <div class="footer-social">
+      <a href="#" aria-label="Instagram"><img src="figma-assets/social-instagram.svg" alt=""></a>
+      <a href="#" aria-label="Facebook">
+        <svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="1.4"/><path d="M15.6 20v-6.2h2.1l.3-2.4h-2.4v-1.5c0-.7.2-1.2 1.2-1.2h1.3V6.5c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.1-3.2 3.3v1.8h-2.1v2.4h2.1V20h2.6z" fill="currentColor"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube"><img src="figma-assets/social-youtube.svg" alt=""></a>
+      <a href="#" aria-label="LinkedIn"><img src="figma-assets/social-linkedin.svg" alt=""></a>
+      <a href="#" aria-label="TikTok"><img src="figma-assets/social-tiktok.svg" alt=""></a>
+    </div>
+  </div>
+
+  <div class="footer-menu">
+    <details class="footer-accordion">
+      <summary>SHOP<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary>
+      <div class="footer-links">
+        <a href="#">Our Bundles</a>
+        <a href="#">Build a Box</a>
+        <a href="#">every Gift Cards</a>
+      </div>
+    </details>
+    <details class="footer-accordion">
+      <summary>HELP<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary>
+      <div class="footer-links">
+        <a href="#">Help Centre</a>
+        <a href="#">Track Delivery</a>
+        <a href="#">Report a Delivery Problem</a>
+        <a href="#">Subscription Settings</a>
+        <a href="#">Reactivate a Paused Plan</a>
+        <a href="#">Cancel Subscription</a>
+      </div>
+    </details>
+    <details class="footer-accordion">
+      <summary>ABOUT every<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary>
+      <div class="footer-links">
+        <a href="#">Our Story</a>
+        <a href="#">every Magazine</a>
+        <a href="#">Ingredient Glossary</a>
+        <a href="#">every at the Office</a>
+      </div>
+    </details>
+    <details class="footer-accordion">
+      <summary>COMMUNITY<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4 4 4-4"/></svg></summary>
+      <div class="footer-links">
+        <a href="#">Facebook Community</a>
+        <a href="#">Careers</a>
+        <a href="#">Reviews</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Store Finder</a>
+        <a href="#">Ambassador</a>
+      </div>
+    </details>
+  </div>
+
+  <div class="footer-payments">
+    <span class="pay-card">MC</span>
+    <span class="pay-card">Maes</span>
+    <span class="pay-card">VISA</span>
+    <img src="figma-assets/pay-4.svg" alt="PayPal">
+    <img src="figma-assets/pay-5.svg" alt="American Express">
+    <img src="figma-assets/pay-6.svg" alt="Sofort">
+    <img src="figma-assets/pay-7.svg" alt="eps">
+  </div>
+
+  <div class="footer-reviews">
+    <img class="logo" src="figma-assets/reviews-logo.svg" alt="reviews.io">
+    <div class="rating">
+      <span>4.46</span>
+      <img src="figma-assets/stars.svg" alt="4.46 out of 5 stars">
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header shrinks rather than hiding on scroll — keeps Discover / All meals /
+  // My Plan / Settings reachable on long pages without permanently fixing full height.
+  var header = document.getElementById('appHeader');
+  window.addEventListener('scroll', function(){
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+  }, { passive:true });
+
+  // Account menu (hamburger) — closes on outside click or Escape.
+  var menuBtn = document.getElementById('menuBtn');
+  var accountMenu = document.getElementById('accountMenu');
+  function closeMenu(){
+    accountMenu.hidden = true;
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  menuBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var opening = accountMenu.hidden;
+    accountMenu.hidden = !opening;
+    menuBtn.setAttribute('aria-expanded', String(opening));
+  });
+  document.addEventListener('click', function(e){
+    if (!accountMenu.hidden && !accountMenu.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !accountMenu.hidden) closeMenu();
+  });
+
+  // Tapping a category chip surfaces that category's editorial card only.
+  var editorialScroller = document.getElementById('editorialScroller');
+  var editorialCards = document.querySelectorAll('.editorial-card');
+  var offerChips = document.querySelectorAll('.offer-chip');
+  offerChips.forEach(function(chip){
+    chip.addEventListener('click', function(e){
+      e.preventDefault();
+      var category = chip.getAttribute('data-category');
+      editorialScroller.hidden = false;
+      editorialCards.forEach(function(card){
+        card.hidden = card.getAttribute('data-category') !== category;
+      });
+      offerChips.forEach(function(c){
+        c.classList.toggle('is-active', c === chip);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
