@@ -58,5 +58,26 @@
       "fx": 0.2468253968253968,
       "fy": 0.7834868314751979
     }
+  },
+  {
+    "id": "a426fe11-10fb-4712-ac46-c65927340098",
+    "n": 1,
+    "author": {
+      "login": "victor",
+      "name": "Victor"
+    },
+    "at": "2026-10-13T07:45:56.646Z",
+    "text": "Not sure about no additives",
+    "anchor": {
+      "screen": "/p/bundle-component-exploration/v0-8",
+      "selector": "body > main > div > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div > div > span:nth-of-type(4)",
+      "text": "No additives",
+      "page": "excellent perfect portions zero guesswor",
+      "x": 0.5567792826313439,
+      "y": 0.5357142857142857,
+      "fx": 0.46923076923076923,
+      "fy": 0.425884460367219
+    },
+    "variant": "v=7"
   }
 ]
