@@ -39,5 +39,25 @@
       "fy": 0.425884460367219
     },
     "variant": "v=7"
+  },
+  {
+    "id": "2d62c0a9-216e-43eb-9de4-bdf2921613a1",
+    "n": 2,
+    "author": {
+      "login": "luke",
+      "name": "Luke"
+    },
+    "at": "2026-10-13T07:58:04.496Z",
+    "text": "new new",
+    "anchor": {
+      "screen": "/p/bundle-component-exploration/v0-8",
+      "selector": "body > main > div > div:nth-of-type(1) > div:nth-of-type(2) > section > div > div:nth-of-type(2) > div:nth-of-type(1) > p",
+      "text": "Lose weight without counting, weighing or tracking. Every me",
+      "page": "excellent perfect portions zero guesswor",
+      "x": 0.3636771630965074,
+      "y": 0.45340215178831045,
+      "fx": 0.38045535840770645,
+      "fy": 0.23212258490015245
+    }
   }
 ]
