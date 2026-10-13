@@ -91,9 +91,9 @@
           "#8b8880"
         ],
         "caption": "Questionnaire / Recommendation page",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/dffab497bdda6c59ca1721e5f7ec3f3b3179003a/p/every-quiz-v3/v3-5/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/2a8d40796ed07e1543bf589679b5ecf19a825154/p/every-quiz-v3/v3-6/index.html"
       },
-      "currentVersion": "every-quiz-v3-v3.5",
+      "currentVersion": "every-quiz-v3-v3.6",
       "created": {
         "by": {
           "login": "luke",
@@ -101,7 +101,7 @@
         },
         "at": "2026-10-06"
       },
-      "updatedAt": "2026-10-07T12:59:27.512Z",
+      "updatedAt": "2026-10-13T15:20:37.189Z",
       "archived": false,
       "figmaUrl": "https://www.figma.com/design/8YuV1x4IlYbPcgK0H4nMG5/Website?node-id=5661-24113",
       "notionUrl": "https://app.notion.com/p/every-foods/A-B-test-Onboarding-Quiz-and-product-recommendation-for-new-customer-acquisition-3cdec93dc06180118d8ce89262b3e694"
@@ -467,6 +467,19 @@
       },
       "createdAt": "2026-10-13T14:22:45.550Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/185afa5063f83352ca7192caa73961d5dac4e712/p/bundle-component-exploration/v1-1/index.html"
+    },
+    {
+      "id": "every-quiz-v3-v3.6",
+      "prototypeSlug": "every-quiz-v3",
+      "version": "v3.6",
+      "title": "Helena's copy updates",
+      "changes": "Applied Helena's copy edits from the Notion content guide: intro, question wording and answer options, loader lines, results hero headline, protein subhead and headline, and the Variant B challenge headings and cards. Left unclear or tbd items unchanged; results answer chips kept as they were.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T15:20:37.189Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/2a8d40796ed07e1543bf589679b5ecf19a825154/p/every-quiz-v3/v3-6/index.html"
     }
   ]
 }
