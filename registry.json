@@ -151,9 +151,9 @@
           "#8b8880"
         ],
         "caption": "Bundle component exploration",
-        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5e16f8952725509f046f019a918e552f65d6114b/p/bundle-component-exploration/v0-9/index.html"
+        "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/7fd77b0a142fbb106817a124bc5858c9fff7ad51/p/bundle-component-exploration/v1-0/index.html"
       },
-      "currentVersion": "bundle-component-exploration-v0.9",
+      "currentVersion": "bundle-component-exploration-v1.0",
       "created": {
         "by": {
           "login": "luke",
@@ -161,7 +161,7 @@
         },
         "at": "2026-10-09"
       },
-      "updatedAt": "2026-10-13T11:55:34.869Z",
+      "updatedAt": "2026-10-13T11:56:13.075Z",
       "archived": false
     },
     {
@@ -428,6 +428,19 @@
       },
       "createdAt": "2026-10-13T11:55:34.865Z",
       "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/5e16f8952725509f046f019a918e552f65d6114b/p/bundle-component-exploration/v0-9/index.html"
+    },
+    {
+      "id": "bundle-component-exploration-v1.0",
+      "prototypeSlug": "bundle-component-exploration",
+      "version": "v1.0",
+      "title": "Variant 10 in the picker",
+      "changes": "Added variant 10 (curated meal modal tags) to the studio's Variant control; v0.9 had the code but no way to select it.",
+      "author": {
+        "login": "luke",
+        "name": "Luke"
+      },
+      "createdAt": "2026-10-13T11:56:13.075Z",
+      "url": "https://raw.githubusercontent.com/luke-every/prototype-studio-content/7fd77b0a142fbb106817a124bc5858c9fff7ad51/p/bundle-component-exploration/v1-0/index.html"
     }
   ]
 }
