@@ -1,5 +1,16 @@
 [
   {
+    "id": "6ddea54f-159c-4dd0-9588-7f705c3c049a",
+    "at": "2026-10-13T14:28:28.195Z",
+    "author": "Luke",
+    "slug": "account-discover",
+    "version": "v0.2",
+    "prototype": "Account Discover",
+    "text": "Test comment",
+    "reply": false,
+    "comment": "6ddea54f-159c-4dd0-9588-7f705c3c049a"
+  },
+  {
     "id": "like:e56fe700-ca4c-4d58-b3f2-912e3c740ce1:Luke",
     "at": "2026-10-13T14:27:10.630Z",
     "author": "Luke",
