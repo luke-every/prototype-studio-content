@@ -1,0 +1,43 @@
+{
+  "controls": [],
+  "flow": {
+    "screens": [
+      {
+        "id": "home",
+        "name": "Landing page",
+        "params": {}
+      },
+      {
+        "id": "menu",
+        "name": "Perfect Portions Menu",
+        "params": {
+          "screen": "menu"
+        }
+      },
+      {
+        "id": "recipe",
+        "name": "Recipe",
+        "params": {
+          "screen": "recipe"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "home",
+        "to": "menu",
+        "label": "See the full menu"
+      },
+      {
+        "from": "home",
+        "to": "recipe",
+        "label": "Tap a meal"
+      },
+      {
+        "from": "menu",
+        "to": "recipe",
+        "label": "Tap a meal"
+      }
+    ]
+  }
+}
