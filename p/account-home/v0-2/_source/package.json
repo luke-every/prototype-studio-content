@@ -1,0 +1,31 @@
+{
+  "name": "every-account-home",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "next dev",
+    "build": "NEXT_PUBLIC_LEAN=1 NEXT_PUBLIC_ONLY_B=1 next build && rm -rf out/v2 out/v3",
+    "start": "npx serve out",
+    "export:vercel": "next build && rm -rf ../account-home && cp -R out ../account-home",
+    "export:vercel:2": "BASE_PATH=/account-home-2 NEXT_PUBLIC_LEAN=1 next build && rm -rf ../account-home-2 && cp -R out ../account-home-2",
+    "export:vercel:3": "BASE_PATH=/account-home-3 NEXT_PUBLIC_LEAN=1 NEXT_PUBLIC_ONLY_B=1 next build && rm -rf out/v2 out/v3 && rm -rf ../account-home-3 && cp -R out ../account-home-3",
+    "export:all": "npm run export:vercel && npm run export:vercel:2 && npm run export:vercel:3"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^16.3.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
+  },
+  "private": true
+}

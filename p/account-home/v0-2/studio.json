@@ -1,0 +1,42 @@
+{
+  "controls": [
+    { "id": "customer", "label": "Customer", "type": "choice", "default": "active",
+      "options": [
+        { "value": "active", "label": "Active" },
+        { "value": "new", "label": "New" },
+        { "value": "paused45", "label": "Back after 45d" },
+        { "value": "paused120", "label": "Back after 120d" }
+      ] },
+    { "id": "goal", "label": "Viewing as", "type": "choice", "default": "gut",
+      "options": [
+        { "value": "balanced", "label": "Balanced eating" },
+        { "value": "gut", "label": "Healthy gut" },
+        { "value": "lose", "label": "Lose weight" },
+        { "value": "maintain", "label": "Maintain weight" },
+        { "value": "lean", "label": "Stay lean" },
+        { "value": "energy", "label": "More energy" },
+        { "value": "muscle", "label": "Build muscle" },
+        { "value": "postpartum", "label": "Postpartum" }
+      ] },
+    { "id": "delivery", "label": "Delivery", "type": "choice", "default": "coming",
+      "options": [
+        { "value": "coming", "label": "Coming" },
+        { "value": "today", "label": "Arrives today" },
+        { "value": "cancelled", "label": "Cancelled" }
+      ] },
+    { "id": "moment", "label": "Moment", "type": "choice", "default": "none",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "checkin", "label": "Check-in" },
+        { "value": "predelivery", "label": "Pre-delivery" },
+        { "value": "firstbox", "label": "First box done" },
+        { "value": "away7", "label": "Away 7 days" }
+      ] },
+    { "id": "box", "label": "Box", "type": "choice", "default": "aligned",
+      "options": [
+        { "value": "aligned", "label": "Lasts" },
+        { "value": "shortfall", "label": "Runs out" },
+        { "value": "surplus", "label": "Too much" }
+      ] }
+  ]
+}
