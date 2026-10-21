@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* Every design system tokens (mirrors the :root block in /Designs/account-*.html) */
+@theme inline {
+  --font-sans: var(--font-diatype), -apple-system, "Helvetica Neue", sans-serif;
+  --font-serif: var(--font-marist), Georgia, "Times New Roman", serif;
+
+  --color-white: #ffffff;
+  --color-bone: #fafaf8;
+  --color-paper: #faf7f2;
+  --color-offwhite: #f4f0ea;
+  --color-cream: #e2dbd0;
+  --color-linen: #cfc7b7;
+  --color-stone: #574a41;
+  --color-body: #3f3530;
+  --color-brown: #372d27;
+  --color-ink: #1a0f0a;
+  --color-line: rgba(55, 45, 39, 0.1);
+  --color-line2: rgba(55, 45, 39, 0.18);
+  --color-signal: #ffd392;
+  --color-olive: #8e8f52;
+  --color-olive-bg: #edeedd;
+  --color-sky: #7c9bb4;
+  --color-sky-bg: #e7eef2;
+  --color-terra: #c46a4b;
+  --color-terra-bg: #f5e6df;
+  --color-plum: #8c5a73;
+  --color-plum-bg: #f1e3ea;
+  --color-save: #2f7a3a;
+  /* Section tints from the bundle PDPs (figma-final-new-parent-bundle.html) */
+  --color-peach: #ffe0c2;
+  --color-peach-soft: #ffefe1;
+  --color-butter: #fcf4cb;
+  --color-lilac: #efe9f0;
+  --color-mint: #e3f0d9;
+  /* Goal group colours (every). Text on them: ink 14.6–15.5:1, body 9.2–9.8:1, stone 6.6–7.0:1 (WCAG 2.1 AA/BITV 2.0). */
+  /* One background for every Eve moment card (check-in, pre-delivery, first box, away, return, fridge nudge) */
+  --color-moment: #eeeae6;
+  --color-goal-eat: #f2e5f4;
+  --color-goal-weight: #f9ddd2;
+  --color-goal-fitness: #d7ebc2;
+  --color-goal-postpartum: #f8e8b7;
+
+  --shadow-e1: 0 1px 3px rgba(55, 45, 39, 0.06);
+  --shadow-e2: 0 4px 16px rgba(55, 45, 39, 0.1);
+  --shadow-e3: 0 16px 40px rgba(55, 45, 39, 0.14);
+
+  --animate-sheet-up: sheet-up 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-fade-in: fade-in 0.2s ease-out;
+  --animate-drop-in: drop-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  /* Quiz (Figma "Website" onboarding quiz) */
+  --font-quiz: var(--font-newsreader), var(--font-marist), Georgia, serif;
+  --color-quiz-paper: #eeeae6;
+  --color-quiz-line: #dad6d2;
+  --color-quiz-dot: #bdb3a9;
+  --color-quiz-ink: #1a1614;
+  --color-quiz-muted: #6b6560;
+  --color-orange: #ff7d34;
+  --animate-step-fwd: step-fwd 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-step-back: step-back 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes step-fwd {
+  from { transform: translateX(28px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes step-back {
+  from { transform: translateX(-28px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes sheet-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes drop-in {
+  from { transform: translateY(-14px) scale(0.92); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Quiz illustrations (slim copy, FLAGS.quizSplash): entrance, idle motion, answer reactions. Slow and short on purpose. */
+@keyframes splash-in {
+  0% { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes splash-in-strong {
+  0% { transform: scale(0.2) rotate(-12deg); opacity: 0; }
+  65% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+@keyframes eve-in {
+  from { transform: translateY(-12px) scale(0.94); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes eve-in-strong {
+  0% { transform: translateY(-26px) scale(0.86); opacity: 0; }
+  70% { transform: translateY(3px) scale(1.02); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes eve-sway {
+  0%, 100% { transform: rotate(-1.5deg); }
+  50% { transform: rotate(1.5deg); }
+}
+@keyframes eve-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes text-up {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.eve-splash { transform-origin: 50% 50%; animation: splash-in 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.eve-splash[data-strong] { animation: splash-in-strong 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.eve-enter { animation: eve-in 0.45s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.eve-enter[data-strong] { animation: eve-in-strong 0.6s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.eve-idle { transform-origin: 50% 95%; animation: eve-sway 4s 0.7s ease-in-out infinite; }
+.eve-idle[data-icon] { animation: eve-float 4.5s 0.7s ease-in-out infinite; }
+.eve-stage > h1, .eve-stage > h2, .eve-stage > p, .eve-stage-text { animation: text-up 0.45s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .eve-splash, .eve-enter, .eve-idle, .eve-stage > h1, .eve-stage > h2, .eve-stage > p, .eve-stage-text { animation: none !important; }
+}
+
+html { -webkit-text-size-adjust: 100%; }
+/* Screen-wide bands break out of the page grid; clip (not hidden) keeps sticky headers working */
+html, body { overflow-x: clip; }
+body {
+  background: var(--color-paper);
+  color: var(--color-body);
+  -webkit-font-smoothing: antialiased;
+}
+button { cursor: pointer; }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.eyebrow {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-stone);
+}
