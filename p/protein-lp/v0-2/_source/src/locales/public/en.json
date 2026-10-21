@@ -1,0 +1,249 @@
+{
+  "common": {
+    "close": "Close",
+    "back": "Back",
+    "continue": "Continue",
+    "loading": "Loading",
+    "tryAgain": "Try again"
+  },
+  "error": {
+    "generic": "Something went wrong.",
+    "tryAgainLater": "Something went wrong, please try again later."
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "goToDashboard": "Go to dashboard"
+  },
+  "cart": {
+    "oneTimeBadge": "One-time",
+    "ariaLabel": "Cart",
+    "title": "My box",
+    "product_one": "{count} Product",
+    "product_other": "{count} Products",
+    "priceFrom": "from",
+    "priceSuffix": "/ meal",
+    "closeAriaLabel": "Close cart",
+    "empty": "Your box is empty",
+    "clearBox": "Clear box",
+    "clearBoxAriaLabel": "Clear box",
+    "discountHintBase_one": "Add {count} meal, get {amount} off",
+    "discountHintBase_other": "Add {count} meals, get {amount} off",
+    "discountHintExtra_one": "Add {count} meal, get extra {amount} off",
+    "discountHintExtra_other": "Add {count} meals, get extra {amount} off",
+    "discountHintMaxed": "You unlocked total savings",
+    "checkout": "Proceed to checkout",
+    "checkoutAriaLabel": "Proceed to checkout",
+    "checkoutLoading": "Loading...",
+    "checkoutAddonsOnly_one": "Please add {count} meal to proceed to checkout",
+    "checkoutAddonsOnly_other": "Please add {count} meals to proceed to checkout",
+    "checkoutDiscountInvalid": "Your discount code is no longer valid and has been removed.",
+    "shippingBarFree": "Free shipping",
+    "shippingBarAdd_one": "Add {count} meal to unlock free shipping",
+    "shippingBarAdd_other": "Add {count} meals to unlock free shipping",
+    "summaryBoxPrice": "Box price",
+    "summaryQuantityDiscount": "Quantity discount",
+    "summaryShipping": "Shipping",
+    "summaryShippingFree": "Free",
+    "summaryFirstOrderTotal": "Total",
+    "summaryInclVat": "incl. VAT and Shipping",
+    "summaryRecurringNote": "See recurring total in the next step",
+    "summaryDeliveryNote": "Order now and receive in 2–3 days. Choose your date.",
+    "summaryMoneyBack": "30 Days Money-back guarantee",
+    "summaryPauseCancel": "Pause or cancel anytime",
+    "progressFreeShipping_one": "Add {count} meal for free shipping",
+    "progressFreeShipping_other": "Add {count} meals for free shipping",
+    "progressDiscount_one": "Add {count} meal for {amount} off",
+    "progressDiscount_other": "Add {count} meals for {amount} off",
+    "progressDiscountExtra_one": "Add {count} meal for extra {amount} off",
+    "progressDiscountExtra_other": "Add {count} meals for extra {amount} off",
+    "progressFillBox_one": "Add {count} more meal to fill your box",
+    "progressFillBox_other": "Add {count} more meals to fill your box",
+    "progressFull": "Your box is full!",
+    "bundleMonthlyDelivery": "Monthly Delivery",
+    "bundleDecreaseQty": "Decrease quantity",
+    "bundleIncreaseQty": "Increase quantity",
+    "bundleItemsIncluded": "{count} items included:",
+    "bundleSeeLess": "See less",
+    "bundleSeeMore": "See more",
+    "carouselFree": "Free gift",
+    "youMayAlsoLike": "You may also like",
+    "titleBadge_one": "{count} ITEM",
+    "titleBadge_other": "{count} ITEMS",
+    "firstBoxDiscount": "{percent}% off your first box",
+    "etaShort": "arrives in 2-3 days",
+    "boxSummaryTitle": "Box Summary",
+    "groupBundle": "Bundle",
+    "groupComplimentary": "Complimentary",
+    "groupSelection": "Your Selection",
+    "mealsCount_one": "{count} meal",
+    "mealsCount_other": "{count} meals",
+    "giftsCount_one": "{count} gift",
+    "giftsCount_other": "{count} gifts",
+    "servingsCount_one": "{count} serving",
+    "servingsCount_other": "{count} servings",
+    "selectionBoxTitle": "My Selection",
+    "showMeals": "Show meals",
+    "hideMeals": "Hide meals",
+    "complimentary": "Complimentary",
+    "giftRemoveAriaLabel": "Remove free gift",
+    "summaryQuantityDiscountPct": "Quantity discount ({percent}% off)",
+    "chooseDeliveryDate": "Choose your delivery date",
+    "swap": "Swap",
+    "swapSuccess": "Item swapped",
+    "removeDiscountCodeAriaLabel": "Remove discount code"
+  },
+  "bundle": {
+    "addToCart": "Add to cart",
+    "footnote": "100% secure payment | Order now and receive in 2-3 days",
+    "perMeal": "/Meal",
+    "perMealPill": "/ meal",
+    "inTotal": "in total",
+    "totalPriceBox": "Total price 1. box",
+    "quantityDiscount": "Quantity discount",
+    "shipping": "Shipping",
+    "shippingFree": "free",
+    "shippingFreeCapitalized": "Free",
+    "reviews": "reviews",
+    "excellent": "Excellent",
+    "basedOn": "based on",
+    "outOf5Stars": "out of 5 stars",
+    "perfectPricePerMeal": "Perfect price per meal",
+    "carouselTitle": "Inside your menu",
+    "carouselPrevLabel": "Previous products",
+    "carouselNextLabel": "Next products",
+    "averagePerMeal": "Average per meal",
+    "protein": "Protein",
+    "fibre": "Fibre",
+    "kcal": "kcal",
+    "perMealUnit": "Per meal",
+    "mealsUnit": "meals",
+    "viewAllMeals": "View all {count} meals",
+    "boxSizeTitle": "Choose your box size",
+    "totalPriceFirstBox": "Total price first box",
+    "boxPrice": "Box price",
+    "reviewsHeadline": "Over 200,000 happy customers",
+    "verifiedPurchase": "Verified purchase",
+    "readMore": "Read more",
+    "readLess": "Read less",
+    "stickyFromPerMeal": "from {price} / meal",
+    "skipOrCancelAnytime": "Skip or cancel anytime",
+    "boxContentsTitle": "What's in your box?",
+    "changeBundle": "Change Bundle",
+    "savings": "Savings",
+    "discount": "Discount"
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "sectionTitle": "About the product",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "kcal": "Kcal",
+    "highlights": "Highlights",
+    "ingredients": "Ingredients",
+    "nutrients": "Nutrients",
+    "preparation": "Preparation",
+    "withoutPrefix": "Without"
+  },
+  "productIntro": {
+    "protein": "Protein",
+    "kcal": "Kcal",
+    "ready": "Ready",
+    "readyInDefault": "Ready in 10 mins",
+    "discoverAriaLabel": "Discover {title}",
+    "fromPrice": "From {price}"
+  },
+  "noSubscription": {
+    "title": "No active subscription",
+    "description": "Your subscription is inactive or has expired. Visit our website to get started.",
+    "goToHomepage": "Go to homepage",
+    "goToHomepageAriaLabel": "Go to homepage",
+    "logout": "Log out",
+    "logoutAriaLabel": "Log out"
+  },
+  "blog": {
+    "categories": {
+      "allArticles": "All Articles",
+      "ariaLabel": "Blog categories"
+    },
+    "articleCard": {
+      "readMore": "Read more"
+    },
+    "pagination": {
+      "ariaLabel": "Blog pagination",
+      "previousPage": "Previous page",
+      "nextPage": "Next page",
+      "page": "Page {n}"
+    }
+  },
+  "homepage": {
+    "discoverBundlesSlider": {
+      "sliderAriaLabel": "Bundles slider",
+      "discoverNow": "Discover now",
+      "discoverAriaLabel": "Discover {title}",
+      "prevAriaLabel": "Previous bundle",
+      "nextAriaLabel": "Next bundle"
+    },
+    "carousel": {
+      "ariaLabel": "Carousel",
+      "prevSlideAriaLabel": "Previous slide",
+      "nextSlideAriaLabel": "Next slide"
+    },
+    "promoOfferBar": {
+      "dismissAriaLabel": "Dismiss offer bar"
+    },
+    "reviewsBar": {
+      "ariaLabel": "Reviews"
+    },
+    "roadmapSection": {
+      "imageAlt": "How it works"
+    },
+    "categoryCarousel": {
+      "ariaLabel": "Category carousel"
+    },
+    "partnersCarousel": {
+      "ariaLabel": "Partners carousel",
+      "partnerLogoAlt": "Partner logo"
+    },
+    "joinCommunity": {
+      "socialMediaAlt": "Social media",
+      "socialMediaLinkAriaLabel": "Social media link"
+    },
+    "subscribeSection": {
+      "successTitle": "Thanks for subscribing!",
+      "successMessage": "Check your email to confirm.",
+      "emailPlaceholder": "Your email address...",
+      "emailAriaLabel": "Email address",
+      "submitButton": "SIGN ME UP"
+    },
+    "reviewsCarousel": {
+      "prevAriaLabel": "Previous reviews",
+      "nextAriaLabel": "Next reviews",
+      "customerReviewsAriaLabel": "Customer reviews",
+      "prevExpertAriaLabel": "Previous expert",
+      "nextExpertAriaLabel": "Next expert",
+      "expertReviewsAriaLabel": "Expert reviews"
+    },
+    "companyReviewsCarousel": {
+      "ariaLabel": "Company reviews"
+    },
+    "productCarousel": {
+      "prevAriaLabel": "Previous product",
+      "nextAriaLabel": "Next product"
+    }
+  },
+  "localeSwitcher": {
+    "triggerAriaLabel": "Select language and region",
+    "modalTitle": "Choose your location and language",
+    "countryLabel": "Country:",
+    "countryPlaceholder": "Select a country",
+    "languageLabel": "Language:",
+    "updateButton": "Update preferences"
+  },
+  "globalRedirect": {
+    "message": "Redirecting you now…",
+    "linkLabel": "Continue here if nothing happens",
+    "editorNotice": "Redirect block — visitors are forwarded automatically. Forwarding is paused in the editor."
+  }
+}
