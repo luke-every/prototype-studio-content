@@ -1,0 +1,32 @@
+{
+  "name": "immunity-hero",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "tsc": "tsc",
+    "check": "eslint --quiet && tsc --noEmit --pretty false"
+  },
+  "dependencies": {
+    "@storyblok/react": "^6.1.11",
+    "next": "16.3.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "storyblok-rich-text-react-renderer": "^3.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^26",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "tailwindcss": "^4",
+    "typescript": "^6"
+  }
+}
