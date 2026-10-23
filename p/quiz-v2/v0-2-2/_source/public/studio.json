@@ -1,0 +1,52 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A · You"
+        },
+        {
+          "value": "b",
+          "label": "B · Why + preferences"
+        },
+        {
+          "value": "c",
+          "label": "C · Food + who you are"
+        },
+        {
+          "value": "d",
+          "label": "D · B, numbers below"
+        }
+      ]
+    }
+  ]
+}
