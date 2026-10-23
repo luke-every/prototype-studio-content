@@ -1,0 +1,80 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A · You"
+        },
+        {
+          "value": "b",
+          "label": "B · Why + preferences"
+        },
+        {
+          "value": "c",
+          "label": "C · Food + who you are"
+        },
+        {
+          "value": "d",
+          "label": "D · B, numbers below"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Bundle",
+      "type": "choice",
+      "default": "protein",
+      "when": {
+        "control": "start",
+        "is": "results"
+      },
+      "options": [
+        {
+          "value": "protein",
+          "label": "Protein"
+        },
+        {
+          "value": "lighter",
+          "label": "Lighter"
+        },
+        {
+          "value": "postpartum",
+          "label": "Postpartum"
+        },
+        {
+          "value": "better",
+          "label": "Balanced"
+        }
+      ]
+    }
+  ]
+}
