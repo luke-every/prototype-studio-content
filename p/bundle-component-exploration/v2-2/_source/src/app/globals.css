@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.animate-pop {
+  animation: pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease forwards;
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease forwards;
+}
+
+@keyframes drawer-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes drawer-fade-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes drawer-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Meal detail modal — responsive enter/exit animations: bottom sheet on mobile, centered dialog on desktop */
+.drawer-panel-enter {
+  animation: drawer-slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+@media (min-width: 1024px) {
+  .drawer-panel-enter {
+    animation: drawer-fade-scale-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+}
+
+.drawer-backdrop-enter {
+  animation: drawer-fade-in 0.3s ease forwards;
+}
+
+@keyframes fade-in-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.5s ease-in-out forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-6px); }
+  30%       { transform: translateX(6px); }
+  45%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+  75%       { transform: translateX(-2px); }
+  90%       { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Tokens copied from every-website src/app/globals.css. Tokens with zero usage in the
+   repo (pastels, dark-gold, olive-light, foreground) are left out on purpose. */
+@theme inline {
+  /* Base */
+  --color-background: var(--background);
+  /* Palette */
+  --color-white: #ffffff;
+  --color-off-white: #f4f4f4;
+  --color-light-grey: #EEEAE6;
+  --color-light-grey-2: #DAD6D2;
+  --color-light-grey-3: #BDB3A9;
+  --color-light-text: #575757;
+  --color-brown: #443d3a;
+  --color-dark: #372d27;
+  --color-near-black: #11100a;
+  --color-signal-orange: #ff7d34;
+  --color-olive: #9fa06b;
+  --color-bright-yellow: #f8d64d;
+  --color-light-orange: #ffd392;
+  --color-pantry-background: #2f2a27;
+  --color-brown-border: #423D3A;
+  --color-ui-green: #52A131;
+  --color-light-brown: #efeae5;
+  --color-savings-green: #2a7a3b;
+  /* Fonts */
+  --font-sans: var(--font-diatype);
+  --font-serif: var(--font-marist);
+  --font-book: var(--font-marist);
+}
+
+
+@utility font-book-italic {
+  font-family: var(--font-marist);
+  font-style: italic;
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-diatype), sans-serif;
+}
+
