@@ -1,0 +1,530 @@
+{
+  "common": {
+    "tryAgain": "Try again",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "confirm": "Confirm",
+    "back": "Back",
+    "close": "Close",
+    "edit": "Edit",
+    "retry": "Retry",
+    "continue": "Continue",
+    "add": "Add",
+    "apply": "Apply",
+    "remove": "Remove",
+    "download": "Download",
+    "open": "Open",
+    "enable": "Enable"
+  },
+  "loading": {
+    "generic": "Loading",
+    "meals": "Loading meals"
+  },
+  "error": {
+    "generic": "Something went wrong.",
+    "reloadPage": "Reload page",
+    "tryAgainLater": "Something went wrong, please try again later."
+  },
+  "layout": {
+    "header": {
+      "logoAriaLabel": "every home",
+      "openMenu": "Open menu"
+    },
+    "navDrawer": {
+      "logoAriaLabel": "every home",
+      "dialogAriaLabel": "Navigation menu",
+      "closeMenu": "Close menu",
+      "navAriaLabel": "Account navigation"
+    },
+    "languageSwitcher": {
+      "ariaLabel": "Select language",
+      "modalTitle": "Choose your language",
+      "language": "Language:",
+      "update": "Update language"
+    },
+    "confirmSelection": "Confirm selection",
+    "savingAriaLabel": "Saving subscription",
+    "saving": "Saving…",
+    "leaveModal": {
+      "title": "Are you sure you want to leave?\nAll changes will be gone.",
+      "confirm": "Leave",
+      "cancel": "Cancel"
+    },
+    "toast": {
+      "planUpdated": "Updated! Changes will show in your next order.",
+      "error": "Something went wrong. Please try again."
+    },
+    "cta": {
+      "fillCart_one": "add {n} meal to fill your cart",
+      "fillCart_other": "add {n} meals to fill your cart",
+      "freeShipping_one": "add {n} meal for free shipping",
+      "freeShipping_other": "add {n} meals for free shipping",
+      "discount_one": "add {n} meal and get {amount} off",
+      "discount_other": "add {n} meals and get {amount} off",
+      "discountUnlocked": "{amount} discount unlocked"
+    }
+  },
+  "allMeals": {
+    "results": "Results",
+    "filter": "Filter",
+    "filterSortDrawer": {
+      "ariaLabel": "Filter & Sort",
+      "header": "Filter",
+      "closeAriaLabel": "Close",
+      "showProducts": "Show {productCount} products",
+      "apply": "Apply filters",
+      "reset": "Reset filters"
+    },
+    "savingsCTA": {
+      "perMealSavings": "Per meal savings:",
+      "confirmSelection": "Confirm selection",
+      "discardChanges": "Discard changes",
+      "forYou": "For you",
+      "allMeals": "All meals"
+    }
+  },
+  "discover": {
+    "chooseQuantity": "Choose your Quantity",
+    "viewBundleDesktop": "View bundle",
+    "viewBundleMobile": "View",
+    "addAll": "Add all",
+    "priceFrom": "from",
+    "pricePerMeal": "per meal"
+  },
+  "bundles": {
+    "back": "Back",
+    "backAriaLabel": "Go back",
+    "chooseQuantity": "Choose your Quantity",
+    "viewContents": "View contents",
+    "removeBundle": "Remove bundle",
+    "decreaseQuantity": "Decrease bundle quantity",
+    "increaseQuantity": "Increase bundle quantity",
+    "from": "from",
+    "perMeal": "/ meal",
+    "totalSuffix": "total",
+    "mealListUnavailable": "Meal list will be available once connected.",
+    "chooseBundle": "Choose a bundle"
+  },
+  "cards": {
+    "meal": {
+      "viewDetailsAriaLabel": "View details for {title}",
+      "protein": "Protein {value}",
+      "kcal": "kcal {value}",
+      "carbs": "Carbs {value}",
+      "fats": "Fats {value}"
+    },
+    "bundle": {
+      "recommended": "Recommended",
+      "imageAlt": "{mealCount} meal bundle",
+      "mealCount": "{mealCount} meals",
+      "addDesktop": "Add Bundle",
+      "addMobile": "Add"
+    },
+    "heroBundle": {
+      "viewBundle": "View bundle"
+    }
+  },
+  "myPlan": {
+    "loadError": "Something went wrong",
+    "loadErrorDescription": "We couldn't load your plan. Please try again later.",
+    "mealFallback": "Meal",
+    "bundleFallback": "Bundle",
+    "yourItemsFallback": "Your items",
+    "cancelledNotification": "Your subscription is currently cancelled.",
+    "reactivateNotification": "Reactivate your box to enjoy fresh meals again.",
+    "reactivate": "Reactivate subscription",
+    "emptyTitle": "Your pantry is empty",
+    "emptySubtitle": "You don't have a subscription yet.",
+    "discoverMeals": "Discover meals",
+    "reactivateModalTitle": "Reactivate subscription",
+    "reactivateModalContent": "Your subscription will be reactivated and you'll receive fresh meals again.",
+    "otherItems": "Other Items",
+    "myItems": "My Items",
+    "minMealsError": "You need at least 6 meals in your plan",
+    "viewAndEdit": "View & Edit ▾",
+    "viewAndEditAriaLabel": "View and edit",
+    "hide": "Hide ▴",
+    "hideAriaLabel": "Hide",
+    "addons": "Add-ons",
+    "addMoreMeals": "Add more meals +",
+    "removeAllBundleMealsAriaLabel": "Remove all meals from {title}",
+    "removeAllItemsAriaLabel": "Remove all {title}",
+    "settingsCard": {
+      "title": "Subscription Settings",
+      "status": "Status",
+      "statusCancelled": "Cancelled",
+      "interval": "Interval",
+      "paymentMethod": "Payment method",
+      "address": "Address",
+      "allSettings": "All settings",
+      "edit": "Edit",
+      "reactivate": "Reactivate"
+    },
+    "referralBanner": {
+      "heading": "Invite friends and earn up to €30",
+      "description": "Happy with every? Share your referral link and earn up to three €10 vouchers! Your friends benefit too – they get 25% off their first order.",
+      "linkError": "Unable to generate link, please try again later.",
+      "generatingLink": "Generating your link...",
+      "copyLink": "Copy link",
+      "copied": "Copied!"
+    },
+    "deliveryCard": {
+      "smsNotifications": "SMS Notifications",
+      "smsNo": "No",
+      "smsYes": "Yes",
+      "trackingLink": "Tracking link",
+      "open": "Open",
+      "somethingWrong": "Something wrong?",
+      "changeDate": "Change date",
+      "enableSmsTitle": "Enable SMS notifications",
+      "enableSmsAriaLabel": "Enable SMS notifications",
+      "disableSmsAriaLabel": "Disable SMS notifications",
+      "enableSmsContent": "We'll send you SMS updates when your order is on the way. Standard message rates may apply.",
+      "enable": "Enable",
+      "noPhone": "Please add a phone number in your settings to enable SMS notifications.",
+      "smsEnabled": "SMS notifications enabled.",
+      "editByPrefix": "Not dispatched yet. Edit this order by:",
+      "dispatchedOrder": "Your order has been dispatched."
+    },
+    "deliveryStatus": {
+      "upcoming": "Delivery coming",
+      "inTransit": "Your order is on the way",
+      "delivered": "Your order has arrived!",
+      "inTransitError": "The order is already in transit and cannot be changed"
+    },
+    "itemsInDelivery": {
+      "yourItems": "Your Items",
+      "itemsInDelivery": "Items in delivery",
+      "seeLess": "See less",
+      "seeOrder": "See order"
+    },
+    "mealRow": {
+      "soldOut": "Sold out",
+      "increaseQuantityAriaLabel": "Increase quantity",
+      "outOfStock": "{title} is out of stock",
+      "moreInfo": "More info",
+      "lowStock": "Low stock: May be replaced",
+      "whatThisMeans": "What this means",
+      "replacement": "Replacement",
+      "swapMealAriaLabel": "Swap meal",
+      "deleteMealAriaLabel": "Delete meal"
+    },
+    "orderSummary": {
+      "boxPrice": "Box price",
+      "quantitySavings": "Quantity savings ({pct}% off)",
+      "discountCode": "Discount code",
+      "enterCode": "Enter code",
+      "apply": "Apply",
+      "applying": "Applying…",
+      "shipping": "Shipping",
+      "free": "Free",
+      "youSave": "You save",
+      "total": "Total",
+      "updating": "Updating…",
+      "removeDiscountTitle": "Remove discount?",
+      "removeDiscountContent": "Are you sure you want to remove this discount?",
+      "remove": "Remove",
+      "removeDiscountAriaLabel": "Remove discount {title}",
+      "invalidCodeError": "Discount code is not valid",
+      "duplicateCodeError": "This discount code is already applied",
+      "expiredCodeError": "This discount code has expired",
+      "notSubscriptionCodeError": "Discount code is not valid",
+      "applySuccess": "Discount applied successfully",
+      "removeSuccess": "Discount removed successfully",
+      "removeError": "Failed to remove discount. Please try again.",
+      "error": "Something went wrong. Please try again."
+    },
+    "upsell": {
+      "addToBox": "Add to your box",
+      "add": "Add",
+      "decreaseQuantity": "Decrease quantity",
+      "increaseQuantity": "Increase quantity"
+    },
+    "challenges": {
+      "seeChallenge": "See Challenge",
+      "completeOrders": "Complete {total} orders",
+      "progress": "You've made progress on your challenges!",
+      "seeAwards": "See Awards"
+    }
+  },
+  "orders": {
+    "sort": {
+      "newest": "Newest",
+      "oldest": "Oldest"
+    },
+    "tabs": {
+      "orders": "Orders",
+      "collection": "Your collection",
+      "orderHistory": "Order History",
+      "yourCollection": "Your Collection"
+    },
+    "empty": "You have no orders yet.",
+    "loadError": "Unable to load orders. Please try again.",
+    "retryAriaLabel": "Retry loading orders",
+    "collection": {
+      "loadError": "Unable to load your collection. Please try again.",
+      "retryAriaLabel": "Retry loading collection",
+      "empty": "You haven't ordered any meals yet."
+    },
+    "row": {
+      "orderNumber": "Order number:",
+      "orderDate": "Order date",
+      "total": "Total",
+      "paymentStatus": "Payment status",
+      "trackDelivery": "Track delivery",
+      "trackDeliveryAriaLabel": "Track delivery (opens in new tab)",
+      "viewOrder": "View order",
+      "viewOrderAriaLabel": "View order {name}"
+    },
+    "detail": {
+      "orderNumber": "Order number",
+      "trackDelivery": "Track delivery",
+      "trackDeliveryAriaLabel": "Track delivery (opens in new tab)",
+      "deliveredOn": "Delivered on:",
+      "orderDate": "Order date",
+      "total": "Total",
+      "paymentStatus": "Payment status",
+      "orderDetails": "Order details",
+      "meal": "Meal",
+      "price": "Price",
+      "qty": "Qty",
+      "sku": "SKU: {sku}",
+      "paymentSummary": "Payment summary",
+      "download": "Download",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "tax": "Tax",
+      "deliveryAddress": "Delivery address",
+      "invoiceAddress": "Invoice address"
+    }
+  },
+  "settings": {
+    "title": "Subscription Settings",
+    "accountDetails": "Account details",
+    "status": "Status",
+    "statusActive": "Active",
+    "statusPaused": "Paused",
+    "statusCancelled": "Cancelled",
+    "nextDeliveryDate": "Next Delivery Date",
+    "deliveryInterval": "Delivery Interval",
+    "deliveryAddress": "Delivery Address",
+    "shippingMethod": "Shipping Method",
+    "paymentMethod": "Payment Method",
+    "name": "Name",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phoneNumber": "Phone Number",
+    "emailAddress": "E-mail Address",
+    "save": "Save",
+    "saving": "Saving...",
+    "loadError": "Unable to load subscription details. Please try again.",
+    "retryAriaLabel": "Retry",
+    "noSubscription": "You don't have a subscription yet.",
+    "intervalUpdated": "Delivery interval updated",
+    "intervalUpdatedWithDate": "Delivery interval updated: your next delivery is now {date}",
+    "intervalUpdatedInTransit": "Delivery interval updated: this won't affect your current delivery date.",
+    "intervalUpdatedDateUnchanged": "Delivery interval updated, but we couldn't move your next delivery date automatically. Please update it manually if needed.",
+    "intervalUpdateFailed": "Failed to update delivery interval",
+    "nameUpdated": "Name updated successfully",
+    "nameUpdateFailed": "Failed to update name",
+    "emailUpdateFailed": "Failed to update email address",
+    "phoneUpdated": "Phone number updated successfully",
+    "phoneUpdateFailed": "Failed to update phone number",
+    "phoneRejected": "This phone number cannot be used. Please try another number",
+    "deliveryAddressUpdated": "Delivery address updated",
+    "deliveryAddressUpdateFailed": "Failed to update delivery address",
+    "deliveryAddressPostalCodeNotServed": "Delivery is not available for this postal code",
+    "shippingMethodUpdated": "Shipping method updated",
+    "shippingMethodUpdateFailed": "Failed to change shipping method",
+    "shippingMethodLoadFailed": "Failed to load shipping methods",
+    "actions": {
+      "reactivate": "Reactivate",
+      "reactivateDescription": "Reactivate your box to enjoy fresh meals again.",
+      "skipDeliveries": "Skip Deliveries",
+      "skipDeliveriesDescription": "If your freezer is still full or you want a break from your meals, go through the weeks and skip your delivery whenever you want.",
+      "pauseSubscription": "Pause subscription",
+      "pauseSubscriptionDescription": "Want to take a break from your subscription? You can pause your subscription and reactivate it anytime.",
+      "cancelSubscription": "Cancel subscription",
+      "cancelSubscriptionDescription": "Too bad you're leaving. Please note: If you cancel your subscription, any discounts or bonuses will also expire."
+    },
+    "reactivateModal": {
+      "title": "Reactivate your subscription now",
+      "content": "Get back into your healthy bowl routine now!",
+      "confirm": "Reactivate Subscription",
+      "success": "Subscription reactivated",
+      "failed": "Failed to reactivate subscription"
+    },
+    "emailUpdatedModal": {
+      "title": "Email address updated",
+      "message": "Your email address has been updated successfully. You will be redirected to the login page shortly."
+    },
+    "changeEmailModal": {
+      "title": "Change Email",
+      "warning": "You will be logged out after changing your email address. You will need to log in again using your new email address.",
+      "emailForm": "Email address",
+      "redirecting": "Redirecting…"
+    },
+    "changeShippingModal": {
+      "title": "Change shipping method",
+      "content": "Are you sure you want to change your shipping method to {name}?"
+    },
+    "changeIntervalModal": {
+      "title": "Change delivery interval",
+      "content": "Are you sure you want to change your delivery interval to {interval}?",
+      "contentNote": "This won't affect your current delivery date.",
+      "contentWithDate": "Are you sure you want to change your delivery interval to {interval}?\nYour next delivery date will also update to:\n{date}",
+      "resolvingDate": "Calculating your new delivery date…"
+    },
+    "paymentMethodPicker": {
+      "noMethods": "No payment methods available.",
+      "ariaLabel": "Payment methods",
+      "selectAriaLabel": "Select {label}",
+      "cardEnding": "Card ending {last4}",
+      "expires": "Expires {expiry}",
+      "confirmAriaLabel": "Confirm payment method change",
+      "sending": "Sending...",
+      "updateMethod": "Update Payment Method",
+      "updateAriaLabel": "Update payment method",
+      "failedToLoad": "Failed to load payment methods",
+      "failedToChange": "Failed to change payment method",
+      "updated": "Payment method updated",
+      "failedToSendEmail": "Failed to send payment update email",
+      "emailSent": "A payment update email has been sent to {email}."
+    }
+  },
+  "shared": {
+    "search": {
+      "placeholder": "Search",
+      "ariaLabel": "Search"
+    },
+    "mealQuantity": {
+      "addToOrder": "Add to order",
+      "removeOne": "Remove one",
+      "addOne": "Add one",
+      "soldOut": "Out of Stock"
+    },
+    "mobileSearch": {
+      "openAriaLabel": "Open search",
+      "cancel": "Cancel"
+    },
+    "starRating": {
+      "reviews": "{count} reviews",
+      "ariaLabel": "{average} out of 5 stars"
+    },
+    "phoneInput": {
+      "countryAriaLabel": "Country",
+      "listboxAriaLabel": "Select country"
+    },
+    "calendarPicker": {
+      "previousMonthAriaLabel": "Previous month",
+      "nextMonthAriaLabel": "Next month"
+    },
+    "editAddressForm": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "addressLine1": "Address Line 1",
+      "addressLine2": "Address Line 2",
+      "zip": "ZIP",
+      "city": "City",
+      "phone": "Phone",
+      "country": "Country",
+      "selectCountry": "Select a country",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "modals": {
+      "close": "Close",
+      "karlaClaimModal": {
+        "title": "Make a claim"
+      },
+      "cancelSubscription": {
+        "reasonsTitle": "Cancel subscription",
+        "skipTitle": "Skip your next delivery?",
+        "freeTextPlaceholder": "Let us know why you're leaving so we can improve...",
+        "cancelTitle": "Cancel subscription",
+        "cancelledTitle": "Subscription cancelled",
+        "noReasons": "No cancellation reasons available.",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "skipNextDelivery": "Skip next delivery",
+        "acceptOffer": "Accept offer",
+        "inTransitNote": "Your next delivery is already in transit and cannot be skipped.",
+        "cancelDeclineOffer": "Cancel subscription",
+        "postponeTitle": "Postpone your next subscription delivery",
+        "weWillMissYou": "We will miss you",
+        "confirm": "Confirm",
+        "back": "Back",
+        "successMessage": "Your subscription has been cancelled. We hope to see you again soon!",
+        "close": "Close",
+        "failedToLoadReasons": "Failed to load cancellation reasons",
+        "offerAccepted": "Offer accepted successfully",
+        "deliverySkipped": "Next delivery skipped",
+        "failedToSkipDelivery": "Failed to skip delivery",
+        "failedToCancel": "Failed to cancel subscription",
+        "deliveryDateUpdated": "Delivery date updated",
+        "failedToChangeDeliveryDate": "Failed to update delivery date"
+      },
+      "pauseSubscription": {
+        "title": "Postpone your next subscription delivery",
+        "info": "Please select an option to postpone your next subscription delivery.",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "success": "Subscription paused",
+        "deliveryDateUpdateFailed": "Failed to update delivery date",
+        "pauseFailed": "Failed to pause subscription"
+      },
+      "postponeDelivery": {
+        "title": "Postpone delivery",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "success": "Delivery is skipped",
+        "error": "Something went wrong, please try again later.",
+        "failedToUpdate": "Failed to update delivery date",
+        "noAvailableDates": "No available delivery dates"
+      },
+      "pantryConflict": {
+        "title": "You already have meals in your pantry",
+        "replaceCurrent": "Replace current meal selection",
+        "replacesDescription": "Removes your current pantry items",
+        "combineWithCurrent": "Combine with current subscription",
+        "keepCurrentDescription": "Keep your current meals"
+      },
+      "mealDetail": {
+        "closeAriaLabel": "Close meal details",
+        "previousImageAriaLabel": "Previous image",
+        "nextImageAriaLabel": "Next image",
+        "keyIngredients": "Key Ingredients",
+        "ingredients": "Ingredients",
+        "nutritionalValues": "Nutritional Values",
+        "preparation": "Preparation",
+        "customerReviewsAriaLabel": "Customer reviews",
+        "withoutPrefix": "without",
+        "error": "Something went wrong, please try again later.",
+        "protein": "PROTEIN",
+        "carbs": "CARBS",
+        "fat": "FAT",
+        "kcal": "KCAL",
+        "fibre": "FIBRE",
+        "freeGift": "Free gift",
+        "pricePerKg": "{amount} / kg incl. VAT, incl. shipping"
+      },
+      "mealList": {
+        "title": "The meals",
+        "protein": "protein",
+        "fibre": "fibre",
+        "kcal": "kcal"
+      },
+      "lowStock": {
+        "title": "This item is low in stock",
+        "message": "If it's unavailable for your delivery date, we'll find the best possible replacement for you.",
+        "swapOrRemove": "Or, you can swap or remove it now."
+      },
+      "discontinued": {
+        "title": "This item will be discontinued soon",
+        "message": "If it's unavailable for your delivery date, we'll find the best possible replacement for you.",
+        "swapOrRemove": "Or, you can swap or remove it now."
+      }
+    }
+  }
+}
