@@ -1,0 +1,322 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A · You"
+        },
+        {
+          "value": "b",
+          "label": "B · Consultation"
+        },
+        {
+          "value": "h",
+          "label": "Heroes · old C and D for reference"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "screens": [
+      {
+        "id": "home",
+        "name": "Homepage",
+        "params": {}
+      },
+      {
+        "id": "q0",
+        "name": "Intro",
+        "params": {
+          "start": "quiz"
+        }
+      },
+      {
+        "id": "q1",
+        "name": "Goal",
+        "params": {
+          "start": "quiz",
+          "step": "1"
+        }
+      },
+      {
+        "id": "q1w",
+        "name": "Weight focus",
+        "params": {
+          "start": "quiz",
+          "step": "whyWeight",
+          "bundle": "portions"
+        }
+      },
+      {
+        "id": "q1f",
+        "name": "Fitness focus",
+        "params": {
+          "start": "quiz",
+          "step": "whyFitness",
+          "bundle": "protein"
+        }
+      },
+      {
+        "id": "q2",
+        "name": "Goal, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "aff-goal"
+        }
+      },
+      {
+        "id": "q3",
+        "name": "Satisfaction",
+        "params": {
+          "start": "quiz",
+          "step": "sat"
+        }
+      },
+      {
+        "id": "q4",
+        "name": "Challenges",
+        "params": {
+          "start": "quiz",
+          "step": "challenges"
+        }
+      },
+      {
+        "id": "q5",
+        "name": "Challenge, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "aff-chal"
+        }
+      },
+      {
+        "id": "q6",
+        "name": "Week",
+        "params": {
+          "start": "quiz",
+          "step": "week"
+        }
+      },
+      {
+        "id": "q7",
+        "name": "Household",
+        "params": {
+          "start": "quiz",
+          "step": "household"
+        }
+      },
+      {
+        "id": "q8",
+        "name": "Preferences break",
+        "params": {
+          "start": "quiz",
+          "step": "break"
+        }
+      },
+      {
+        "id": "q9",
+        "name": "Spicy",
+        "params": {
+          "start": "quiz",
+          "step": "spicy"
+        }
+      },
+      {
+        "id": "q10",
+        "name": "Cuisine",
+        "params": {
+          "start": "quiz",
+          "step": "cuisine"
+        }
+      },
+      {
+        "id": "q11",
+        "name": "Watch",
+        "params": {
+          "start": "quiz",
+          "step": "watch"
+        }
+      },
+      {
+        "id": "q12",
+        "name": "Allergies",
+        "params": {
+          "start": "quiz",
+          "step": "allergy"
+        }
+      },
+      {
+        "id": "q13",
+        "name": "Allergens",
+        "params": {
+          "start": "quiz",
+          "step": "allergyWhich",
+          "allergy": "yes"
+        }
+      },
+      {
+        "id": "loader",
+        "name": "Loader",
+        "params": {
+          "start": "loader"
+        }
+      },
+      {
+        "id": "ra",
+        "name": "Results A",
+        "params": {
+          "start": "results",
+          "variant": "a"
+        }
+      },
+      {
+        "id": "rb",
+        "name": "Results B",
+        "params": {
+          "start": "results",
+          "variant": "b"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "home",
+        "to": "q0",
+        "label": "Find your routine"
+      },
+      {
+        "from": "q0",
+        "to": "q1",
+        "label": "Continue"
+      },
+      {
+        "from": "q1",
+        "to": "q1w",
+        "label": "Eat lighter to lose weight"
+      },
+      {
+        "from": "q1",
+        "to": "q1f",
+        "label": "Nutrition for fitness"
+      },
+      {
+        "from": "q1",
+        "to": "q2",
+        "label": "Any other goal"
+      },
+      {
+        "from": "q1w",
+        "to": "q2",
+        "label": "Continue"
+      },
+      {
+        "from": "q1f",
+        "to": "q2",
+        "label": "Continue"
+      },
+      {
+        "from": "q2",
+        "to": "q3",
+        "label": "Continue"
+      },
+      {
+        "from": "q3",
+        "to": "q4",
+        "label": "Continue"
+      },
+      {
+        "from": "q4",
+        "to": "q5",
+        "label": "Continue"
+      },
+      {
+        "from": "q5",
+        "to": "q6",
+        "label": "Continue"
+      },
+      {
+        "from": "q6",
+        "to": "q7",
+        "label": "Continue"
+      },
+      {
+        "from": "q7",
+        "to": "q8",
+        "label": "Continue"
+      },
+      {
+        "from": "q8",
+        "to": "q9",
+        "label": "Continue"
+      },
+      {
+        "from": "q9",
+        "to": "q10",
+        "label": "Continue"
+      },
+      {
+        "from": "q10",
+        "to": "q11",
+        "label": "Continue"
+      },
+      {
+        "from": "q11",
+        "to": "q12",
+        "label": "Continue"
+      },
+      {
+        "from": "q12",
+        "to": "q13",
+        "label": "Yes"
+      },
+      {
+        "from": "q12",
+        "to": "loader",
+        "label": "No / Not sure"
+      },
+      {
+        "from": "q13",
+        "to": "loader",
+        "label": "Continue"
+      },
+      {
+        "from": "loader",
+        "to": "ra",
+        "label": "Variant A"
+      },
+      {
+        "from": "loader",
+        "to": "rb",
+        "label": "Variant B"
+      }
+    ]
+  }
+}
