@@ -1,0 +1,392 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  h2 {
+    font-size: 1.5rem; /* 24px */
+  }
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes pop {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.animate-pop {
+  animation: pop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(40px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease forwards;
+}
+
+@keyframes slide-in-left {
+  from { transform: translateX(-40px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease forwards;
+}
+
+@keyframes drawer-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@keyframes drawer-fade-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes drawer-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Meal detail modal — responsive enter/exit animations: bottom sheet on mobile, centered dialog on desktop */
+.drawer-panel-enter {
+  animation: drawer-slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+@media (min-width: 1024px) {
+  .drawer-panel-enter {
+    animation: drawer-fade-scale-in 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  }
+}
+
+.drawer-panel-exit {
+  transition: transform 0.3s ease-in;
+  transform: translateY(100%);
+}
+@media (min-width: 1024px) {
+  .drawer-panel-exit {
+    transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+
+.drawer-backdrop-enter {
+  animation: drawer-fade-in 0.3s ease forwards;
+}
+
+@keyframes fade-in-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.5s ease-in-out forwards;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-6px); }
+  30%       { transform: translateX(6px); }
+  45%       { transform: translateX(-4px); }
+  60%       { transform: translateX(4px); }
+  75%       { transform: translateX(-2px); }
+  90%       { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Tokens copied from every-website src/app/globals.css. Tokens with zero usage in the
+   repo (pastels, dark-gold, olive-light, foreground) are left out on purpose. */
+@theme inline {
+  /* Base */
+  --color-background: var(--background);
+  /* Palette */
+  --color-white: #ffffff;
+  --color-off-white: #f4f4f4;
+  --color-light-grey: #EEEAE6;
+  --color-light-grey-2: #DAD6D2;
+  --color-light-grey-3: #BDB3A9;
+  --color-light-text: #575757;
+  --color-brown: #443d3a;
+  --color-dark: #372d27;
+  --color-near-black: #11100a;
+  --color-signal-orange: #ff7d34;
+  --color-soft-pink: #f4bfbf; /* TODO(lift): unconfirmed token, from the D hero gradient */
+  --color-olive: #9fa06b;
+  --color-bright-yellow: #f8d64d;
+  --color-light-orange: #ffd392;
+  --color-pantry-background: #2f2a27;
+  --color-brown-border: #423D3A;
+  --color-ui-green: #52A131;
+  --color-light-brown: #efeae5;
+  --color-savings-green: #2a7a3b;
+  /* TODO(lift): not in every-website yet — the spice badge's red, from Design */
+  --color-chilli-red: #d4212a;
+  /* Fonts */
+  --font-sans: var(--font-diatype);
+  --font-serif: var(--font-marist);
+  --font-book: var(--font-marist);
+}
+
+
+@utility font-book-italic {
+  font-family: var(--font-marist);
+  font-style: italic;
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-diatype), sans-serif;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Quiz prototype motion. Timing and easing for the quiz sheet, the loader and
+   the results page, ported from the HTML prototype.
+   --------------------------------------------------------------------------- */
+@theme static {
+  --ease-ui: cubic-bezier(0.25, 0.68, 0.15, 1);
+  --ease-soft: cubic-bezier(0.22, 0.7, 0.3, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-leave: cubic-bezier(0.4, 0, 0.8, 0.6);
+  --ease-leave-fade: cubic-bezier(0.25, 0.1, 0.5, 1);
+  --ease-swing: cubic-bezier(0.32, 0.86, 0.24, 1);
+  --ease-spring: cubic-bezier(0.34, 1.42, 0.42, 1);
+  --enter-x: 72px;
+  --enter-blur: 6px;
+}
+
+/* A step's elements rise in. Travel comes from --rx / --ry, set per step by direction. */
+@keyframes rise {
+  from { opacity: 0; translate: var(--rx, var(--enter-x)) var(--ry, 0px); }
+  to   { opacity: 1; translate: none; }
+}
+
+.animate-rise {
+  animation: rise 0.67s var(--ease-enter) both;
+}
+
+.animate-rise-intro {
+  animation: rise 0.8s var(--ease-ui) both;
+}
+
+/* The results arrive upwards: the same rise, with the travel up instead of sideways. No end fill, so
+   nothing is left holding a transform once it has landed. */
+.animate-rise-up {
+  --rx: 0px;
+  --ry: 28px;
+  animation: rise 0.8s var(--ease-soft) backwards;
+}
+
+@keyframes page-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-page-in {
+  animation: page-in 0.67s var(--ease-enter) both;
+}
+
+/* Leaving: fade and movement are separate so nothing decelerates into a stop. */
+@keyframes leave-fade {
+  to { opacity: 0; }
+}
+
+@keyframes leave-move {
+  to { translate: var(--lx) 0; }
+}
+
+@keyframes foot-move {
+  to { translate: 0 16px; }
+}
+
+.animate-leave {
+  animation: leave-fade 0.35s var(--ease-leave-fade) both, leave-move 0.45s var(--ease-leave) both;
+}
+
+.animate-foot-leave {
+  animation: leave-fade 0.35s var(--ease-leave-fade) both, foot-move 0.45s var(--ease-leave) both;
+}
+
+/* No end keyframe, so a hidden Continue button stays hidden once the animation has finished. */
+@keyframes foot-in {
+  from { opacity: 0; transform: translateY(16px); }
+}
+
+.animate-foot-in {
+  animation: foot-in 0.67s var(--ease-enter) 0.21s backwards;
+}
+
+@keyframes art-pop {
+  0%   { transform: scale(0.86); filter: blur(11px); opacity: 0; }
+  55%  { transform: scale(1.07); filter: blur(0); opacity: 1; }
+  100% { transform: scale(1); filter: blur(0); opacity: 1; }
+}
+
+.animate-art-pop {
+  animation: art-pop 0.46s var(--ease-ui);
+}
+
+/* A swap, played where the meal sits: the old one draws back and dissolves, the new one settles in on a
+   soft spring */
+@keyframes swap-out {
+  from { opacity: 1; scale: 1; filter: blur(0); }
+  to   { opacity: 0; scale: 0.9; filter: blur(8px); }
+}
+
+.animate-swap-out {
+  animation: swap-out 0.22s var(--ease-leave-fade) both;
+}
+
+@keyframes swap-in {
+  from { opacity: 0; scale: 0.9; filter: blur(8px); }
+  to   { opacity: 1; scale: 1; filter: blur(0); }
+}
+
+.animate-swap-in {
+  animation: swap-in 0.55s var(--ease-spring) both;
+}
+
+
+@keyframes load-spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-load-spin {
+  animation: load-spin 1.25s linear infinite;
+}
+
+@keyframes heart-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+.animate-heart-float {
+  animation: heart-float 1.6s var(--ease-soft) infinite;
+}
+
+/* The photograph marquee holds its set twice, so -50% lands exactly on the seam. */
+@keyframes mq-drift {
+  to { transform: translateX(calc(-50% - 8px)); }
+}
+
+.animate-mq-drift {
+  animation: mq-drift 50s linear infinite;
+}
+
+@keyframes cart-pop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.animate-cart-pop {
+  animation: cart-pop 0.45s var(--ease-ui);
+}
+
+/* A tier unlocked: the gradient's light drifts, the badge's rings pulse, the confetti bursts from the
+   badge and falls away. Each piece's flight comes from --dx / --dy / --turn. */
+@keyframes blob-drift {
+  from { transform: translate(-8%, -6%) scale(1); }
+  to   { transform: translate(10%, 8%) scale(1.25); }
+}
+
+/* The results hero's gradient: a layer twice the hero's size, so the pink centre is soft and wide, and
+   its light drifts round a slow loop. Colours come in as tokens through the background. */
+@keyframes hero-gradient {
+  0%, 100% { transform: translate(-12%, -8%); }
+  25%      { transform: translate(12%, -4%); }
+  50%      { transform: translate(8%, 10%); }
+  75%      { transform: translate(-10%, 6%); }
+}
+
+.animate-hero-gradient {
+  background: radial-gradient(closest-side, var(--color-soft-pink) 0%, var(--color-signal-orange) 85%);
+  animation: hero-gradient 16s ease-in-out infinite;
+}
+
+.animate-blob-drift {
+  animation: blob-drift 7s ease-in-out infinite alternate;
+}
+
+@keyframes badge-in {
+  0%   { transform: scale(0.3) rotate(-18deg); opacity: 0; }
+  60%  { transform: scale(1.12) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.animate-badge-in {
+  animation: badge-in 0.9s var(--ease-spring) 0.15s backwards;
+}
+
+@keyframes ring-pulse {
+  from { transform: scale(1); opacity: 0.5; }
+  to   { transform: scale(1.9); opacity: 0; }
+}
+
+.animate-ring-pulse {
+  animation: ring-pulse 2.4s var(--ease-enter) infinite;
+}
+
+@keyframes confetti-burst {
+  0%   { transform: translate(0, 0) scale(0) rotate(0); opacity: 1; }
+  30%  { transform: translate(var(--dx), var(--dy)) scale(1) rotate(calc(var(--turn) * 0.4)); opacity: 1; }
+  100% { transform: translate(calc(var(--dx) * 1.25), calc(var(--dy) + 420px)) scale(1) rotate(var(--turn)); opacity: 0; }
+}
+
+.animate-confetti-burst {
+  animation: confetti-burst 2.6s var(--ease-enter) 0.3s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-heart-float,
+  .animate-mq-drift,
+  .animate-blob-drift,
+  .animate-hero-gradient,
+  .animate-ring-pulse {
+    animation: none !important;
+  }
+}
+
+/*
+ * The toast (sonner) holds opacity at 1 while it comes in: a parent with opacity under 1 is a backdrop root, so the
+ * toast's blur would have nothing behind it to blur until it had landed.
+ */
+[data-sonner-toaster] [data-sonner-toast][data-visible="true"] {
+  opacity: 1;
+}
+/* a toast the next one replaces lifts a little and fades, rather than dropping away */
+[data-sonner-toaster] [data-sonner-toast][data-replaced][data-removed="true"][data-swipe-out="false"] {
+  --y: translateY(-16px);
+  opacity: 0;
+}
