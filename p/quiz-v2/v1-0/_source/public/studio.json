@@ -1,0 +1,708 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A · Consultation"
+        },
+        {
+          "value": "b",
+          "label": "B · You"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Goal",
+      "type": "choice",
+      "default": "protein",
+      "options": [
+        {
+          "value": "protein",
+          "label": "Nutrition for fitness"
+        },
+        {
+          "value": "portions",
+          "label": "Eat lighter to lose weight"
+        },
+        {
+          "value": "postpartum",
+          "label": "Eat well as a new parent"
+        },
+        {
+          "value": "better",
+          "label": "Eat a more balanced diet"
+        },
+        {
+          "value": "gut",
+          "label": "Improve my gut health"
+        }
+      ]
+    },
+    {
+      "id": "whyWeight",
+      "label": "What's driving weight focus",
+      "type": "choice",
+      "default": "energy",
+      "when": {
+        "control": "bundle",
+        "is": "portions"
+      },
+      "options": [
+        {
+          "value": "energy",
+          "label": "I want to feel lighter and have more energy"
+        },
+        {
+          "value": "doctor",
+          "label": "My doctor or a health professional has recommended it"
+        },
+        {
+          "value": "regain",
+          "label": "I’ve put on weight recently and want to get back on track"
+        },
+        {
+          "value": "maintain",
+          "label": "I want to maintain my weight & feel more comfortable in my body"
+        }
+      ]
+    },
+    {
+      "id": "whyFitness",
+      "label": "What's driving fitness focus",
+      "type": "choice",
+      "default": "muscle",
+      "when": {
+        "control": "bundle",
+        "is": "protein"
+      },
+      "options": [
+        {
+          "value": "muscle",
+          "label": "Build more muscle"
+        },
+        {
+          "value": "lean",
+          "label": "Stay lean & healthy"
+        },
+        {
+          "value": "energy",
+          "label": "More energy overall"
+        },
+        {
+          "value": "full",
+          "label": "Stay full for longer"
+        },
+        {
+          "value": "meatless",
+          "label": "Enough protein without meat"
+        }
+      ]
+    },
+    {
+      "id": "challenges-time",
+      "label": "Challenges · Finding time to cook",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "challenges-decide",
+      "label": "Challenges · Deciding what to eat",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "challenges-balance",
+      "label": "Challenges · Eating a balanced diet",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "challenges-waste",
+      "label": "Challenges · Wasting food",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "challenges-cooking",
+      "label": "Challenges · Cooking isn’t my thing",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "challenges-budget",
+      "label": "Challenges · Eating well on a budget",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "week-work",
+      "label": "Typical week · Busy days at work",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "week-family",
+      "label": "Typical week · Time with family",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "week-training",
+      "label": "Typical week · Sport a few times a week",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "week-friends",
+      "label": "Typical week · Out with friends a lot",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "week-everything",
+      "label": "Typical week · A bit of everything",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "household",
+      "label": "Eating with",
+      "type": "choice",
+      "default": "partner",
+      "options": [
+        {
+          "value": "alone",
+          "label": "Just me"
+        },
+        {
+          "value": "partner",
+          "label": "My partner"
+        },
+        {
+          "value": "family",
+          "label": "My family"
+        },
+        {
+          "value": "roommates",
+          "label": "My housemates"
+        }
+      ]
+    },
+    {
+      "id": "spicy",
+      "label": "Spicy food",
+      "type": "choice",
+      "default": "medium",
+      "options": [
+        {
+          "value": "very",
+          "label": "Yes, very spicy is great"
+        },
+        {
+          "value": "medium",
+          "label": "Yes, medium spicy is ok"
+        },
+        {
+          "value": "can",
+          "label": "I can eat it, but can’t say it’s my favorite"
+        },
+        {
+          "value": "no",
+          "label": "Not really"
+        }
+      ]
+    },
+    {
+      "id": "cuisine-asian",
+      "label": "Cuisine · Asian (Thai, Japanese, Korean etc.)",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "cuisine-indian",
+      "label": "Cuisine · Indian",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "cuisine-italian",
+      "label": "Cuisine · Italian",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "cuisine-german",
+      "label": "Cuisine · German",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "cuisine-latin",
+      "label": "Cuisine · Latin",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-protein",
+      "label": "Look for in food · More protein",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-fibre",
+      "label": "Look for in food · More fibre",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-portions",
+      "label": "Look for in food · Right-sized portions",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-sugar",
+      "label": "Look for in food · Less sugar",
+      "type": "choice",
+      "default": "on",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-diabetes",
+      "label": "Look for in food · Diabetes friendly food",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-plants",
+      "label": "Look for in food · More plant-based",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "watch-nothing",
+      "label": "Look for in food · Nothing specific",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergy",
+      "label": "Allergies",
+      "type": "choice",
+      "default": "no",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Not sure"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-gluten",
+      "label": "Allergic to · Gluten",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-soy",
+      "label": "Allergic to · Soy",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-mustard",
+      "label": "Allergic to · Mustard",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-nuts",
+      "label": "Allergic to · Tree nuts",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-sesame",
+      "label": "Allergic to · Sesame",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-celery",
+      "label": "Allergic to · Celery",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich-other",
+      "label": "Allergic to · Other",
+      "type": "choice",
+      "default": "off",
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "on",
+          "label": "On"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    }
+  ]
+}
