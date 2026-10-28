@@ -1,0 +1,156 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A · Consultation"
+        },
+        {
+          "value": "b",
+          "label": "B · You"
+        },
+        {
+          "value": "c",
+          "label": "C"
+        },
+        {
+          "value": "d",
+          "label": "D"
+        },
+        {
+          "value": "h",
+          "label": "Heroes · old C and D for reference"
+        }
+      ]
+    },
+    {
+      "id": "angle",
+      "label": "Headline",
+      "type": "choice",
+      "default": "identity",
+      "when": {
+        "control": "variant",
+        "is": "b"
+      },
+      "options": [
+        {
+          "value": "identity",
+          "label": "Identity + goal + nutrition"
+        },
+        {
+          "value": "challenge",
+          "label": "Goal + challenge"
+        },
+        {
+          "value": "food",
+          "label": "Identity + food"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Goal",
+      "type": "choice",
+      "default": "protein",
+      "options": [
+        {
+          "value": "protein",
+          "label": "Nutrition for fitness"
+        },
+        {
+          "value": "portions",
+          "label": "Eat lighter"
+        },
+        {
+          "value": "postpartum",
+          "label": "New parent"
+        },
+        {
+          "value": "better",
+          "label": "Balanced diet"
+        },
+        {
+          "value": "gut",
+          "label": "Gut health"
+        }
+      ]
+    },
+    {
+      "id": "challenge",
+      "label": "Main challenge",
+      "type": "choice",
+      "default": "time",
+      "options": [
+        {
+          "value": "time",
+          "label": "Finding time to cook"
+        },
+        {
+          "value": "decide",
+          "label": "Deciding what to eat"
+        },
+        {
+          "value": "balance",
+          "label": "Eating balanced"
+        },
+        {
+          "value": "waste",
+          "label": "Wasting food"
+        },
+        {
+          "value": "cooking",
+          "label": "Cooking isn't my thing"
+        },
+        {
+          "value": "budget",
+          "label": "Eating on a budget"
+        }
+      ]
+    },
+    {
+      "id": "allergy",
+      "label": "Allergies",
+      "type": "choice",
+      "default": "no",
+      "options": [
+        {
+          "value": "no",
+          "label": "None"
+        },
+        {
+          "value": "yes",
+          "label": "Has allergies"
+        }
+      ]
+    }
+  ]
+}
