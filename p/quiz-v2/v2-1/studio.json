@@ -1,0 +1,665 @@
+{
+  "controls": [
+    {
+      "id": "start",
+      "label": "Start at",
+      "type": "choice",
+      "default": "home",
+      "options": [
+        {
+          "value": "home",
+          "label": "Homepage"
+        },
+        {
+          "value": "quiz",
+          "label": "Quiz"
+        },
+        {
+          "value": "email",
+          "label": "Email"
+        },
+        {
+          "value": "loader",
+          "label": "Loader"
+        },
+        {
+          "value": "results",
+          "label": "Results"
+        }
+      ]
+    },
+    {
+      "id": "variant",
+      "label": "Results page",
+      "type": "choice",
+      "default": "a-1",
+      "options": [
+        {
+          "value": "a-1",
+          "label": "A-1 · Taste profile"
+        },
+        {
+          "value": "a-2",
+          "label": "A-2 · How we built it"
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "label": "Goal",
+      "type": "choice",
+      "default": "protein",
+      "options": [
+        {
+          "value": "protein",
+          "label": "Nutrition for fitness"
+        },
+        {
+          "value": "portions",
+          "label": "Eat lighter to lose weight"
+        },
+        {
+          "value": "postpartum",
+          "label": "Eat well as a new parent"
+        },
+        {
+          "value": "better",
+          "label": "Eat a more balanced diet"
+        },
+        {
+          "value": "gut",
+          "label": "Improve my gut health"
+        }
+      ]
+    },
+    {
+      "id": "whyWeight",
+      "label": "What's driving weight focus",
+      "type": "choice",
+      "default": "energy",
+      "when": {
+        "control": "bundle",
+        "is": "portions"
+      },
+      "options": [
+        {
+          "value": "energy",
+          "label": "I want to feel lighter and have more energy"
+        },
+        {
+          "value": "doctor",
+          "label": "My doctor or a health professional has recommended it"
+        },
+        {
+          "value": "regain",
+          "label": "I’ve put on weight recently and want to get back on track"
+        },
+        {
+          "value": "maintain",
+          "label": "I want to maintain my weight & feel more comfortable in my body"
+        }
+      ]
+    },
+    {
+      "id": "whyFitness",
+      "label": "What's driving fitness focus",
+      "type": "choice",
+      "default": "muscle",
+      "when": {
+        "control": "bundle",
+        "is": "protein"
+      },
+      "options": [
+        {
+          "value": "muscle",
+          "label": "Build more muscle"
+        },
+        {
+          "value": "lean",
+          "label": "Stay lean & healthy"
+        },
+        {
+          "value": "energy",
+          "label": "More energy overall"
+        },
+        {
+          "value": "full",
+          "label": "Stay full for longer"
+        },
+        {
+          "value": "meatless",
+          "label": "Enough protein without meat"
+        }
+      ]
+    },
+    {
+      "id": "challenges",
+      "label": "Challenges",
+      "type": "multi",
+      "default": [
+        "time",
+        "decide"
+      ],
+      "options": [
+        {
+          "value": "time",
+          "label": "Finding time to cook"
+        },
+        {
+          "value": "decide",
+          "label": "Deciding what to eat"
+        },
+        {
+          "value": "balance",
+          "label": "Eating a balanced diet"
+        },
+        {
+          "value": "waste",
+          "label": "Wasting food"
+        },
+        {
+          "value": "cooking",
+          "label": "Cooking isn’t my thing"
+        },
+        {
+          "value": "budget",
+          "label": "Eating well on a budget"
+        }
+      ]
+    },
+    {
+      "id": "week",
+      "label": "Typical week",
+      "type": "multi",
+      "default": [
+        "work"
+      ],
+      "options": [
+        {
+          "value": "work",
+          "label": "Busy days at work"
+        },
+        {
+          "value": "family",
+          "label": "Time with family"
+        },
+        {
+          "value": "training",
+          "label": "Sport a few times a week"
+        },
+        {
+          "value": "friends",
+          "label": "Out with friends a lot"
+        },
+        {
+          "value": "everything",
+          "label": "A bit of everything"
+        }
+      ]
+    },
+    {
+      "id": "household",
+      "label": "Eating with",
+      "type": "choice",
+      "default": "partner",
+      "options": [
+        {
+          "value": "alone",
+          "label": "Just me"
+        },
+        {
+          "value": "partner",
+          "label": "My partner"
+        },
+        {
+          "value": "family",
+          "label": "My family"
+        },
+        {
+          "value": "roommates",
+          "label": "My housemates"
+        }
+      ]
+    },
+    {
+      "id": "spicy",
+      "label": "Spicy food",
+      "type": "choice",
+      "default": "medium",
+      "options": [
+        {
+          "value": "very",
+          "label": "Yes, very spicy is great"
+        },
+        {
+          "value": "medium",
+          "label": "Yes, medium spicy is ok"
+        },
+        {
+          "value": "can",
+          "label": "I can eat it, but can’t say it’s my favorite"
+        },
+        {
+          "value": "no",
+          "label": "Not really"
+        }
+      ]
+    },
+    {
+      "id": "cuisine",
+      "label": "Cuisine",
+      "type": "multi",
+      "default": [
+        "italian"
+      ],
+      "options": [
+        {
+          "value": "asian",
+          "label": "Asian (Thai, Japanese, Korean etc.)"
+        },
+        {
+          "value": "indian",
+          "label": "Indian"
+        },
+        {
+          "value": "italian",
+          "label": "Italian"
+        },
+        {
+          "value": "german",
+          "label": "German"
+        },
+        {
+          "value": "latin",
+          "label": "Latin"
+        }
+      ]
+    },
+    {
+      "id": "watch",
+      "label": "Look for in food",
+      "type": "multi",
+      "default": [
+        "fibre",
+        "sugar"
+      ],
+      "options": [
+        {
+          "value": "protein",
+          "label": "More protein"
+        },
+        {
+          "value": "fibre",
+          "label": "More fibre"
+        },
+        {
+          "value": "portions",
+          "label": "Right-sized portions"
+        },
+        {
+          "value": "sugar",
+          "label": "Less sugar"
+        },
+        {
+          "value": "diabetes",
+          "label": "Diabetes friendly food"
+        },
+        {
+          "value": "plants",
+          "label": "More plant-based"
+        },
+        {
+          "value": "nothing",
+          "label": "Nothing specific"
+        }
+      ]
+    },
+    {
+      "id": "allergy",
+      "label": "Allergies",
+      "type": "choice",
+      "default": "no",
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        },
+        {
+          "value": "unsure",
+          "label": "Not sure"
+        }
+      ]
+    },
+    {
+      "id": "allergyWhich",
+      "label": "Allergic to",
+      "type": "multi",
+      "default": [],
+      "when": {
+        "control": "allergy",
+        "is": "yes"
+      },
+      "options": [
+        {
+          "value": "gluten",
+          "label": "Gluten"
+        },
+        {
+          "value": "soy",
+          "label": "Soy"
+        },
+        {
+          "value": "mustard",
+          "label": "Mustard"
+        },
+        {
+          "value": "nuts",
+          "label": "Tree nuts"
+        },
+        {
+          "value": "sesame",
+          "label": "Sesame"
+        },
+        {
+          "value": "celery",
+          "label": "Celery"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "screens": [
+      {
+        "id": "home",
+        "name": "Homepage",
+        "params": {}
+      },
+      {
+        "id": "q0",
+        "name": "Intro",
+        "params": {
+          "start": "quiz"
+        }
+      },
+      {
+        "id": "q1",
+        "name": "Goal",
+        "params": {
+          "start": "quiz",
+          "step": "1"
+        }
+      },
+      {
+        "id": "q1w",
+        "name": "Weight focus",
+        "params": {
+          "start": "quiz",
+          "step": "whyWeight",
+          "bundle": "portions"
+        }
+      },
+      {
+        "id": "q1f",
+        "name": "Fitness focus",
+        "params": {
+          "start": "quiz",
+          "step": "whyFitness",
+          "bundle": "protein"
+        }
+      },
+      {
+        "id": "q2",
+        "name": "Goal, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "aff-goal"
+        }
+      },
+      {
+        "id": "q3",
+        "name": "Satisfaction",
+        "params": {
+          "start": "quiz",
+          "step": "sat"
+        }
+      },
+      {
+        "id": "q4",
+        "name": "Challenges",
+        "params": {
+          "start": "quiz",
+          "step": "challenges"
+        }
+      },
+      {
+        "id": "q5",
+        "name": "Challenge, affirmed",
+        "params": {
+          "start": "quiz",
+          "step": "aff-chal"
+        }
+      },
+      {
+        "id": "q6",
+        "name": "Week",
+        "params": {
+          "start": "quiz",
+          "step": "week"
+        }
+      },
+      {
+        "id": "q7",
+        "name": "Household",
+        "params": {
+          "start": "quiz",
+          "step": "household"
+        }
+      },
+      {
+        "id": "q8",
+        "name": "Preferences break",
+        "params": {
+          "start": "quiz",
+          "step": "break"
+        }
+      },
+      {
+        "id": "q9",
+        "name": "Spicy",
+        "params": {
+          "start": "quiz",
+          "step": "spicy"
+        }
+      },
+      {
+        "id": "q10",
+        "name": "Cuisine",
+        "params": {
+          "start": "quiz",
+          "step": "cuisine"
+        }
+      },
+      {
+        "id": "q11",
+        "name": "Watch",
+        "params": {
+          "start": "quiz",
+          "step": "watch"
+        }
+      },
+      {
+        "id": "q12",
+        "name": "Allergies",
+        "params": {
+          "start": "quiz",
+          "step": "allergy"
+        }
+      },
+      {
+        "id": "q13",
+        "name": "Allergens",
+        "params": {
+          "start": "quiz",
+          "step": "allergyWhich",
+          "allergy": "yes"
+        }
+      },
+      {
+        "id": "email",
+        "name": "Email",
+        "params": {
+          "start": "quiz",
+          "step": "email"
+        }
+      },
+      {
+        "id": "loader",
+        "name": "Loader",
+        "params": {
+          "start": "loader"
+        }
+      },
+      {
+        "id": "ra",
+        "name": "Results A",
+        "params": {
+          "start": "results",
+          "variant": "a"
+        }
+      },
+      {
+        "id": "rb",
+        "name": "Results B",
+        "params": {
+          "start": "results",
+          "variant": "b"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "home",
+        "to": "q0",
+        "label": "Find your routine"
+      },
+      {
+        "from": "q0",
+        "to": "q1",
+        "label": "Continue"
+      },
+      {
+        "from": "q1",
+        "to": "q1w",
+        "label": "Eat lighter to lose weight"
+      },
+      {
+        "from": "q1",
+        "to": "q1f",
+        "label": "Nutrition for fitness"
+      },
+      {
+        "from": "q1",
+        "to": "q2",
+        "label": "Any other goal"
+      },
+      {
+        "from": "q1w",
+        "to": "q2",
+        "label": "Continue"
+      },
+      {
+        "from": "q1f",
+        "to": "q2",
+        "label": "Continue"
+      },
+      {
+        "from": "q2",
+        "to": "q3",
+        "label": "Continue"
+      },
+      {
+        "from": "q3",
+        "to": "q4",
+        "label": "Continue"
+      },
+      {
+        "from": "q4",
+        "to": "q5",
+        "label": "Continue"
+      },
+      {
+        "from": "q5",
+        "to": "q6",
+        "label": "Continue"
+      },
+      {
+        "from": "q6",
+        "to": "q7",
+        "label": "Continue"
+      },
+      {
+        "from": "q7",
+        "to": "q8",
+        "label": "Continue"
+      },
+      {
+        "from": "q8",
+        "to": "q9",
+        "label": "Continue"
+      },
+      {
+        "from": "q9",
+        "to": "q10",
+        "label": "Continue"
+      },
+      {
+        "from": "q10",
+        "to": "q11",
+        "label": "Continue"
+      },
+      {
+        "from": "q11",
+        "to": "q12",
+        "label": "Continue"
+      },
+      {
+        "from": "q12",
+        "to": "q13",
+        "label": "Yes"
+      },
+      {
+        "from": "q12",
+        "to": "email",
+        "label": "No / Not sure"
+      },
+      {
+        "from": "q13",
+        "to": "email",
+        "label": "Continue"
+      },
+      {
+        "from": "email",
+        "to": "loader",
+        "label": "Email me my box / Skip"
+      },
+      {
+        "from": "loader",
+        "to": "ra",
+        "label": "Variant A"
+      },
+      {
+        "from": "loader",
+        "to": "rb",
+        "label": "Variant B"
+      }
+    ]
+  }
+}
