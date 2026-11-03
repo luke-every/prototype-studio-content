@@ -1,0 +1,1053 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>[V2] Onboarding Quiz Box Simulator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky header with tabs; left control rail + right results on wide screens, stacked on phones */
+:root{
+  --bg:#f5f6f2; --surface:#ffffff; --sunken:#eceee7; --fg:#1d221c; --muted:#5d6659; --line:#d8dcd1;
+  --accent:#2f6b3a; --accent-weak:#dcebd9; --accent-fg:#ffffff;
+  --n-prot:#2f6b3a; --n-fib:#6b7f1f; --n-kcal:#b07a12; --n-fat:#2f6f8f; --n-sug:#b0476b;
+  --spice:#b4532a; --good:#2f7d46; --warn:#a46a00; --bad:#b3362c; --good-bg:#e1f0e3; --warn-bg:#f8ecd2; --bad-bg:#f7dfdb;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141713; --surface:#1c201b; --sunken:#232822; --fg:#e7ebe3; --muted:#a3ac9d; --line:#343a32;
+  --accent:#7fc08a; --accent-weak:#24392a; --accent-fg:#10170f;
+  --n-prot:#7fc08a; --n-fib:#b9cf62; --n-kcal:#e7b752; --n-fat:#74b6d6; --n-sug:#e98aa9;
+  --spice:#e08a5f; --good:#79c58b; --warn:#e0b053; --bad:#ec8a80; --good-bg:#1f3324; --warn-bg:#3a2f17; --bad-bg:#3d2220; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141713; --surface:#1c201b; --sunken:#232822; --fg:#e7ebe3; --muted:#a3ac9d; --line:#343a32;
+  --accent:#7fc08a; --accent-weak:#24392a; --accent-fg:#10170f;
+  --n-prot:#7fc08a; --n-fib:#b9cf62; --n-kcal:#e7b752; --n-fat:#74b6d6; --n-sug:#e98aa9;
+  --spice:#e08a5f; --good:#79c58b; --warn:#e0b053; --bad:#ec8a80; --good-bg:#1f3324; --warn-bg:#3a2f17; --bad-bg:#3d2220; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:14px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:8px 24px;padding-block:14px 0}
+h1{font-family:var(--display);font-weight:700;font-size:1.5rem;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);font-size:.85rem;margin:2px 0 0}
+nav{display:flex;gap:2px;overflow-x:auto}
+nav button{font:inherit;font-weight:500;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:10px 14px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+nav button:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{padding-block:20px 48px}
+h2{font-family:var(--display);font-weight:700;font-size:1.2rem;margin:0 0 4px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:500;font-size:1rem;margin:0 0 8px}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:.82rem}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.stack{display:flex;flex-direction:column;gap:16px}
+.grid{display:grid;gap:16px}
+.cols-2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.cols-3>.panel{display:flex;flex-direction:column}
+.cols-3>.panel>.tbl-wrap{flex:1}
+@media (max-width:900px){.cols-3{grid-template-columns:1fr}}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:10px}
+.dep{opacity:.5;filter:grayscale(1)}
+.dep-tag{font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px dashed var(--line);border-radius:999px;padding:0 6px;margin-left:6px;vertical-align:1px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .v{font-family:var(--mono);font-size:1.35rem;font-weight:500}
+.kpi .l{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.kpi .d{font-size:.8rem;color:var(--muted)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;min-width:0}
+.sim{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:860px){.sim{grid-template-columns:1fr}}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 110px);max-height:calc(100vh - 130px);overflow:auto}
+@media (max-width:860px){.rail{position:static;max-height:none}}
+fieldset{border:0;margin:0 0 14px;padding:0}
+legend{font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:.85rem;border:1px solid var(--line);background:var(--sunken);color:var(--fg);border-radius:999px;padding:4px 11px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.chip.spicy[aria-pressed="true"]{background:var(--spice);border-color:var(--spice)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0}
+.row label{font-size:.85rem}
+.row input[type=range]{width:120px;accent-color:var(--accent)}
+.row output{font-family:var(--mono);font-size:.82rem;min-width:44px;text-align:right}
+select{font:inherit;font-size:.85rem;background:var(--sunken);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 6px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:.85rem;margin:6px 0;cursor:pointer}
+.toggle input{accent-color:var(--accent);width:16px;height:16px}
+details.adv{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
+details.adv summary{cursor:pointer;font-weight:600;font-size:.85rem;margin-bottom:8px}
+.btn{font:inherit;font-weight:500;font-size:.85rem;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.84rem}
+th,td{padding:7px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;background:var(--sunken);position:sticky;top:0}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-size:.72rem;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.pill.good{background:var(--good-bg);color:var(--good)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.neu{background:var(--sunken);color:var(--muted)}
+.state{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.gap-list{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.gap-list li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.sev{width:8px;height:100%;min-height:22px;border-radius:4px}
+.sev.bad{background:var(--bad)}.sev.warn{background:var(--warn)}.sev.good{background:var(--good)}.sev.neu{background:var(--line)}
+.logic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.logic{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.logic{grid-template-columns:1fr}}
+.logic .panel h3{margin-bottom:6px}
+.logic dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:.84rem}
+.logic dt{color:var(--muted)}
+.logic dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.bar{height:8px;border-radius:4px;background:var(--sunken);overflow:hidden;min-width:60px}
+.bar>span{display:block;height:100%;background:var(--accent)}
+.matrix td.cell{cursor:pointer;text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.matrix td.cell:hover{outline:2px solid var(--accent);outline-offset:-2px}
+.matrix td.rowh{white-space:nowrap;font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:.8rem;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+.note{font-size:.8rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.meal-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:8px}
+.meal{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface);display:flex;flex-direction:column;gap:2px;min-width:0}
+.meal .t{font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;gap:6px}
+.meal .m{font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.meal.swap{background:var(--sunken)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.up{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line)}
+.up:last-child{border-bottom:0}
+.up .slot{font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+@media (max-width:520px){.up{grid-template-columns:1fr}}
+.section-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:8px}
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;counter-reset:st}
+@media (max-width:900px){.flow{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.flow{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.step .k{font-family:var(--mono);font-size:.72rem;color:var(--accent);font-weight:500;text-transform:uppercase;letter-spacing:.06em}
+.step strong{font-family:var(--display);font-weight:500;font-size:1rem}
+.step p{font-size:.84rem;color:var(--muted)}
+.big{font-family:var(--mono);font-size:1.6rem;font-weight:500;line-height:1.2}
+.wbar{display:grid;grid-template-columns:110px 1fr 44px;gap:10px;align-items:center;font-size:.85rem;margin:6px 0}
+.wbar .bar{height:10px}
+.rules{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:.88rem}
+.ladder{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.ladder li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ladder li:last-child{border-bottom:0}
+.ladder .n{width:28px;height:28px;border-radius:50%;background:var(--accent-weak);color:var(--accent);display:grid;place-items:center;font-family:var(--mono);font-weight:500;font-size:.85rem}
+.ladder li.end .n{background:var(--bad-bg);color:var(--bad)}
+.refs{display:flex;flex-wrap:wrap;gap:8px}
+.refs a{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;color:var(--fg);text-decoration:none;font-size:.85rem}
+.refs a:hover{border-color:var(--accent);color:var(--accent)}
+.ux-sec h3{display:flex;align-items:center;gap:8px}
+.ux-sec .tag{font-family:var(--mono);font-size:.7rem;color:var(--accent);background:var(--accent-weak);border-radius:4px;padding:1px 6px;font-weight:500}
+.say{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+@media (max-width:620px){.say{grid-template-columns:1fr}}
+.say>div{border-radius:8px;padding:10px 12px;font-size:.85rem}
+.say .do{background:var(--good-bg)}
+.say .dont{background:var(--bad-bg)}
+.say strong{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.say .do strong{color:var(--good)}.say .dont strong{color:var(--bad)}
+#pm-tbl th,#pm-tbl td{min-width:190px;font-size:.8rem}
+#pm-tbl th:first-child,#pm-tbl td:first-child{min-width:70px}
+#pm-tbl td{line-height:1.4}
+.nutri{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:1000px){.nutri{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.nutri{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.nt{position:relative;border-radius:12px;padding:12px 14px 14px;background:color-mix(in srgb,var(--c) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--c) 28%,var(--line));display:flex;flex-direction:column;gap:6px;min-width:0}
+.nt .nl{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--c);text-transform:uppercase;letter-spacing:.05em}
+.nt .nl::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.nt .nv{font-family:var(--display);font-weight:700;font-size:1.7rem;line-height:1;color:var(--fg)}
+.nt .nv small{font-family:var(--body);font-weight:500;font-size:.8rem;color:var(--muted);margin-left:2px}
+.nt .track{position:relative;height:6px;border-radius:3px;background:color-mix(in srgb,var(--c) 18%,transparent);margin-top:4px}
+.nt .track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--c)}
+.nt .track .bm{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--fg);border-radius:1px}
+.nt .nd{font-size:.76rem;color:var(--muted);line-height:1.35}
+.nt .nd b{color:var(--fg);font-weight:600}
+td.idx,th.idx{width:36px;text-align:right;color:var(--muted);font-family:var(--mono);font-variant-numeric:tabular-nums}
+.bundle{border:2px solid var(--accent);border-radius:10px;padding:16px;background:var(--surface)}
+.boxviz{display:flex;flex-direction:column;gap:16px;margin-top:4px}
+.bx-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px;font-size:.88rem}
+.bx-who{font-weight:600}
+.bx-n{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(23,minmax(0,1fr));gap:3px;padding:10px;border:1.5px dashed var(--line);border-radius:10px;background:var(--sunken)}
+.tiles .tile{width:auto;height:auto;aspect-ratio:1;max-width:20px}
+.tile{display:inline-block;width:24px;height:24px;border-radius:5px}
+.tile.sm{width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:5px}
+.tile.meal{background:var(--accent)}
+.tile.bk{background:var(--warn)}
+.tile.shot{background:var(--spice)}
+.tile.gapper{background:none}
+.legend .tile.sm{width:12px;height:12px;flex:none}
+.stepdown{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:12px;font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h1>V2 Onboarding Quiz Box Simulator</h1>
+        <p class="sub">Recommendation logic V2 for the onboarding quiz · 47 meals · DE prices (pricing SSOT)</p>
+      </div>
+      <nav role="tablist" aria-label="Views">
+        <button role="tab" id="tab-overview" aria-selected="true" data-tab="overview">Overview</button>
+        <button role="tab" id="tab-logic" aria-selected="false" data-tab="logic">Logic</button>
+        <button role="tab" id="tab-fallbacks" aria-selected="false" data-tab="fallbacks">Fallbacks</button>
+        <button role="tab" id="tab-ux" aria-selected="false" data-tab="ux">UX/UI</button>
+        <button role="tab" id="tab-simulator" aria-selected="false" data-tab="simulator">Simulator</button>
+        <button role="tab" id="tab-data" aria-selected="false" data-tab="data">Products</button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- OVERVIEW -->
+<section id="view-overview" class="stack" role="tabpanel" aria-labelledby="tab-overview">
+  <div class="panel" style="border-left:4px solid var(--accent)">
+    <h2>The onboarding quiz</h2>
+    <p>We aim to increase conversion via a personalized onboarding experience that lays the groundwork for long-term customer value. V2 replaces the bundle suggestion with a tailored product recommendation: a routine of meals, breakfast and snacks sized to the household. Users can tailor it further by swapping up to four meals.</p>
+  </div>
+  <div class="section-head">
+    <div>
+      <h2>Where the current logic lands</h2>
+      <p class="muted small" id="sweep-desc">Emulation of every combination of goal, household, spice, allergy profile, low sugar and "more protein".</p>
+    </div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+  <div>
+    <h3>Pricing (DE)</h3>
+    <div class="grid cols-2" id="kpis-price"></div>
+  </div>
+
+
+  <div class="stack">
+    <div>
+      <h2>Most and least recommended</h2>
+      <p class="muted small" id="comp-note"></p>
+    </div>
+    <div class="grid cols-3">
+      <div class="panel">
+        <h3>Most recommended meals</h3>
+        <div class="tbl-wrap"><table id="exposure"></table></div>
+      </div>
+      <div class="panel">
+        <h3>Least recommended meals</h3>
+        <div class="tbl-wrap"><table id="exposure-low"></table></div>
+      </div>
+      <div class="panel">
+        <h3>Breakfast and shots</h3>
+        <div class="tbl-wrap"><table id="core-freq"></table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid cols-2">
+    <div class="panel">
+      <h3>Upsell items shown</h3>
+      <p class="muted small" style="margin-bottom:8px">Share of emulated scenarios where the item appears.</p>
+      <div class="tbl-wrap"><table id="upsell-freq"></table></div>
+    </div>
+  </div>
+
+  <div>
+    <h2 style="margin-bottom:8px">Current logic</h2>
+    <div class="logic" id="logic"></div>
+  </div>
+
+  <div class="panel">
+    <h3>Gaps to look at</h3>
+    <ul class="gap-list" id="gaps"></ul>
+  </div>
+  <div class="grid cols-2">
+    <div class="panel">
+      <h3>Meal box vs benchmark bundle, by goal</h3>
+      <p class="muted small" style="margin-bottom:8px">No allergies, "Just me", spice "I can eat it". Average per meal.</p>
+      <div class="tbl-wrap"><table id="bench"></table></div>
+    </div>
+    <div class="panel">
+      <h3>Fallback rate by allergy profile</h3>
+      <div class="tbl-wrap"><table id="fallbacks"></table></div>
+    </div>
+  </div>
+
+  <div class="stack" id="dep-section" style="border-top:1px dashed var(--line);padding-top:20px">
+    <div>
+      <h2>Deprioritized in V2</h2>
+      <p class="muted small">Margin and COGS were considered but aren't used in the recommendation logic (Weekly Product Planning, 22 Oct). Shown here so the thinking stays visible. Should be added as a recommendation engine guardrail for the backend (quiz V3–4).</p>
+    </div>
+    <div class="kpis" id="kpis-dep"></div>
+    <div class="logic" id="logic-dep"></div>
+    <ul class="gap-list" id="gaps-dep"></ul>
+  </div>
+</section>
+
+
+<!-- LOGIC -->
+<section id="view-logic" class="stack" role="tabpanel" aria-labelledby="tab-logic" hidden>
+  <div>
+    <h2>How the recommendation works</h2>
+    <p class="muted small">One page for stakeholders. Spec: Notion "Recommendation Logic – [V2] NC Onboarding Quiz", sections 2.1–2.7.</p>
+  </div>
+  <div class="flow">
+    <div class="step"><span class="k">Step 1 · 2.1</span><strong>Filter</strong><p>Remove every meal that contains an allergen the customer selected. Never relaxed.</p></div>
+    <div class="step"><span class="k">Step 2 · 2.2</span><strong>Score</strong><p>Rank the remaining meals on goal fit, reviews, spice, cuisine and nutrition.</p></div>
+    <div class="step"><span class="k">Step 3 · 2.3–2.4</span><strong>Fill the box</strong><p>Take the top meals: 15 for one person, 20 for bigger households.</p></div>
+    <div class="step"><span class="k">Step 4 · 2.4</span><strong>Add breakfast + shot</strong><p>One breakfast product and one Ritual Cubes pack, picked by goal.</p></div>
+    <div class="step"><span class="k">Step 5 · 2.5</span><strong>Suggest add-ons</strong><p>Up to 3 optional add-ons in a separate section. Not part of the box.</p></div>
+  </div>
+
+  <div class="grid cols-2">
+    <div class="panel">
+      <h3>Core rules</h3>
+      <ul class="rules" id="lg-core"></ul>
+    </div>
+    <div class="panel">
+      <h3>Add-on rules</h3>
+      <ul class="rules">
+        <li>Shown in a <strong>separate section</strong> under the box. The customer opts in.</li>
+        <li><strong>Max 3 slots</strong>: goal pick, preference pick, treat pick. An empty slot is simply skipped.</li>
+        <li>Add-ons <strong>never count toward the quantity tier</strong> and never toward the 15/20 meals.</li>
+        <li>Same allergen filter as meals. <strong>Low sugar or diabetes</strong> removes anything over 5 g sugar per serving and all treats.</li>
+        <li><strong>No duplicates</strong>: an add-on is never the breakfast or shot already in the box.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Add-on slots</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Slot</th><th>When it shows</th><th>What we suggest</th><th>If blocked (allergen, sugar, duplicate)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Goal pick</strong></td><td>Always</td><td>Fitness: 1 Boonian + 1 Planted protein<br>Lose weight: Daily Greens smoothie 3-pack<br>After baby: Apple Cinnamon Porridge + Mango Tango 3-pack<br>Without overthinking: 9 Bites Box<br>Gut health: Apple Cinnamon Porridge + Triple Berry 3-pack</td><td>Fitness → Apple Cinnamon Porridge<br>Lose weight → Herbal Ritual Cubes<br>After baby → Porridge + Herbal Cubes, then Herbal Cubes<br>Without overthinking → Mango Tango 3-pack, then Herbal Cubes<br>Gut health → Porridge + Herbal Cubes, then Herbal Cubes</td></tr>
+        <tr><td><strong>Preference pick</strong></td><td>Matching quiz answer</td><td>Medium or very spicy → Chili Crisp Oil<br>"More protein" (not fitness) → 1 Boonian + 1 Planted<br>"More fibre" → Apple Cinnamon Porridge</td><td>Next matching answer in that order; otherwise skipped</td></tr>
+        <tr><td><strong>Treat pick</strong></td><td>Not for lose weight or low sugar</td><td>Family with kids → 9 Bites Box<br>Everyone else → 3 crumbles</td><td>Family → Mango Tango 3-pack<br>Others → Swedish Chocolate Ball</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="grid cols-2">
+    <div class="panel">
+      <h3>What's in every box</h3>
+      <p class="note" style="margin:0 0 12px">The number of products depends on the answer to <strong>"How many people will eat every week?"</strong>: "Just me" gets 15 meals; partner, family or roommates get 20. If allergies leave too few meals for 20, the box drops to 18, then 16, then 15. Under 15 goes to the allergen-safe bundle (Fallbacks tab).</p>
+      <div class="boxviz">
+        <div class="bx"><div class="bx-h"><span class="bx-who">Just me</span><span class="bx-n">17 products</span></div><div class="tiles" data-m="15"></div></div>
+        <div class="bx"><div class="bx-h"><span class="bx-who">Partner, family, roommates</span><span class="bx-n">22 products</span></div><div class="tiles" data-m="20"></div></div>
+      </div>
+      <div class="legend" style="margin-top:12px"><span><span class="tile meal sm"></span>Meal</span><span><span class="tile bk sm"></span>Breakfast (1 pack)</span><span><span class="tile shot sm"></span>Shot (1 Ritual Cubes pack)</span></div>
+    </div>
+    <div class="panel">
+      <h3>What decides the ranking</h3>
+      <p class="note" style="margin:0 0 12px">Weights of unanswered questions drop out and the rest are rescaled. Swap-outs and margin are not used in V2.</p>
+      <div id="lg-weights"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Per goal: what the box favours and what it adds</h3>
+    <p class="muted small" style="margin-bottom:8px">Live engine output for "Just me", no allergies, spice "I can eat it".</p>
+    <div class="tbl-wrap"><table id="lg-goals"></table></div>
+  </div>
+
+</section>
+
+<!-- FALLBACKS -->
+<section id="view-fallbacks" class="stack" role="tabpanel" aria-labelledby="tab-fallbacks" hidden>
+  <div>
+    <h2>Fallback scenarios</h2>
+    <p class="muted small">What happens when the standard box can't be built. Allergens are never relaxed at any step.</p>
+  </div>
+  <div class="kpis" id="fb-kpis"></div>
+
+  <div class="grid cols-2">
+    <div class="panel">
+      <h3>Fallback ladder</h3>
+      <ol class="ladder">
+        <li><span class="n">1</span><div><strong>Standard box</strong><div class="muted small">15 or 20 different meals from the ranked list.</div></div></li>
+        <li><span class="n">2</span><div><strong>Repeat meals</strong><div class="muted small">Up to 2 of the same meal. Note: "Some meals appear twice". Low-rated meals are never added to fill.</div></div></li>
+        <li><span class="n">3</span><div><strong>Step down the box size</strong><div class="muted small">Households only: 20 → 18 → 16 → 15 meals.</div></div></li>
+        <li><span class="n">4</span><div><strong>Allergen-safe bundle</strong><div class="muted small">Under 15 meals even with repeats: offer the bundle below. Proposed for O14.</div></div></li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h3>Which allergy combinations hit step 4</h3>
+      <p class="muted small" style="margin-bottom:8px">Every combination of the 6 quiz allergens, "contains" only. Shown when fewer than 15 meals can be built with repeats.</p>
+      <div class="tbl-wrap"><table id="fb-combos"></table></div>
+    </div>
+  </div>
+
+  <div class="bundle stack" id="fb-bundle"></div>
+
+  <div class="panel">
+    <h3>Other edge cases (2.6)</h3>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Situation</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>Missing allergen data on a meal</td><td>Meal excluded for that allergen</td></tr>
+        <tr><td>Missing spice or cuisine data</td><td>Meal stays in, scored neutral, no tag</td></tr>
+        <tr><td>No meal matches the chosen cuisine</td><td>Built from the other signals; no cuisine tags</td></tr>
+        <tr><td>Thin cuisine (German 3, Latin 3)</td><td>All matching meals rank high; other signals fill the rest</td></tr>
+        <tr><td>Goal and nutrition answer conflict</td><td>Goal wins (e.g. lose weight + more calories)</td></tr>
+        <tr><td>Spicy answer + family with kids</td><td>Spice answer decides</td></tr>
+        <tr><td>No safe breakfast or shot</td><td>Slot left out; the box stays valid. Doesn't happen today: Apple Cinnamon Porridge and all Ritual Cubes contain none of the quiz allergens</td></tr>
+        <tr><td>Add-on slot has no safe item</td><td>Slot skipped</td></tr>
+        <tr><td>Meal sold out at checkout (2.7)</td><td>Replaced by the top swap option, with a short notice</td></tr>
+        <tr><td>Peanut allergy</td><td>Not asked in the quiz yet, so no protection (gap from 2.1)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+
+<!-- UX/UI -->
+<section id="view-ux" class="stack" role="tabpanel" aria-labelledby="tab-ux" hidden>
+  <div>
+    <h2>UX/UI rules for the recommendation page</h2>
+    <p class="muted small">What design and front-end need to build. Rules only; numbers, tables and the full ranking logic live in the spec and the other tabs.</p>
+  </div>
+  <div class="refs">
+    <a href="https://app.notion.com/p/every-foods/Recommendation-Logic-V2-NC-Onboarding-Quiz-400ec93dc0618010b6c2daa5df682911?source=copy_link" target="_blank" rel="noopener">Recommendation Logic – [V2] NC Onboarding Quiz (full logic)</a>
+    <a href="https://claude.ai/artifact/XGd7jfJayFiHK2RU2LVKbb?sk=CbfnCNTpFD8rkUmWq-LoIg" target="_blank" rel="noopener">Claude Box Simulator</a>
+    <a href="https://docs.google.com/spreadsheets/d/1UFkzgCFjWl2WMLvVpY8wCMLe-huvnYahm0VLpuWj5V0/edit?usp=sharing" target="_blank" rel="noopener">Product mapping table (add-on mapping)</a>
+  </div>
+
+  <div class="grid cols-2">
+    <div class="panel ux-sec">
+      <h3><span class="tag">1</span>Core recommendation</h3>
+      <ul class="rules">
+        <li><strong>Size follows "How many people will eat every week?"</strong> Just me: 15 meals. Partner, family or roommates: 20 meals.</li>
+        <li><strong>Every box also has 1 breakfast product and 1 Ritual Cubes shot pack</strong>, picked by goal. They sit inside the box, not in the add-on section.</li>
+        <li><strong>One primary CTA adds the whole core recommendation to the cart</strong> (meals + breakfast + shot). No other CTA on the page adds the box.</li>
+        <li><strong>One card per meal, in rank order.</strong> A meal that appears twice shows a ×2 badge, never two cards.</li>
+        <li><strong>Show 4 swap options below the box.</strong> They aren't in the box and don't change the total. Hide the row if there are no eligible meals left.</li>
+        <li><strong>Tapping a meal opens a swap sheet</strong> with eligible meals ranked by score. Meals excluded by allergy never appear there.</li>
+        <li><strong>The customer can swap, remove and change quantities.</strong> The CTA is disabled under 15 meals, with the reason shown.</li>
+        <li><strong>Price block:</strong> total, price per meal, "Minimum 15 meals", and "skip, pause or cancel anytime".</li>
+        <li><strong>Frame it as a suggestion:</strong> "Your suggested box", with "Edit my box" and "Browse all meals" next to the main CTA.</li>
+        <li><strong>Same answers always give the same box.</strong></li>
+      </ul>
+    </div>
+    <div class="panel ux-sec">
+      <h3><span class="tag">2</span>Personalised add-ons</h3>
+      <ul class="rules">
+        <li><strong>A separate section under the box</strong>, titled around the customer's answers (e.g. "Picked for your goals").</li>
+        <li><strong>Each add-on is selectable on its own and added to the cart separately.</strong> Selecting or removing one never changes the box, its price or its quantity tier.</li>
+        <li><strong>Max 3 slots:</strong> goal pick, preference pick, treat pick. Empty slots are hidden; if all are empty, hide the section.</li>
+        <li><strong>Examples</strong> (full mapping in the product mapping table):
+          <ul style="margin:4px 0 0;padding-left:18px">
+            <li>Fitness or "Getting more protein" → 1 Boonian Crumbles + 1 Planted. Pulled (2 packs)</li>
+            <li>Likes medium or very spicy food → Chili Crisp Oil</li>
+            <li>Family with kids → Épique 9 Bites Box (raw cakes); smoothie 3-pack as backup</li>
+            <li>After having a baby or gut health → porridge + a smoothie 3-pack</li>
+          </ul>
+        </li>
+        <li><strong>Same allergen filter as the meals.</strong> An add-on with a selected allergen is never shown.</li>
+        <li><strong>"Lowering my sugar intake" or "Diabetes-friendly"</strong> hides anything over 5 g sugar per serving and all treats.</li>
+        <li><strong>Never repeat a product</strong> that's already in the box (e.g. the breakfast or shot).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid cols-2">
+    <div class="panel ux-sec">
+      <h3><span class="tag">3</span>Optional upsell row <span class="pill warn">To explore</span></h3>
+      <ul class="rules">
+        <li><strong>A second row with an offer</strong>, e.g. "Try these 4 meals for just €10 extra".</li>
+        <li><strong>Each upsell item is independently selectable.</strong> The core recommendation CTA stays separate and unchanged.</li>
+        <li><strong>Suggested source:</strong> the next-ranked meals (the 4 swap options), so the offer is still personalised and allergen-safe.</li>
+        <li><strong>To decide before design:</strong> does the €10 offer count toward the quantity tier, can it combine with the first-order discount, and does it replace or sit next to the swap row? €2.50 per meal is close to meal COGS (about €1.90–2.70), so Finance should sign off.</li>
+      </ul>
+    </div>
+    <div class="panel ux-sec">
+      <h3><span class="tag">4</span>Explaining the recommendation</h3>
+      <ul class="rules">
+        <li><strong>Explain with the signals that ranked the box</strong>, strongest first: goal fit, customer ratings, spice match, favourite cuisine, nutrition answers.</li>
+        <li><strong>One summary line for the box</strong>, built from the answers, e.g. "Picked for your fitness goal, with Indian dishes and mild spice."</li>
+        <li><strong>Up to 2 reason tags per meal</strong>, measurable facts only: "25 g protein", "12 g fibre", "Not spicy", "Italian". Optional "Best match" when the meal meets every criterion of the goal.</li>
+        <li><strong>Only tag what was asked.</strong> No cuisine tag if no cuisine was chosen or none matched; no tag from missing data.</li>
+        <li><strong>Never imply every meal meets the goal</strong>, and never promise a health result.</li>
+      </ul>
+      <div class="say">
+        <div class="do"><strong>Say</strong>"25 g protein" · "Picked for your goal" · "High in fibre"</div>
+        <div class="dont"><strong>Don't say</strong>"Weight-loss meals" · "Gut-friendly box" · "Diabetes-friendly"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel ux-sec" style="border-left:4px solid var(--bad)">
+    <h3><span class="tag">5</span>Allergen messaging</h3>
+    <ul class="rules">
+      <li><strong>What we do:</strong> leave out meals and add-ons that <em>contain</em> a selected allergen. The quiz asks about gluten, soy, mustard, tree nuts, sesame and celery.</li>
+      <li><strong>What we don't do:</strong> exclude products that <em>may contain traces</em> of an allergen, particularly nuts. Peanuts aren't asked yet.</li>
+      <li><strong>So never claim</strong> the box is allergen-free, safe for allergies, or free from traces.</li>
+      <li><strong>Show the note whenever an allergy was selected</strong>, near the box and again in the cart.</li>
+    </ul>
+    <div class="say">
+      <div class="do"><strong>Say</strong>"We've left out meals that contain [allergens]. Some products may contain traces of allergens, including nuts. Please check the ingredients of each product."</div>
+      <div class="dont"><strong>Don't say</strong>"Your allergen-free box" · "Safe for nut allergies" · "No traces of gluten"</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- SIMULATOR -->
+<section id="view-simulator" role="tabpanel" aria-labelledby="tab-simulator" hidden>
+  <div class="sim">
+    <div class="panel rail" id="controls">
+      <fieldset><legend>Main priority</legend><div class="chips" id="c-goal"></div></fieldset>
+      <fieldset><legend>How many people?</legend><div class="chips" id="c-house"></div></fieldset>
+      <fieldset><legend>Allergies</legend><div class="chips" id="c-allergy"></div></fieldset>
+      <fieldset><legend>Anything you watch for?</legend><div class="chips" id="c-watch"></div></fieldset>
+      <fieldset><legend>Spicy food?</legend><div class="chips" id="c-spice"></div></fieldset>
+      <fieldset><legend>Favourite cuisine</legend><div class="chips" id="c-cuisine"></div></fieldset>
+
+      <details class="adv" open>
+        <summary>Engine settings</summary>
+        <div id="c-params"></div>
+        <button class="btn ghost" id="reset" style="margin-top:8px">Reset to spec defaults</button>
+      </details>
+    </div>
+
+    <div class="stack" id="result"></div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section id="view-data" class="stack" role="tabpanel" aria-labelledby="tab-data" hidden>
+  <div>
+    <h2>Meals</h2>
+    <p class="muted small">Quality score, status and unit economics per meal. "In boxes" is the share of emulated boxes that include the meal.</p>
+  </div>
+  <div class="tbl-wrap"><table id="meals-tbl"></table></div>
+  <div>
+    <h2>Upsell products</h2>
+    <p class="muted small">DE prices from the pricing SSOT. Cubes, breakfast and smoothie 3-packs get the quantity-tier price of the meal box; the rest have no tier discount. Margin uses the 15-meal tier price after the first-order discount (deprioritized).</p>
+  </div>
+  <div class="tbl-wrap"><table id="ups-tbl"></table></div>
+  <div class="section-head" style="margin-top:8px">
+    <div>
+      <h2>All products: Product mapping sheet</h2>
+      <p class="muted small">Every column from the <a href="https://docs.google.com/spreadsheets/d/1UFkzgCFjWl2WMLvVpY8wCMLe-huvnYahm0VLpuWj5V0/edit?usp=sharing" target="_blank" rel="noopener">Product mapping</a> tab (snapshot 23 Oct 2026), all <span id="pm-count"></span> products. Scroll sideways for more columns; tap "Ingredients" to expand.</p>
+    </div>
+    <div class="state">
+      <label class="small" for="pm-cat">Category</label><select id="pm-cat"></select>
+      <label class="small" for="pm-q">Search</label><input id="pm-q" type="search" placeholder="Name, SKU, ingredient" style="font:inherit;font-size:.85rem;background:var(--sunken);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 8px;min-width:0;width:180px">
+    </div>
+  </div>
+  <div class="tbl-wrap" style="max-height:70vh"><table id="pm-tbl" style="width:auto"></table></div>
+  <p class="note">Sources: Fact Sheet "ALL PRODUCTS" (nutrition, allergens, spice, cuisine); pricing sheet ("2026 COGS" DA Oct 2026, "Non-core CM2", "New Logic Bundle Master" tiers); Reviews.io ratings on 21 Oct 2026 (the only quality signal since 22 Oct; swap-out rates are shown for reference but not used). Margin and COGS views are deprioritized: shown greyed out so the thinking is visible, not used in the logic. Gross margin = price after discount − COGS, before VAT, shipping and fulfilment (pricing-sheet method). Net-of-VAT margin divides by price ÷ 1.07 (19% for Ritual Cubes), the basis closest to the "product margin (landed)" in the Portfolio Pulse Log. COGS are total landed COGS incl. replenishment, so margins are slightly below CM1 (official), which uses ex-works COGS and includes shipping revenue. No 2026 COGS or CM1 target is documented in Notion; references are Q3 2026 actuals.</p>
+</section>
+
+</main>
+
+<script>
+const MEALS = [{"sku": "F4005Z", "name": "Green Forest Bowl", "cat": "Signature Bowls", "cuis": "Mediterranean", "spice": "nein", "kcal": 599.0, "carb": 44.1, "fib": 9.5, "prot": 20.3, "sugar": 4.5, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.9, "fake": false, "swap": 32, "months": 8, "rating": 4.42, "reviews": 582, "fat": 36.0}, {"sku": "F4010Z", "name": "Dal Delight", "cat": "Currys & Dals", "cuis": "Indian", "spice": "nein", "kcal": 491.0, "carb": 53.6, "fib": 16.2, "prot": 23.9, "sugar": 10.4, "contains": [], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.63, "fake": false, "swap": 27, "months": 8, "rating": 4.57, "reviews": 658, "fat": 16.7}, {"sku": "F4011Z", "name": "Golden Curry", "cat": "Currys & Dals", "cuis": "Indian", "spice": "nein", "kcal": 480.0, "carb": 51.0, "fib": 14.0, "prot": 14.5, "sugar": 13.0, "contains": [], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 2.02, "fake": false, "swap": 33, "months": 8, "rating": 4.64, "reviews": 818, "fat": 21.0}, {"sku": "F4012Z", "name": "Green Boost", "cat": "Signature Bowls", "cuis": "Mediterranean", "spice": "nein", "kcal": 513.0, "carb": 32.4, "fib": 11.3, "prot": 20.3, "sugar": 8.1, "contains": [], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.92, "fake": false, "swap": 47, "months": 7, "rating": 4.18, "reviews": 489, "fat": 31.1}, {"sku": "F4015Z", "name": "Bami Goreng", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "a little", "kcal": 468.0, "carb": 56.7, "fib": 10.8, "prot": 27.0, "sugar": 9.0, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.96, "fake": true, "swap": 33, "months": 8, "rating": 4.51, "reviews": 635, "fat": 12.2}, {"sku": "F4016Z", "name": "Tikka Masala", "cat": "Currys & Dals", "cuis": "Indian", "spice": "a little", "kcal": 491.0, "carb": 51.3, "fib": 8.6, "prot": 23.4, "sugar": 10.4, "contains": ["Soybeans"], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.46, "fake": true, "swap": 28, "months": 8, "rating": 4.56, "reviews": 629, "fat": 19.4}, {"sku": "F4017Z", "name": "Better Butter Chicken", "cat": "Currys & Dals", "cuis": "Indian", "spice": "nein", "kcal": 460.0, "carb": 50.0, "fib": 9.0, "prot": 23.5, "sugar": 10.5, "contains": ["Soybeans"], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.23, "fake": true, "swap": 28, "months": 8, "rating": 4.47, "reviews": 116, "fat": 17.5}, {"sku": "F4018Z", "name": "Golden Glow Bowl", "cat": "Signature Bowls", "cuis": "Fusion", "spice": "nein", "kcal": 531.0, "carb": 49.5, "fib": 11.3, "prot": 14.9, "sugar": 13.1, "contains": [], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 2.07, "fake": false, "swap": 31, "months": 8, "rating": 4.45, "reviews": 74, "fat": 27.9}, {"sku": "F4027Z", "name": "Brilliant Bolognese", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 520.0, "carb": 81.0, "fib": 10.0, "prot": 20.0, "sugar": 15.5, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.76, "fake": false, "swap": 24, "months": 8, "rating": 4.63, "reviews": 767, "fat": 10.5}, {"sku": "F4028Z", "name": "Farmhouse Ratatouille", "cat": "Signature Bowls", "cuis": "Mediterranean", "spice": "nein", "kcal": 387.0, "carb": 45.5, "fib": 9.0, "prot": 9.5, "sugar": 18.9, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.72, "fake": false, "swap": 34, "months": 8, "rating": 4.42, "reviews": 198, "fat": 16.7}, {"sku": "F4043Z", "name": "Peas & Love", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 545.0, "carb": 67.0, "fib": 11.5, "prot": 22.0, "sugar": 9.0, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.74, "fake": false, "swap": 28, "months": 8, "rating": 4.59, "reviews": 759, "fat": 18.5}, {"sku": "F4044Z", "name": "Naked Taco", "cat": "Signature Bowls", "cuis": "Latin American Food", "spice": "very", "kcal": 495.0, "carb": 72.5, "fib": 12.2, "prot": 15.3, "sugar": 14.4, "contains": ["Mustard"], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Soybeans"], "hasTr": true, "cogs": 1.93, "fake": false, "swap": 29, "months": 8, "rating": 4.57, "reviews": 343, "fat": 13.1}, {"sku": "F4068Z", "name": "Pasta Arrabbiata", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "a little", "kcal": 455.0, "carb": 70.5, "fib": 9.5, "prot": 15.5, "sugar": 13.0, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs"], "hasTr": true, "cogs": 1.68, "fake": false, "swap": 26, "months": 8, "rating": 4.3, "reviews": 237, "fat": 10.0}, {"sku": "F4076Z", "name": "Garden Gnocchi", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 468.0, "carb": 72.9, "fib": 9.0, "prot": 15.8, "sugar": 11.3, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.6, "fake": false, "swap": 23, "months": 8, "rating": 4.6, "reviews": 312, "fat": 10.8}, {"sku": "F4088Z", "name": "Red Curry", "cat": "Currys & Dals", "cuis": "Asian", "spice": "a little", "kcal": 509.0, "carb": 52.2, "fib": 8.6, "prot": 24.3, "sugar": 15.3, "contains": ["Cereals containing gluten", "Mustard", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs"], "hasTr": true, "cogs": 2.51, "fake": true, "swap": 25, "months": 8, "rating": 4.53, "reviews": 253, "fat": 20.7}, {"sku": "F4092Z", "name": "Green Curry Noodles", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "a little", "kcal": 477.0, "carb": 64.4, "fib": 8.6, "prot": 14.0, "sugar": 8.1, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.83, "fake": false, "swap": 32, "months": 8, "rating": 4.5, "reviews": 270, "fat": 16.2}, {"sku": "F4097Z", "name": "Ramen Noodles", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "a little", "kcal": 440.0, "carb": 63.3, "fib": 9.4, "prot": 18.2, "sugar": 8.8, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.96, "fake": false, "swap": 37, "months": 8, "rating": 3.9, "reviews": 240, "fat": 10.5}, {"sku": "F4098Z", "name": "Potato Panorama", "cat": "Signature Bowls", "cuis": "Mediterranean", "spice": "nein", "kcal": 485.0, "carb": 60.0, "fib": 9.0, "prot": 9.0, "sugar": 14.5, "contains": ["Cereals containing gluten"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 1.64, "fake": false, "swap": 33, "months": 8, "rating": 4.22, "reviews": 161, "fat": 21.0}, {"sku": "F4099Z", "name": "Coco Curry Pasta", "cat": "Pasta & Noodles", "cuis": "Fusion", "spice": "nein", "kcal": 540.0, "carb": 71.1, "fib": 11.7, "prot": 18.5, "sugar": 11.3, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.6, "fake": false, "swap": 27, "months": 8, "rating": 4.33, "reviews": 224, "fat": 17.6}, {"sku": "F4103Z", "name": "Mushroom Spätzle", "cat": "Pasta & Noodles", "cuis": "German", "spice": "nein", "kcal": 420.0, "carb": 56.0, "fib": 11.0, "prot": 14.0, "sugar": 11.5, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.69, "fake": false, "swap": 30, "months": 8, "rating": 4.03, "reviews": 215, "fat": 13.0}, {"sku": "F4104Z", "name": "Chili sin Carne", "cat": "Signature Bowls", "cuis": "Latin American Food", "spice": "a little", "kcal": 446.0, "carb": 49.5, "fib": 15.3, "prot": 24.8, "sugar": 16.7, "contains": ["Mustard", "Soybeans"], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs"], "hasTr": true, "cogs": 2.83, "fake": true, "swap": 38, "months": 8, "rating": 4.36, "reviews": 123, "fat": 13.1}, {"sku": "F4110Z", "name": "Paella Del Sol", "cat": "Signature Bowls", "cuis": "Mediterranean", "spice": "nein", "kcal": 445.0, "carb": 48.5, "fib": 11.0, "prot": 19.0, "sugar": 14.0, "contains": ["Soybeans"], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.18, "fake": true, "swap": 35, "months": 8, "rating": 4.33, "reviews": 52, "fat": 17.5}, {"sku": "F4111Z", "name": "Teriyaki Wok", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "a little", "kcal": 520.0, "carb": 64.0, "fib": 10.0, "prot": 27.0, "sugar": 13.0, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.32, "fake": true, "swap": 30, "months": 8, "rating": 4.03, "reviews": 65, "fat": 16.5}, {"sku": "F4112Z", "name": "Umami Rice", "cat": "Signature Bowls", "cuis": "Asian", "spice": "nein", "kcal": 423.0, "carb": 59.4, "fib": 10.8, "prot": 27.5, "sugar": 11.7, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.36, "fake": true, "swap": 34, "months": 8, "rating": 4.31, "reviews": 238, "fat": 5.9}, {"sku": "F4113Z", "name": "Nasi Goreng", "cat": "Signature Bowls", "cuis": "Asian", "spice": "nein", "kcal": 527.0, "carb": 57.2, "fib": 11.7, "prot": 25.7, "sugar": 9.0, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.04, "fake": true, "swap": 38, "months": 8, "rating": 4.22, "reviews": 45, "fat": 18.9}, {"sku": "F4114Z", "name": "Edamame Zen", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "nein", "kcal": 423.0, "carb": 67.1, "fib": 11.3, "prot": 20.3, "sugar": 13.1, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.61, "fake": false, "swap": 37, "months": 8, "rating": 3.64, "reviews": 146, "fat": 5.4}, {"sku": "F4116Z", "name": "Spätzle Goulash", "cat": "Currys & Dals", "cuis": "German", "spice": "nein", "kcal": 518.0, "carb": 46.8, "fib": 9.5, "prot": 25.7, "sugar": 10.4, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.74, "fake": true, "swap": 32, "months": 8, "rating": 4.23, "reviews": 39, "fat": 23.0}, {"sku": "F4117Z", "name": "Mushroom Gnocchi", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 482.0, "carb": 71.1, "fib": 9.5, "prot": 17.6, "sugar": 12.2, "contains": ["Cereals containing gluten", "Mustard", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs"], "hasTr": true, "cogs": 1.74, "fake": false, "swap": 26, "months": 8, "rating": 4.29, "reviews": 41, "fat": 12.2}, {"sku": "F4118Z", "name": "Pasta Rustica", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 383.0, "carb": 52.7, "fib": 8.1, "prot": 14.0, "sugar": 14.0, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 1.64, "fake": false, "swap": 26, "months": 8, "rating": 4.18, "reviews": 28, "fat": 11.3}, {"sku": "F4119Z", "name": "Japanese Sweet Curry", "cat": "Currys & Dals", "cuis": "Asian", "spice": "very", "kcal": 450.0, "carb": 53.0, "fib": 12.0, "prot": 25.0, "sugar": 17.0, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard"], "hasTr": true, "cogs": 2.78, "fake": true, "swap": 33, "months": 8, "rating": 4.08, "reviews": 26, "fat": 12.5}, {"sku": "F4120Z", "name": "Creamy Mango Curry", "cat": "Currys & Dals", "cuis": "Fusion", "spice": "a little", "kcal": 400.0, "carb": 46.0, "fib": 9.5, "prot": 10.5, "sugar": 21.0, "contains": [], "traces": ["Celery", "Cereals containing gluten", "Crustaceans", "Eggs", "Fish", "Milk", "Molluscs", "Mustard", "Soybeans"], "hasTr": true, "cogs": 2.9, "fake": false, "swap": 30, "months": 8, "rating": 3.74, "reviews": 27, "fat": 17.0}, {"sku": "F4123Z", "name": "Creamy Paprika Pasta", "cat": "Pasta & Noodles", "cuis": "Fusion", "spice": "nein", "kcal": 446.0, "carb": 50.4, "fib": 8.6, "prot": 21.2, "sugar": 11.3, "contains": ["Cereals containing gluten", "Soybeans"], "traces": [], "hasTr": false, "cogs": 2.08, "fake": true, "swap": 22, "months": 4, "rating": 4.1, "reviews": 29, "fat": 15.8}, {"sku": "F4124Z", "name": "Lemon Zucchini Gnocchi", "cat": "Pasta & Noodles", "cuis": "Fusion", "spice": "nein", "kcal": 473.0, "carb": 67.5, "fib": 10.4, "prot": 14.9, "sugar": 10.4, "contains": ["Cereals containing gluten", "Mustard", "Soybeans"], "traces": [], "hasTr": false, "cogs": 1.58, "fake": false, "swap": 26, "months": 4, "rating": 4.09, "reviews": 23, "fat": 13.5}, {"sku": "F4125Z", "name": "Creamy Fricassée", "cat": "Signature Bowls", "cuis": "German", "spice": "nein", "kcal": 450.0, "carb": 59.9, "fib": 8.6, "prot": 20.7, "sugar": 6.8, "contains": ["Cereals containing gluten", "Soybeans"], "traces": [], "hasTr": false, "cogs": 1.87, "fake": true, "swap": 31, "months": 4, "rating": 4.1, "reviews": 21, "fat": 12.2}, {"sku": "F5000Z", "name": "Peanut Noodles", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "nein", "kcal": 491.0, "carb": 48.2, "fib": 8.1, "prot": 20.3, "sugar": 12.6, "contains": ["Cereals containing gluten", "Peanuts", "Soybeans"], "traces": ["Celery", "Eggs", "Mustard"], "hasTr": true, "cogs": 2.96, "fake": false, "swap": 21, "months": 6, "rating": 4.12, "reviews": 52, "fat": 23.4}, {"sku": "F5001Z", "name": "Creamy Peanut Curry", "cat": "Currys & Dals", "cuis": "Indian", "spice": "nein", "kcal": 513.0, "carb": 46.8, "fib": 7.2, "prot": 24.8, "sugar": 13.5, "contains": ["Cereals containing gluten", "Peanuts", "Soybeans"], "traces": [], "hasTr": true, "cogs": 3.17, "fake": true, "swap": 21, "months": 1, "rating": 5.0, "reviews": 5, "fat": 23.4}, {"sku": "F5002Z", "name": "Spiced Peanut Couscous", "cat": "Currys & Dals", "cuis": "Fusion", "spice": "nein", "kcal": 590.0, "carb": 60.8, "fib": 10.4, "prot": 23.4, "sugar": 19.8, "contains": ["Cereals containing gluten", "Peanuts"], "traces": [], "hasTr": true, "cogs": 2.93, "fake": false, "swap": 41, "months": 1, "rating": 4.0, "reviews": 8, "fat": 25.7}, {"sku": "F5003Z", "name": "Lemon Cashew Pasta", "cat": "Pasta & Noodles", "cuis": "Fusion", "spice": "nein", "kcal": 572.0, "carb": 52.7, "fib": 11.7, "prot": 36.5, "sugar": 9.9, "contains": ["Celery", "Cereals containing gluten", "Soybeans", "Tree nuts"], "traces": ["Peanuts"], "hasTr": true, "cogs": 3.45, "fake": true, "swap": 25, "months": 1, "rating": 3.83, "reviews": 12, "fat": 21.2}, {"sku": "F5004Z", "name": "Paprika Thai Ragout", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "very", "kcal": 510.0, "carb": 66.5, "fib": 13.0, "prot": 25.0, "sugar": 11.5, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Peanuts"], "hasTr": true, "cogs": 2.57, "fake": true, "swap": 27, "months": 6, "rating": 4.44, "reviews": 18, "fat": 13.0}, {"sku": "F5005Z", "name": "Lemongrass Thai Ragout", "cat": "Pasta & Noodles", "cuis": "Asian", "spice": "very", "kcal": 445.0, "carb": 64.0, "fib": 8.0, "prot": 20.5, "sugar": 9.5, "contains": ["Cereals containing gluten", "Sesame", "Soybeans"], "traces": ["Peanuts"], "hasTr": true, "cogs": 2.67, "fake": true, "swap": 24, "months": 6, "rating": 4.49, "reviews": 45, "fat": 10.0}, {"sku": "F5006Z", "name": "Smoky Lentil Stew", "cat": "Currys & Dals", "cuis": "Mediterranean", "spice": "nein", "kcal": 374.0, "carb": 34.7, "fib": 22.1, "prot": 23.9, "sugar": 9.9, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Celery", "Peanuts"], "hasTr": true, "cogs": 2.73, "fake": true, "swap": 28, "months": 6, "rating": 4.7, "reviews": 20, "fat": 10.4}, {"sku": "F5007Z", "name": "Chimichurri Glow", "cat": "Signature Bowls", "cuis": "Latin American Food", "spice": "nein", "kcal": 522.0, "carb": 55.8, "fib": 10.4, "prot": 31.5, "sugar": 8.1, "contains": ["Cereals containing gluten", "Soybeans"], "traces": ["Peanuts"], "hasTr": true, "cogs": 2.31, "fake": true, "swap": 37, "months": 1, "rating": 4.6, "reviews": 5, "fat": 16.7}, {"sku": "F6000Z", "name": "Sesame Fried Rice", "cat": "Signature Bowls", "cuis": "Asian", "spice": "nein", "kcal": 748.0, "carb": 80.8, "fib": 12.4, "prot": 19.6, "sugar": 12.0, "contains": ["Cereals containing gluten", "Sesame", "Soybeans", "Tree nuts"], "traces": ["Celery"], "hasTr": true, "cogs": 2.95, "fake": false, "swap": 25, "months": 4, "rating": 3.92, "reviews": 24, "fat": 35.6}, {"sku": "F6001Z", "name": "Red Pesto Gnocchi", "cat": "Pasta & Noodles", "cuis": "Italian", "spice": "nein", "kcal": 597.0, "carb": 71.2, "fib": 17.6, "prot": 16.4, "sugar": 12.8, "contains": ["Cereals containing gluten", "Tree nuts"], "traces": ["Mustard", "Soybeans"], "hasTr": true, "cogs": 2.03, "fake": false, "swap": 24, "months": 4, "rating": 3.75, "reviews": 20, "fat": 23.6}, {"sku": "F6002Z", "name": "Pearl Pasta Salad", "cat": "Salads", "cuis": "Mediterranean", "spice": "nein", "kcal": 440.0, "carb": 47.2, "fib": 13.2, "prot": 18.8, "sugar": 11.6, "contains": ["Cereals containing gluten", "Mustard", "Soybeans", "Tree nuts"], "traces": [], "hasTr": true, "cogs": 2.18, "fake": false, "swap": 35, "months": 2, "rating": 4.5, "reviews": 12, "fat": 16.8}, {"sku": "F6003Z", "name": "Sesame Quinoa Salad", "cat": "Salads", "cuis": "Mediterranean", "spice": "nein", "kcal": 525.0, "carb": 56.7, "fib": 19.6, "prot": 20.3, "sugar": 13.3, "contains": ["Sesame", "Soybeans"], "traces": ["Celery"], "hasTr": true, "cogs": 1.91, "fake": false, "swap": 39, "months": 2, "rating": 3.67, "reviews": 12, "fat": 19.6}, {"sku": "F6005Z", "name": "Crunchy Beetroot Salad", "cat": "Salads", "cuis": "Mediterranean", "spice": "nein", "kcal": 434.0, "carb": 43.1, "fib": 22.8, "prot": 14.0, "sugar": 7.7, "contains": ["Tree nuts"], "traces": ["Celery", "Cereals containing gluten"], "hasTr": true, "cogs": 1.94, "fake": false, "swap": 39, "months": 2, "rating": 4.5, "reviews": 10, "fat": 17.9}];
+
+const ALLERGENS=[["Cereals containing gluten","Gluten"],["Soybeans","Soy"],["Mustard","Mustard"],["Tree nuts","Tree nuts"],["Sesame","Sesame"],["Celery","Celery"],["Peanuts","Peanuts (not in quiz yet)"]];
+const GOALS=[["fitness","Fitness / protein"],["lose","Eat lighter to lose weight"],["baby","After having a baby"],["easy","Without overthinking it"],["gut","Support my gut health"]];
+const HOUSES=[["me","Just me"],["partner","Partner"],["family","Family with kids"],["room","Roommates"]];
+const SPICES=[["not","Not really"],["ok","I can eat it"],["medium","Medium spicy"],["very","Very spicy"]];
+const CUISINES=[["","No answer"],["Asian","Asian"],["Indian","Indian"],["Italian","Italian"],["German","German"],["Latin American Food","Latin"]];
+const WATCH=[["protein","More protein"],["fibre","More fibre"],["calories","More calories"],["sugar","Lower sugar"],["diabetes","Diabetes-friendly"],["unprocessed","Unprocessed"]];
+const SPICE_M={not:{nein:1,"a little":.3,very:0},ok:{nein:1,"a little":.7,very:.2},medium:{nein:.6,"a little":1,very:.4},very:{nein:.4,"a little":.8,very:1}};
+const BENCH={fitness:["Protein Bundle 15 (live)",25.5,11.5,514],lose:["Perfect Portions Plan",20.9,11.9,511],baby:["Wochenbett",19.7,11.3,507],easy:["B2Better 16",21.1,11.0,530],gut:["47-meal average",20.3,11.3,488]};
+const TIERS=[[25,6.74,7.49],[20,7.19,7.99],[15,7.64,8.49],[12,8.09,8.99],[10,7.99,8.99],[3,8.99,9.99]];
+const UP={
+  boonian:{name:"Boonian Crumbles Protein",price:2.69,cogs:1.45,sugar:2.0,treat:false,contains:["Soybeans"],traces:[]},
+  planted:{name:"Planted. Pulled Protein",price:2.69,cogs:2.32,sugar:0.7,treat:false,contains:["Soybeans"],traces:["Cereals containing gluten","Mustard"]},
+  dg3:{name:"Daily Greens smoothie 3-pack",price:12.99,tiers:{12:11.69,15:11.04,20:10.39,25:9.74},cogs:4.92,sugar:28.5,treat:false,contains:[],traces:[]},
+  mt3:{name:"Mango Tango smoothie 3-pack",price:12.99,tiers:{12:11.69,15:11.04,20:10.39,25:9.74},cogs:3.45,sugar:28.0,treat:false,contains:[],traces:[]},
+  tb3:{name:"Triple Berry smoothie 3-pack",price:12.99,tiers:{12:11.69,15:11.04,20:10.39,25:9.74},cogs:5.70,sugar:26.1,treat:false,contains:[],traces:[]},
+  herbal:{name:"Herbal Ritual Cubes",cat:"shot",price:19.99,tiers:{12:17.99,15:16.99,20:15.99,25:14.99},cogs:4.75,sugar:1.7,treat:false,contains:[],traces:[]},
+  redberry:{name:"Red Berry Porridge",price:14.99,tiers:{12:13.49,15:12.74,20:11.99,25:11.24},cogs:6.76,sugar:4.7,treat:false,contains:["Soybeans"],traces:["Tree nuts"],cat:"breakfast"},
+  granola:{name:"Pistachio Pecan Granola",price:14.99,tiers:{12:13.49,15:12.74,20:11.99,25:11.24},cogs:6.48,sugar:6.0,treat:false,contains:["Tree nuts","Sesame"],traces:["Peanuts","Soybeans","Sulphites"],cat:"breakfast"},
+  muesli:{name:"Vanilla Hazelnut Müsli",price:13.99,tiers:{12:12.59,15:11.89,20:11.19,25:10.49},cogs:4.70,sugar:4.6,treat:false,contains:["Soybeans","Tree nuts"],traces:[],cat:"breakfast"},
+  ginger:{name:"Ginger Ritual Cubes",price:19.99,tiers:{12:17.99,15:16.99,20:15.99,25:14.99},cogs:4.75,sugar:3.0,treat:false,contains:[],traces:[],cat:"shot"},
+  turmeric:{name:"Turmeric Ritual Cubes",price:19.99,tiers:{12:17.99,15:16.99,20:15.99,25:14.99},cogs:4.75,sugar:3.0,treat:false,contains:[],traces:[],cat:"shot"},
+  berrycubes:{name:"Berry Ritual Cubes",price:19.99,tiers:{12:17.99,15:16.99,20:15.99,25:14.99},cogs:4.75,sugar:2.4,treat:false,contains:[],traces:[],cat:"shot"},
+  porridge:{name:"Apple Cinnamon Porridge",cat:"breakfast",price:13.99,tiers:{12:12.59,15:11.89,20:11.19,25:10.49},cogs:5.26,sugar:4.7,treat:false,contains:[],traces:["Soybeans","Tree nuts"]},
+  bites:{name:"Épique 9 Bites Box",price:17.99,cogs:8.63,sugar:4.2,treat:true,contains:["Tree nuts","Peanuts","Sesame"],traces:[]},
+  chili:{name:"Chili Crisp Oil",price:8.99,cogs:3.65,sugar:0.4,treat:false,contains:["Cereals containing gluten","Soybeans","Sesame"],traces:["Tree nuts"]},
+  crumbles:{name:"3 crumbles",price:7.47,cogs:3.48,sugar:10.2,treat:true,contains:[],traces:["Tree nuts","Sesame"]},
+  chocball:{name:"Swedish Chocolate Ball",price:2.19,cogs:1.02,sugar:4.0,treat:true,contains:[],traces:["Tree nuts","Sesame"]}
+};
+const VAT_FOOD=.07, VAT_STD=.19, VAT_ITEM={herbal:VAT_STD,ginger:VAT_STD,turmeric:VAT_STD,berrycubes:VAT_STD};
+const BK_ORDER={fitness:["muesli","porridge","redberry","granola"],gut:["porridge","muesli","redberry","granola"],lose:["porridge","muesli","redberry","granola"],baby:["porridge","muesli","redberry","granola"],easy:["porridge","muesli","granola","redberry"]}; // €13.99 breakfasts first (price), €14.99 only as allergy backup
+const SHOT_ORDER={fitness:["ginger","turmeric","berrycubes","herbal"],easy:["ginger","turmeric","berrycubes","herbal"],lose:["herbal","ginger","turmeric","berrycubes"],gut:["turmeric","ginger","herbal","berrycubes"],baby:["berrycubes","ginger","herbal","turmeric"]};
+const REF={cm1:.689,pm:.698,cogsMeal:1.91,launchCogs:[2.10,2.20]};
+const DEFAULTS={wGoal:.25,wQual:.25,wSpice:.15,wCuis:.15,wNutr:.10,traces:false,holdBack:true,holdRating:3.8,holdMinReviews:50,newReviews:20,newCap:2,maxPer:2,fitScale:false,comp:"core",boxSize:"auto",disc:20,discAddons:true,sweet:5,slots:3,proteinSet:"1+1"};
+let P={...DEFAULTS};
+let Q={goal:"fitness",house:"me",allergies:[],watch:[],spice:"ok",cuisine:""};
+
+const eur=v=>"€"+v.toFixed(2);
+const pct=v=>(v*100).toFixed(1)+"%";
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const label=(arr,k)=>(arr.find(a=>a[0]===k)||[k,k])[1];
+
+/* ---------- quality ---------- */
+function computeQuality(){
+  // Swaps are no longer a signal (22 Oct). Quality = reviews only; low-rated meals are excluded from the box.
+  MEALS.forEach(m=>{m.isNew=m.reviews<P.newReviews;m.rev=(m.reviews*m.rating+30*4.44)/(m.reviews+30);
+    m.held=P.holdBack&&m.rating<P.holdRating&&m.reviews>=P.holdMinReviews;});
+  const est=MEALS.filter(m=>!m.isNew);
+  const rng=k=>{const v=est.map(m=>m[k]);return [Math.min(...v),Math.max(...v)]};
+  const [r0,r1]=rng("rev");
+  MEALS.forEach(m=>{m.qual=m.isNew?.5:(m.rev-r0)/(r1-r0);});
+}
+
+/* ---------- engine ---------- */
+function goalCrit(m,g){
+  if(g==="fitness"){return [P.fitScale?Math.max(0,Math.min(1,(m.prot-15)/15)):(m.prot>=25?1:0), m.fib>=8?1:0];}
+  if(g==="lose")return [m.prot>=20,m.fib>=8,m.kcal<520].map(Number);
+  if(g==="baby")return [m.prot>=20,m.fib>=12].map(Number);
+  if(g==="easy")return [m.prot>=15,m.fib>=8,m.kcal>=400&&m.kcal<=600,m.carb>=45&&m.carb<=80].map(Number);
+  return [m.prot>=15,m.fib>=12,m.kcal>=400&&m.kcal<=600].map(Number);
+}
+const GOAL_USES={fitness:["prot","fib"],lose:["prot","fib","kcal"],baby:["prot","fib"],easy:["prot","fib","kcal"],gut:["prot","fib","kcal"]};
+function nutrCrit(q){
+  // provisional criteria (O7): only nutrients the goal doesn't already use count
+  const uses=GOAL_USES[q.goal],c=[];
+  if(q.watch.includes("protein")&&!uses.includes("prot"))c.push(m=>m.prot>=20);
+  if(q.watch.includes("fibre")&&!uses.includes("fib"))c.push(m=>m.fib>=10);
+  if(q.watch.includes("calories")&&!uses.includes("kcal"))c.push(m=>m.kcal>=550);
+  if(q.watch.includes("sugar"))c.push(m=>m.sugar<=10);
+  return c;
+}
+function eligible(m,al){
+  if(m.contains.some(a=>al.includes(a)))return false;
+  if(P.traces&&al.length){if(!m.hasTr)return false;if(m.traces.some(a=>al.includes(a)))return false;}
+  return true;
+}
+function tierKey(n){return n>=25?25:n>=20?20:n>=15?15:n>=12?12:0;}
+function listPrice(fake){return fake?9.99:8.99;}
+function upTierPrice(k,n){const u=UP[k],t=tierKey(n);return u.tiers&&u.tiers[t]?u.tiers[t]:u.price;}
+function tierPrice(n,fake){for(const t of TIERS){if(n>=t[0])return fake?t[2]:t[1];}return fake?9.99:8.99;}
+function itemOk(k,al,low){const u=UP[k];if(u.contains.some(a=>al.includes(a)))return false;if(P.traces&&u.traces.some(a=>al.includes(a)))return false;if(low&&(u.sugar>P.sweet||u.treat))return false;return true;}
+
+function build(q){
+  const al=q.allergies, el=MEALS.filter(m=>eligible(m,al));
+  const nc=nutrCrit(q);
+  const w={goal:P.wGoal,qual:P.wQual,spice:P.wSpice,cuis:q.cuisine?P.wCuis:0,nutr:nc.length?P.wNutr:0};
+  const tot=w.goal+w.qual+w.spice+w.cuis+w.nutr||1;
+  el.forEach(m=>{const g=goalCrit(m,q.goal);m.g=g.reduce((a,b)=>a+b,0)/g.length;m.s=(SPICE_M[q.spice]||SPICE_M.ok)[m.spice]??.5;
+    m.c=q.cuisine&&m.cuis===q.cuisine?1:0;m.nu=nc.length?nc.filter(f=>f(m)).length/nc.length:0;
+    m.score=(w.goal*m.g+w.qual*m.qual+w.spice*m.s+w.cuis*m.c+w.nutr*m.nu)/tot;});
+  el.sort((a,b)=>b.score-a.score||b.g-a.g||b.qual-a.qual||b.s-a.s||a.sku.localeCompare(b.sku));
+  const core=P.comp==="core", minMeals=core?15:16;
+  let target=P.boxSize==="auto"?(core?(q.house==="me"?15:20):(q.house==="me"?16:20)):+P.boxSize;
+  const ranked=[],later=[];let nn=0;
+  el.filter(m=>!m.held).forEach(m=>{if(m.isNew){if(nn>=P.newCap){later.push(m);return;}nn++;}ranked.push(m);});
+  const order=[...ranked,...later]; // low-rated meals never enter the box
+  const tryBuild=t=>{
+    const pick=order.slice(0,t);const qty=new Map(pick.map(m=>[m.sku,1]));let units=pick.length;
+    for(let pass=2;pass<=P.maxPer&&units<t;pass++){for(const m of pick){if(units>=t)break;qty.set(m.sku,pass);units++;}}
+    return units>=t?{pick,qty,units}:null;};
+  let res=null,steps=[target];
+  while(true){res=tryBuild(target);if(res)break;const nx=[20,18,16,15,14].find(x=>x<target&&x>=minMeals);if(nx==null)break;target=nx;steps.push(target);}
+  const al0=q.allergies, low0=q.watch.includes("sugar")||q.watch.includes("diabetes");
+  const coreItems=core?[(BK_ORDER[q.goal]||[]).find(k=>itemOk(k,al0,low0)),(low0?["herbal"]:(SHOT_ORDER[q.goal]||[])).find(k=>itemOk(k,al0,low0))].filter(Boolean):[];
+  const out={q,eligible:el.length,ranked:el,target:steps[0],fallback:!res,downsized:res&&res.units<steps[0]};
+  out.core=coreItems;
+  if(!res){out.upsell=upsells(q,coreItems);return out;}
+  const lines=res.pick.map(m=>({m,n:res.qty.get(m.sku)}));const n=res.units;
+  const mealGross=lines.reduce((a,l)=>a+l.n*tierPrice(n,l.m.fake),0), mealCogs=lines.reduce((a,l)=>a+l.n*l.m.cogs,0);
+  const coreGross=coreItems.reduce((a,k)=>a+upTierPrice(k,n),0), coreCogs=coreItems.reduce((a,k)=>a+UP[k].cogs,0);
+  const gross=mealGross+coreGross, cogs=mealCogs+coreCogs;
+  const d=1-P.disc/100, price=gross*d;
+  const listGross=lines.reduce((a,l)=>a+l.n*listPrice(l.m.fake),0)+coreItems.reduce((a,k)=>a+UP[k].price,0);
+  const avg=k=>lines.reduce((a,l)=>a+l.n*l.m[k],0)/n;
+  const net=mealGross*d/(1+VAT_FOOD)+coreItems.reduce((a,k)=>a+upTierPrice(k,n)*d/(1+(VAT_ITEM[k]||VAT_FOOD)),0);
+  Object.assign(out,{net,netMargin:net-cogs,netMarginPct:(net-cogs)/net,cogsPct:cogs/net,cogsPerMeal:cogs/n,lines,units:n,distinct:lines.length,repeats:lines.filter(l=>l.n>1).length,fake:lines.reduce((a,l)=>a+(l.m.fake?l.n:0),0),
+    newIn:lines.filter(l=>l.m.isNew).length,heldIn:lines.filter(l=>l.m.held).length,
+    gross,price,listGross,listDisc:listGross*d,cogs,margin:price-cogs,marginPct:(price-cogs)/price,perMeal:mealGross*d/n,mealGross,coreGross,products:n+coreItems.length,
+    prot:avg("prot"),fib:avg("fib"),kcal:avg("kcal"),fat:avg("fat"),sugar:avg("sugar"),
+    swaps:el.filter(m=>!res.qty.has(m.sku)).slice(0,4)});
+  out.upsell=upsells(q,coreItems);
+  const ud=P.discAddons?d:1;
+  out.upPrice=out.upsell.items.reduce((a,k)=>a+upTierPrice(k,n),0)*ud;
+  out.upList=out.upsell.items.reduce((a,k)=>a+UP[k].price,0);
+  out.upCogs=out.upsell.items.reduce((a,k)=>a+UP[k].cogs,0);
+  out.total=price+out.upPrice;out.totalMargin=out.total-cogs-out.upCogs;out.totalPct=out.totalMargin/out.total;
+  out.upNet=out.upsell.items.reduce((a,k)=>a+upTierPrice(k,n)*ud/(1+(VAT_ITEM[k]||VAT_FOOD)),0);
+  out.totalNet=net+out.upNet;out.totalCogs=cogs+out.upCogs;out.totalNetPct=(out.totalNet-out.totalCogs)/out.totalNet;out.totalCogsPct=out.totalCogs/out.totalNet;
+  return out;
+}
+function upsells(q,coreItems=[]){
+  const al=q.allergies, low=q.watch.includes("sugar")||q.watch.includes("diabetes");
+  const prot=P.proteinSet==="1+1"?["boonian","planted"]:["boonian","boonian"];
+  const used=new Set(coreItems), slots=[];
+  const pick=(name,opts,why)=>{for(const o of opts){if(o.every(k=>itemOk(k,al,low)&&!used.has(k))){o.forEach(k=>used.add(k));slots.push({slot:name,items:o,why,backup:o!==opts[0]});return true;}}slots.push({slot:name,items:[],why,empty:true});return false;};
+  const G={fitness:[prot,["porridge"]],lose:[["dg3"],["herbal"]],baby:[["porridge","mt3"],["porridge","herbal"],["herbal"]],easy:[["bites"],["mt3"],["herbal"]],gut:[["porridge","tb3"],["porridge","herbal"],["herbal"]]};
+  if(P.slots>=1)pick("Goal pick",G[q.goal],label(GOALS,q.goal));
+  if(P.slots>=2){
+    const c=[];
+    if(q.spice==="medium"||q.spice==="very")c.push([["chili"],"Likes spicy food"]);
+    if(q.watch.includes("protein")&&q.goal!=="fitness")c.push([prot,"More protein"]);
+    if(q.watch.includes("fibre"))c.push([["porridge"],"More fibre"]);
+    let done=false;
+    for(const [o,why] of c){if(o.every(k=>itemOk(k,al,low)&&!used.has(k))){o.forEach(k=>used.add(k));slots.push({slot:"Preference pick",items:o,why});done=true;break;}}
+    if(!done)slots.push({slot:"Preference pick",items:[],why:c.length?"Blocked by allergy, sugar or duplicate":"No matching answer",empty:true});
+  }
+  if(P.slots>=3){
+    if(q.goal==="lose"||low)slots.push({slot:"Treat pick",items:[],why:"Not shown for weight loss or low sugar",empty:true});
+    else if(q.house==="family")pick("Treat pick",[["bites"],["mt3"]],"Family with kids");
+    else pick("Treat pick",[["crumbles"],["chocball"]],label(HOUSES,q.house));
+  }
+  return {slots,items:slots.flatMap(s=>s.items)};
+}
+
+/* ---------- sweep ---------- */
+const PROFILES=[["none","No allergies",[]],["gluten","Gluten",["Cereals containing gluten"]],["soy","Soy",["Soybeans"]],["mustard","Mustard",["Mustard"]],["nuts","Tree nuts",["Tree nuts"]],["sesame","Sesame",["Sesame"]],["celery","Celery",["Celery"]],["gs","Gluten + soy",["Cereals containing gluten","Soybeans"]],["gsm","Gluten + soy + mustard",["Cereals containing gluten","Soybeans","Mustard"]]];
+let SWEEP=null;
+function runSweep(){
+  computeQuality();
+  const rows=[];
+  for(const [g] of GOALS)for(const [h] of HOUSES)for(const [s] of SPICES)for(const pr of PROFILES)for(const sug of [false,true])for(const pro of [false,true]){
+    const q={goal:g,house:h,spice:s,allergies:pr[2],watch:[...(sug?["sugar"]:[]),...(pro?["protein"]:[])],cuisine:""};
+    const r=build(q);r.profile=pr[0];rows.push(r);}
+  SWEEP=rows;return rows;
+}
+
+/* ---------- rendering: overview ---------- */
+function renderOverview(){
+  const R=SWEEP, ok=R.filter(r=>!r.fallback), N=R.length;
+  const mean=(a,f)=>a.reduce((s,x)=>s+f(x),0)/(a.length||1);
+  const fb=R.length-ok.length;
+  const over100=ok.filter(r=>r.price>=100).length/ok.length;
+  const over100t=ok.filter(r=>r.total>=100).length/ok.length;
+  const k=[
+    ["Scenarios emulated",N.toLocaleString("en"),"cuisine left blank"],
+    ["Fallback rate",pct(fb/N),fb+" with no checkout"],
+    ["Box at list price",eur(mean(ok,r=>r.listGross)),"no discounts · meals €8.99 / €9.99"+(P.comp==="core"?" + breakfast + shot":""),0,"p"],
+    ["With "+P.disc+"% first-order discount",eur(mean(ok,r=>r.listDisc)),"list price × "+(1-P.disc/100).toFixed(2),0,"p"],
+    ["With "+P.disc+"% + quantity discount",eur(mean(ok,r=>r.price)),(P.comp==="core"?"15 meals → 15-meal tier, 20 → 20-meal tier":"16 meals → 15-meal tier, 20 → 20-meal tier")+", then −"+P.disc+"% · saves "+eur(mean(ok,r=>r.listGross-r.price)),0,"p"],
+    ["Avg price per meal",eur(mean(ok,r=>r.perMeal)),"after both discounts · range "+eur(Math.min(...ok.map(r=>r.perMeal)))+"–"+eur(Math.max(...ok.map(r=>r.perMeal))),0,"p"],
+    ["Box ≥ €100",pct(over100),"after both discounts · incl. upsells: "+pct(over100t),0,"p"],
+    ["Avg meal margin (gross)",pct(mean(ok,r=>r.marginPct)),"before VAT, pricing-sheet method · incl. upsells: "+pct(mean(ok,r=>r.totalPct)),1],
+    ["Avg upsell value",eur(mean(ok,r=>r.upPrice)),mean(R,r=>r.upsell.items.length).toFixed(1)+" items on average"],
+    ["Avg COGS per meal box",eur(mean(ok,r=>r.cogs)),eur(mean(ok,r=>r.cogsPerMeal))+" per meal (avg meal today €"+REF.cogsMeal.toFixed(2)+")",1],
+    ["COGS share of net revenue",pct(mean(ok,r=>r.cogsPct)),"incl. upsells: "+pct(mean(ok,r=>r.totalCogsPct)),1],
+    ["Meal margin, net of VAT",pct(mean(ok,r=>r.netMarginPct)),"Q3 2026 product margin (landed): "+pct(REF.pm)+" · incl. upsells "+pct(mean(ok,r=>r.totalNetPct)),1],
+    ["Boxes with repeats",pct(ok.filter(r=>r.repeats>0).length/ok.length),"avg "+mean(ok,r=>r.distinct).toFixed(1)+" different meals"]
+  ];
+  const kcard=x=>`<div class="kpi${x[3]?" dep":""}"><span class="l">${x[0]}${x[3]?'<span class="dep-tag">Deprioritized</span>':""}</span><span class="v">${x[1]}</span><span class="d">${x[2]}</span></div>`;
+  document.getElementById("kpis").innerHTML=k.filter(x=>!x[3]&&x[4]!=="p").map(kcard).join("");
+  const grp=(title,sub,a)=>{if(!a.length)return "";const lp=mean(a,r=>r.listGross),ld=mean(a,r=>r.listDisc),pr=mean(a,r=>r.price),qd=1-pr/ld;
+    const ks=[["Box at list price",eur(lp),"no discounts"],["With "+P.disc+"% first-order discount",eur(ld),"list price × "+(1-P.disc/100).toFixed(2)],
+      ["With "+P.disc+"% + "+Math.round(qd*100)+"% quantity discount",eur(pr),"saves "+eur(lp-pr)+" vs list"],["Avg price per meal",eur(mean(a,r=>r.perMeal)),"after both discounts · "+eur(Math.min(...a.map(r=>r.perMeal)))+"–"+eur(Math.max(...a.map(r=>r.perMeal)))]];
+    return `<div class="panel"><h3 style="margin-bottom:2px">${title}</h3><p class="muted small" style="margin-bottom:10px">${sub}</p><div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,128px),1fr))">${ks.map(x=>kcard([x[0],x[1],x[2]])).join("")}</div></div>`;};
+  document.getElementById("kpis-price").innerHTML=grp("Single person",(P.comp==="core"?"15 meals + 1 breakfast + 1 shot":"16 meals")+" · 15-meal tier",ok.filter(r=>r.q.house==="me"))+grp("2+ people",(P.comp==="core"?"20 meals + 1 breakfast + 1 shot":"20 meals")+" · 20-meal tier · partner, family, roommates",ok.filter(r=>r.q.house!=="me"));
+  document.getElementById("kpis-dep").innerHTML=k.filter(x=>x[3]).map(kcard).join("");
+  document.getElementById("sweep-desc").textContent=`Emulation of all ${N.toLocaleString("en")} combinations: 5 goals × 4 households × 4 spice answers × 9 allergy profiles × low sugar (yes/no) × "more protein" (yes/no). Uses the engine settings on the Simulator tab.`;
+
+  // bench
+  const bh=GOALS.map(([g,l])=>{const r=build({goal:g,house:"me",spice:"ok",allergies:[],watch:[],cuisine:""});const b=BENCH[g];const dp=r.prot-b[1],df=r.fib-b[2];
+    const st=(dp<-1||df<-1)?'<span class="pill bad">Below</span>':(dp<0||df<0)?'<span class="pill warn">Close</span>':'<span class="pill good">On par</span>';
+    return `<tr><td>${l}<div class="muted small">${b[0]}</div></td><td class="n">${r.prot.toFixed(1)} <span class="muted">(${dp>=0?"+":""}${dp.toFixed(1)})</span></td><td class="n">${r.fib.toFixed(1)} <span class="muted">(${df>=0?"+":""}${df.toFixed(1)})</span></td><td class="n">${Math.round(r.kcal)} <span class="muted">(${Math.round(r.kcal-b[3])>=0?"+":""}${Math.round(r.kcal-b[3])})</span></td><td>${st}</td></tr>`;}).join("");
+  document.getElementById("bench").innerHTML=`<thead><tr><th>Goal</th><th class="n">Protein g</th><th class="n">Fibre g</th><th class="n">kcal</th><th>Status</th></tr></thead><tbody>${bh}</tbody>`;
+
+  // fallbacks
+  const fr=PROFILES.map(p=>{const s=R.filter(r=>r.profile===p[0]);const f=s.filter(r=>r.fallback).length/s.length;const el=s[0].eligible;
+    const pill=f>0?`<span class="pill bad">${pct(f)}</span>`:`<span class="pill good">0%</span>`;
+    const rep=s.filter(r=>!r.fallback&&r.repeats>0).length/s.length;
+    return `<tr><td>${p[1]}</td><td class="n">${el}</td><td>${pill}</td><td class="n">${pct(rep)}</td></tr>`;}).join("");
+  document.getElementById("fallbacks").innerHTML=`<thead><tr><th>Profile</th><th class="n">Eligible meals</th><th>No box possible</th><th class="n">Boxes with repeats</th></tr></thead><tbody>${fr}</tbody>`;
+
+  // exposure
+  const cnt=new Map(MEALS.map(m=>[m.sku,0]));ok.forEach(r=>r.lines.forEach(l=>cnt.set(l.m.sku,cnt.get(l.m.sku)+1)));
+  MEALS.forEach(m=>m.exposure=cnt.get(m.sku)/ok.length);
+  const sorted=[...MEALS].sort((a,b)=>b.exposure-a.exposure);
+  const row=m=>`<tr><td>${esc(m.name)} ${m.held?'<span class="pill bad">Low rating</span>':""}${m.isNew?' <span class="pill neu">New</span>':""}</td><td class="n">${pct(m.exposure)}</td><td><div class="bar"><span style="width:${(m.exposure*100).toFixed(1)}%"></span></div></td></tr>`;
+  const NM=10;
+  document.getElementById("exposure").innerHTML=`<thead><tr><th>Meal</th><th class="n">In boxes</th><th></th></tr></thead><tbody>${sorted.slice(0,NM).map(row).join("")}</tbody>`;
+  const QA6=ALLERGENS.slice(0,6).map(a=>a[0]);
+  const lowWhy=m=>{const t=[];
+    if(m.held)t.push(["bad",`Low rating ${m.rating}★, excluded`]);
+    if(m.isNew)t.push(["neu",`New (${m.reviews} reviews), max ${P.newCap} per box`]);
+    const g=GOALS.map(([k])=>{const c=goalCrit(m,k);return c.reduce((a,b)=>a+b,0)/c.length;}).reduce((a,b)=>a+b,0)/GOALS.length;
+    if(g<.6){if(m.prot<15)t.push(["warn",`Low protein (${m.prot} g)`]);else if(m.kcal>600)t.push(["warn",`High kcal (${Math.round(m.kcal)})`]);else if(m.fib<9)t.push(["warn",`Low fibre (${m.fib} g)`]);else t.push(["warn","Weak goal fit"]);}
+    if(!m.held&&!m.isNew&&m.rating<4.1)t.push(["warn",`Lower rating (${m.rating}★)`]);
+    const al=m.contains.filter(a=>QA6.includes(a));if(al.length>=3)t.push(["neu",`${al.length} quiz allergens`]);
+    if(m.contains.includes("Peanuts"))t.push(["neu","Contains peanuts"]);
+    if(m.spice==="very")t.push(["neu","Very spicy"]);
+    if(!t.length)t.push(["neu","Outranked by similar meals"]);
+    return t.slice(0,2).map(x=>`<span class="pill ${x[0]}">${esc(x[1])}</span>`).join(" ");};
+  const rowLow=m=>`<tr><td>${esc(m.name)}<div class="tags">${lowWhy(m)}</div></td><td class="n">${pct(m.exposure)}</td><td><div class="bar"><span style="width:${(m.exposure*100).toFixed(1)}%"></span></div></td></tr>`;
+  document.getElementById("exposure-low").innerHTML=`<thead><tr><th>Meal</th><th class="n">In boxes</th><th></th></tr></thead><tbody>${sorted.slice(-NM).reverse().map(rowLow).join("")}</tbody>`;
+  const coreOn=P.comp==="core";
+  document.getElementById("comp-note").textContent=coreOn?"Each box: 1 breakfast + 1 shot + 15 meals (20 for larger households), so 17 or 22 products. Share of emulated boxes that include each item.":"Each box: 16 meals (20 for larger households), no breakfast or shot. Switch \"Box composition\" on the Simulator tab to include them.";
+  const cc={};ok.forEach(r=>(r.core||[]).forEach(k=>cc[k]=(cc[k]||0)+1));
+  const sect=(cat,lab)=>{const rows=Object.keys(UP).filter(k=>UP[k].cat===cat).map(k=>[k,(cc[k]||0)/ok.length]).sort((a,b)=>b[1]-a[1]);
+    return `<tr><th colspan="3">${lab}</th></tr>`+rows.map(([k,v])=>`<tr><td>${esc(UP[k].name)}</td><td class="n">${pct(v)}</td><td><div class="bar"><span style="width:${(v*100).toFixed(1)}%"></span></div></td></tr>`).join("");};
+  document.getElementById("core-freq").innerHTML=coreOn?`<tbody>${sect("breakfast","Breakfast")}${sect("shot","Shots")}</tbody>`:`<tbody><tr><td class="muted">Not in the box with "Meals only" composition.</td></tr></tbody>`;
+
+  // upsell freq
+  const uc={};R.forEach(r=>new Set(r.upsell.items).forEach(k=>uc[k]=(uc[k]||0)+1));
+  const ur=Object.keys(UP).filter(k=>!UP[k].cat||uc[k]).map(k=>[k,(uc[k]||0)/N]).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${esc(UP[k].name)}</td><td class="n">${pct(v)}</td><td><div class="bar"><span style="width:${(v*100).toFixed(1)}%"></span></div></td></tr>`).join("");
+  const empty1=R.filter(r=>r.upsell.slots[0]&&r.upsell.slots[0].empty).length/N;
+  const noneAt=R.filter(r=>!r.upsell.items.length).length/N;
+  document.getElementById("upsell-freq").innerHTML=`<thead><tr><th>Item</th><th class="n">Shown</th><th></th></tr></thead><tbody>${ur}<tr><td>No upsell at all</td><td class="n">${pct(noneAt)}</td><td></td></tr><tr><td>Goal slot empty</td><td class="n">${pct(empty1)}</td><td></td></tr></tbody>`;
+
+  // gaps
+  const gaps=[];
+  if(fb>0){const worst=PROFILES.map(p=>[p[1],R.filter(r=>r.profile===p[0]&&r.fallback).length/R.filter(r=>r.profile===p[0]).length]).filter(x=>x[1]>0);
+    gaps.push(["bad",`${pct(fb/N)} of scenarios can't build a 15-meal box`,`Affected: ${worst.map(x=>x[0]+" ("+pct(x[1])+")").join(", ")}. They get the proposed allergen-safe bundle (Fallbacks tab, O14).`]);}
+  GOALS.forEach(([g,l])=>{const r=build({goal:g,house:"me",spice:"ok",allergies:[],watch:[],cuisine:""});const b=BENCH[g];
+    if(r.fib<b[2]-1)gaps.push(["warn",`${l}: ${r.fib.toFixed(1)} g fibre per meal vs ${b[2]} g`,`${b[0]} is more than 1 g higher.`]);});
+  const never=MEALS.filter(m=>m.exposure===0);
+  if(never.length)gaps.push(["warn",`${never.length} meals never make a box`,never.map(m=>m.name+(m.held?" (low rating, excluded)":"")).join(", ")+". They only show as swap options."]);
+  const under=ok.filter(r=>r.price<100);
+  if(under.length)gaps.push(["warn",`${pct(under.length/ok.length)} of meal boxes are under €100`,`Lowest: ${eur(Math.min(...under.map(r=>r.price)))}. Mostly 16-meal boxes without plant-based-meat meals (H3).`]);
+  const pLoss=UP.planted.price*(P.discAddons?1-P.disc/100:1)-UP.planted.cogs;
+  if(pLoss<0&&P.proteinSet==="1+1")gaps.push(["neu",`Planted. Pulled loses ${eur(-pLoss)} per pack`,`With a ${P.disc}% discount on add-ons. Switch the protein set to 2 Boonian, or exclude upsells from the discount (O18).`]);
+  if(P.comp==="core"&&ok.some(r=>r.units===14&&false))gaps.push(["warn","14-meal boxes fall into the 12-meal price tier",`Add-ons don't count toward the tier, so 14 meals pay €8.09 / €8.99 per meal instead of the 15-meal €7.64 / €8.49. 15 meals + 2 products would reach the next tier.`]);
+  const lowRep=ok.filter(r=>r.distinct<8).length;
+  if(lowRep)gaps.push(["warn",`${lowRep} boxes have fewer than 8 different meals`,`They would show the "limited match" state (O11).`]);
+  if(!gaps.length)gaps.push(["good","No gaps flagged with these settings",""]);
+  const gcard=g=>`<li><span class="sev ${g[0]}"></span><div><strong>${esc(g[1])}</strong><div class="muted small">${esc(g[2])}</div></div></li>`;
+  document.getElementById("gaps-dep").innerHTML=gaps.filter(g=>g[0]==="neu").map(gcard).join("");
+  document.getElementById("gaps").innerHTML=gaps.filter(g=>g[0]!=="neu"&&/never make a box/.test(g[1])).map(g=>`<li><span class="sev ${g[0]}"></span><div><strong>${esc(g[1])}</strong><div class="muted small">${esc(g[2])}</div></div></li>`).join("");
+
+  // logic summary
+  const L=[
+    ["Eligibility (2.1)",[["Quiz allergens","6"],["\"May contain\" excludes",P.traces?"Yes":"No (O1)"],["Missing data","Exclude"],["Market filter","Not modelled"]]],
+    ["Scoring weights (2.2)",[["Goal",P.wGoal],["Quality",P.wQual],["Spice",P.wSpice],["Cuisine",P.wCuis],["Nutrition",P.wNutr],["Fitness protein",P.fitScale?"Scaled 15–30 g":"Yes/no at 25 g"]]],
+    ["Quality and selection (2.2–2.3)",[["Review anchor","30 × 4.44★"],["Quality signal","Reviews only (swaps dropped)"],["Excluded from box",P.holdBack?`<${P.holdRating}★ with ≥${P.holdMinReviews} reviews`:"Off"],["New meal",`<${P.newReviews} reviews`],["New-meal cap",P.newCap+" per box"]]],
+    ["Box (2.4)",[["Just me",P.comp==="core"?"15 meals + breakfast + shot":"16 meals"],["Partner / family / roommates",P.comp==="core"?"20 meals + breakfast + shot":"20 meals"],["Box size override",P.boxSize==="auto"?"Off":P.boxSize],["Max per meal",P.maxPer],["Minimum",(P.comp==="core"?"15":"16")+" meals, else fallback"]]],
+    ["Margin reference (Notion)",[["CM1 official, Q3 2026","68.9%"],["Product margin landed, Q3 2026","69.8%"],["Avg meal COGS today","€1.91 ex-works"],["New launch COGS (2027 plan)","€2.10–2.20"],["2026 company target","Not documented"]],1],
+    ["Pricing (DE)",[["List price","€8.99 / €9.99"],["15-meal tier (just me)","€7.64 / €8.49"],["20-meal tier (households)","€7.19 / €7.99"],["First-order discount",P.disc+"%, after the tier"],["Add-on tier discount","Cubes, breakfast, smoothie packs"],["Add-ons count toward tier","Never"]]],
+    ["Upsells (2.5)",[["Slots",P.slots],["Protein set",P.proteinSet==="1+1"?"1 Boonian + 1 Planted":"2 Boonian"],["Sweet line",P.sweet+" g per serving"],["Treats if low sugar","Hidden"],["Swap options (2.4b)","4"]]]
+  ];
+  const lcard=([t,rows,dep])=>`<div class="panel${dep?" dep":""}"><h3>${t}${dep?'<span class="dep-tag">Deprioritized</span>':""}</h3><dl>${rows.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl></div>`;
+  document.getElementById("logic-dep").innerHTML=L.filter(x=>x[2]).map(lcard).join("");
+  document.getElementById("logic").innerHTML=L.filter(x=>!x[2]).map(([t,rows,dep])=>`<div class="panel${dep?" dep":""}"><h3>${t}${dep?'<span class="dep-tag">Deprioritized</span>':""}</h3><dl>${rows.map(r=>`<dt>${r[0]}</dt><dd>${r[1]}</dd>`).join("")}</dl></div>`).join("");
+}
+
+
+/* ---------- rendering: logic + fallbacks ---------- */
+function renderLogic(){
+  document.querySelectorAll(".tiles[data-m]").forEach(el=>{const m=+el.dataset.m;el.innerHTML=Array.from({length:m},(_,i)=>`<span class="tile meal" title="Meal ${i+1}"></span>`).join("")+`<span class="tile gapper"></span><span class="tile bk" title="Breakfast"></span><span class="tile shot" title="Shot pack"></span>`;el.setAttribute("aria-label",`${m} meals, 1 breakfast, 1 shot pack`);});
+  const W=[["Goal fit",P.wGoal,"Meets the goal's protein, fibre and calorie targets"],["Reviews",P.wQual,"Bayesian average rating; new meals neutral"],["Spice",P.wSpice,"Match to the spice answer"],["Cuisine",P.wCuis,"Favourite cuisine, if answered"],["Nutrition",P.wNutr,"\"Anything you watch for\" answers"]];
+  const mx=Math.max(...W.map(w=>w[1]));
+  document.getElementById("lg-weights").innerHTML=W.map(w=>`<div class="wbar" title="${esc(w[2])}"><span>${w[0]}</span><div class="bar"><span style="width:${w[1]/mx*100}%"></span></div><span class="num">${Math.round(w[1]*100)}%</span></div><div class="muted small" style="margin:-4px 0 6px 120px">${esc(w[2])}</div>`).join("");
+  const crit={fitness:"≥25 g protein, ≥8 g fibre",lose:"≥20 g protein, ≥8 g fibre, <520 kcal",baby:"≥20 g protein, ≥12 g fibre",easy:"≥15 g protein, ≥8 g fibre, 400–600 kcal, 45–80 g carbs",gut:"≥15 g protein, ≥12 g fibre, 400–600 kcal"};
+  const rows=GOALS.map(([g,l])=>{const r=build({goal:g,house:"me",allergies:[],watch:[],spice:"ok",cuisine:""});
+    const bk=r.core.find(k=>UP[k].cat==="breakfast"),sh=r.core.find(k=>UP[k].cat==="shot");
+    const gp=r.upsell.slots.find(s=>s.slot==="Goal pick");
+    return `<tr><td><strong>${esc(l)}</strong></td><td>${crit[g]}</td><td>${bk?esc(UP[bk].name):"—"}</td><td>${sh?esc(UP[sh].name):"—"}</td><td>${gp&&gp.items.length?gp.items.map(k=>esc(UP[k].name)).join(" + "):"—"}</td><td class="n">${r.prot?r.prot.toFixed(1)+" g":"—"}</td><td class="n">${r.price?eur(r.price):"—"}</td></tr>`;});
+  document.getElementById("lg-goals").innerHTML=`<thead><tr><th>Goal</th><th>Meals favoured</th><th>Breakfast</th><th>Shot</th><th>Goal add-on</th><th class="n">Protein / meal</th><th class="n">Box price</th></tr></thead><tbody>${rows.join("")}</tbody>`;
+  const held=MEALS.filter(m=>m.held).map(m=>m.name);
+  document.getElementById("lg-core").innerHTML=[
+    `<strong>Allergens are a hard filter</strong>: no score overrides it, and fallbacks never relax it.`,
+    `<strong>Reviews are the only quality signal.</strong> Swap-out rates are no longer used.`,
+    `<strong>Low-rated meals never enter the box</strong> (under ${P.holdRating}★ with ${P.holdMinReviews}+ reviews${held.length?": "+esc(held.join(", ")):""}). They can still be picked as swaps.`,
+    `<strong>Max ${P.newCap} new meals per box</strong> (under ${P.newReviews} reviews).`,
+    `<strong>Max ${P.maxPer} of the same meal</strong>, only when there aren't enough different meals.`,
+    `<strong>4 swap options</strong> shown under the box; the customer can change anything.`,
+    `<strong>Price</strong>: DE quantity tier on meals, then ${P.disc}% first-order discount. Breakfast and shot get the tier price.`
+  ].map(x=>`<li>${x}</li>`).join("");
+}
+function safeBundle(size=12,items=["porridge"]){
+  const pool=MEALS.filter(m=>!m.contains.length&&!m.held).sort((a,b)=>b.qual-a.qual||a.sku.localeCompare(b.sku));
+  const qty=new Map(pool.map(m=>[m.sku,0]));let n=0;const maxQ=3;
+  for(let pass=1;pass<=maxQ&&n<size;pass++)for(const m of pool){if(n>=size)break;qty.set(m.sku,pass);n++;}
+  const lines=pool.map(m=>({m,n:qty.get(m.sku)})).filter(l=>l.n);
+  const bk="porridge",sh="herbal";
+  const mealList=lines.reduce((a,l)=>a+l.n*listPrice(l.m.fake),0),mealTier=lines.reduce((a,l)=>a+l.n*tierPrice(n,l.m.fake),0);
+  const list=mealList+items.reduce((a,k)=>a+UP[k].price,0), tier=mealTier+items.reduce((a,k)=>a+upTierPrice(k,n),0);
+  const shotAdd=upTierPrice(sh,n)*(1-P.disc/100);
+  const avg=k=>lines.reduce((a,l)=>a+l.n*l.m[k],0)/n;
+  return {pool,lines,n,bk,sh,items,shotAdd,list,listDisc:list*(1-P.disc/100),price:tier*(1-P.disc/100),prot:avg("prot"),fib:avg("fib"),kcal:avg("kcal")};
+}
+function renderFallbacks(){
+  const R=SWEEP,N=R.length,fb=R.filter(r=>r.fallback),down=R.filter(r=>!r.fallback&&r.downsized),rep=R.filter(r=>!r.fallback&&r.repeats);
+  const B=safeBundle();
+  document.getElementById("fb-kpis").innerHTML=[
+    ["Standard box",pct((N-fb.length-down.length)/N),"no step-down needed"],
+    ["Box with repeats",pct(rep.length/N),"at least one meal twice"],
+    ["Stepped down",pct(down.length/N),"household box under 20 meals"],
+    ["Allergen-safe bundle",pct(fb.length/N),"under 15 meals possible"]
+  ].map(k=>`<div class="kpi"><span class="l">${k[0]}</span><span class="v">${k[1]}</span><span class="d">${k[2]}</span></div>`).join("");
+  // combos
+  const QA=ALLERGENS.slice(0,6),rows=[];
+  for(let mask=1;mask<64;mask++){const al=QA.filter((_,i)=>mask>>i&1).map(a=>a[0]);
+    const el=MEALS.filter(m=>eligible(m,al)&&!m.held).length;
+    if(el*P.maxPer<15)rows.push({names:QA.filter((_,i)=>mask>>i&1).map(a=>a[1]),el,max:el*P.maxPer,covered:B.lines.every(l=>eligible(l.m,al))&&itemOk(B.bk,al,false)&&itemOk(B.sh,al,false)});}
+  rows.sort((a,b)=>a.names.length-b.names.length||b.el-a.el);
+  const shown=rows.filter(r=>!rows.some(o=>o!==r&&o.names.length<r.names.length&&o.names.every(x=>r.names.includes(x))));
+  document.getElementById("fb-combos").innerHTML=`<thead><tr><th>Smallest combinations</th><th class="n">Meals left</th><th class="n">Max units</th><th>Bundle safe</th></tr></thead><tbody>${shown.map(r=>`<tr><td>${esc(r.names.join(" + "))}</td><td class="n">${r.el}</td><td class="n">${r.max}</td><td>${r.covered?'<span class="pill good">Yes</span>':'<span class="pill bad">No</span>'}</td></tr>`).join("")}<tr><td colspan="4" class="muted small">${rows.length} of 63 combinations fall back; the rows above are the smallest ones, any combination that includes one of them falls back too. In the emulation, gluten + soy + mustard causes all ${pct(fb.length/N)} of fallbacks (gluten + soy + tree nuts isn't one of the emulated profiles).</td></tr></tbody>`;
+  // bundle
+  const V=[[12,["porridge"],"12 meals + breakfast",1],[13,["porridge"],"13 meals + breakfast"],[14,[],"14 meals only"],[14,["porridge"],"14 meals + breakfast"],[12,["porridge","herbal"],"12 meals + breakfast + shot"],[14,["porridge","herbal"],"14 meals + breakfast + shot"]].map(([n,it,label,rec])=>({label,rec,b:safeBundle(n,it)}));
+  const heldNote=B.lines.filter(l=>l.m.rating<P.holdRating).map(l=>`${l.m.name} (${l.m.rating}★, ${l.m.reviews} reviews)`);
+  document.getElementById("fb-bundle").innerHTML=`
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:start"><div><span class="pill good">Proposal for O14</span><h2 style="margin-top:6px">Allergen-safe bundle: "Free From ${B.n}"</h2>
+    <p class="muted small">${B.pool.length} meals that contain none of the 14 EU allergens, plus an allergen-free breakfast. Under €100 after all discounts; the shot pack moves to the add-on section. Safe for every quiz allergen combination.</p></div>
+    <div class="kpi" style="text-align:right;white-space:nowrap"><span class="l">First order</span><span class="big">${eur(B.price)}</span><span class="d">after tier + ${P.disc}% · list ${eur(B.list)}</span></div></div>
+    <div class="grid cols-2">
+      <div class="tbl-wrap"><table><thead><tr><th>Meal</th><th class="n">Qty</th><th class="n">Rating</th><th class="n">Protein</th><th class="n">Fibre</th></tr></thead><tbody>
+      ${B.lines.map(l=>`<tr><td>${esc(l.m.name)}</td><td class="n">${l.n}</td><td class="n">${l.m.rating}★</td><td class="n">${l.m.prot} g</td><td class="n">${l.m.fib} g</td></tr>`).join("")}
+      <tr><td>${esc(UP[B.bk].name)} <span class="muted small">breakfast</span></td><td class="n">1</td><td colspan="3"></td></tr>
+      <tr><td class="muted">${esc(UP[B.sh].name)} <span class="small">optional add-on, +${eur(B.shotAdd)}</span></td><td class="n muted">—</td><td colspan="3"></td></tr>
+      <tr><td><strong>Total</strong></td><td class="n"><strong>${B.n} + 1</strong></td><td colspan="3" class="muted small">avg ${B.prot.toFixed(1)} g protein · ${B.fib.toFixed(1)} g fibre · ${Math.round(B.kcal)} kcal per meal</td></tr>
+      </tbody></table></div>
+      <ul class="rules">
+        <li><strong>Same size for every household</strong>: ${B.n} meals. ${B.pool.length} safe meals can't fill 20 without a 4th repeat.</li>
+        <li><strong>Up to 3 of the same meal</strong>, an exception to the max-2 rule, best-rated meals first.</li>
+        <li><strong>Breakfast</strong>: Apple Cinnamon Porridge (no allergens, ${UP.porridge.sugar} g sugar, so fine for low sugar). <strong>Shot</strong>: Herbal Ritual Cubes (lowest sugar), offered as the first add-on to stay under €100.</li>
+        <li><strong>Add-ons</strong> follow the normal rules and allergen filter (most get blocked; smoothie packs and cubes stay).</li>
+        <li><strong>Tree nuts OK?</strong> Crunchy Beetroot Salad (22.8 g fibre) can replace one Creamy Mango Curry.</li>
+        ${heldNote.length?`<li><strong>Watch</strong>: ${esc(heldNote.join(", "))} is under ${P.holdRating}★ but has too few reviews to be excluded.</li>`:""}
+        <li><strong>Limit</strong>: all ${B.pool.length} meals carry factory "may contain" statements. If O1 decides traces exclude, the bundle no longer qualifies and needs a rethink.</li>
+        <li><strong>Price tier</strong>: ${B.n} meals sit in the 12-meal tier (${eur(tierPrice(B.n,false))} per meal before discount).</li>
+      </ul>
+    </div>
+    <div><h3>Other sizes considered</h3><p class="muted small" style="margin-bottom:8px">Same safe meals, DE tier price, then ${P.disc}% first-order discount.</p>
+    <div class="tbl-wrap"><table><thead><tr><th>Option</th><th class="n">List</th><th class="n">After discounts</th><th>Under €100</th></tr></thead><tbody>${V.map(v=>`<tr${v.rec?' style="font-weight:600"':''}><td>${esc(v.label)}${v.rec?' <span class="pill good">Proposed</span>':''}</td><td class="n">${eur(v.b.list)}</td><td class="n">${eur(v.b.price)}</td><td>${v.b.price<100?'<span class="pill good">Yes</span>':'<span class="pill bad">No</span>'}</td></tr>`).join("")}</tbody></table></div></div>`;
+}
+
+/* ---------- rendering: simulator ---------- */
+function chipGroup(id,opts,isOn,onClick,cls=""){
+  const el=document.getElementById(id);
+  el.innerHTML=opts.map(([k,l])=>`<button type="button" class="chip ${cls}" data-k="${esc(k)}" aria-pressed="${isOn(k)}">${esc(l)}</button>`).join("");
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{onClick(b.dataset.k);renderControls();renderSim();});
+}
+function renderControls(){
+  chipGroup("c-goal",GOALS,k=>Q.goal===k,k=>Q.goal=k);
+  chipGroup("c-house",HOUSES,k=>Q.house===k,k=>Q.house=k);
+  chipGroup("c-allergy",ALLERGENS,k=>Q.allergies.includes(k),k=>{Q.allergies=Q.allergies.includes(k)?Q.allergies.filter(x=>x!==k):[...Q.allergies,k];});
+  chipGroup("c-watch",WATCH,k=>Q.watch.includes(k),k=>{Q.watch=Q.watch.includes(k)?Q.watch.filter(x=>x!==k):[...Q.watch,k];});
+  chipGroup("c-spice",SPICES,k=>Q.spice===k,k=>Q.spice=k,"spicy");
+  chipGroup("c-cuisine",CUISINES,k=>Q.cuisine===k,k=>Q.cuisine=k);
+}
+const PARAMS=[
+  ["range","wGoal","Goal weight",0,1,.05],["range","wQual","Quality weight",0,1,.05],["range","wSpice","Spice weight",0,1,.05],["range","wCuis","Cuisine weight",0,1,.05],["range","wNutr","Nutrition weight",0,1,.05],
+  ["check","fitScale","Scale fitness protein (15–30 g)"],["check","traces","\"May contain\" excludes meals (O1)"],["check","holdBack","Exclude low-rated meals from the box"],
+  ["range","holdRating","Exclude meals rated under ★",3,4.5,.1],["range","holdMinReviews","…with at least N reviews",10,150,10],
+  ["range","newReviews","New meal: under N reviews",0,60,5],["range","newCap","Max new meals per box",0,6,1],
+  ["range","maxPer","Max units per meal",1,3,1],
+  ["select","boxSize","Meals per box",[["auto","By household"],["14","Always 14"],["16","Always 16"],["18","Always 18"],["20","Always 20"],["24","Always 24"]]],
+  ["range","disc","First-order discount %",0,40,5],["check","discAddons","Discount also on add-ons"],
+  ["range","slots","Upsell slots",0,3,1],["range","sweet","Sweet line (g sugar / serving)",0,15,1],
+  ["select","proteinSet","Protein set",[["1+1","1 Boonian + 1 Planted"],["2B","2 Boonian"]]]
+];
+function renderParams(){
+  const el=document.getElementById("c-params");
+  el.innerHTML=PARAMS.map(p=>{
+    if(p[0]==="range")return `<div class="row"><label for="p-${p[1]}">${p[2]}</label><span style="display:flex;gap:6px;align-items:center"><input type="range" id="p-${p[1]}" min="${p[3]}" max="${p[4]}" step="${p[5]}" value="${P[p[1]]}"><output id="o-${p[1]}">${P[p[1]]}</output></span></div>`;
+    if(p[0]==="check")return `<label class="toggle"><input type="checkbox" id="p-${p[1]}" ${P[p[1]]?"checked":""}> ${p[2]}</label>`;
+    return `<div class="row"><label for="p-${p[1]}">${p[2]}</label><select id="p-${p[1]}">${p[3].map(o=>`<option value="${o[0]}" ${String(P[p[1]])===o[0]?"selected":""}>${o[1]}</option>`).join("")}</select></div>`;
+  }).join("");
+  PARAMS.forEach(p=>{const i=document.getElementById("p-"+p[1]);
+    i.addEventListener(p[0]==="range"?"input":"change",()=>{P[p[1]]=p[0]==="check"?i.checked:p[0]==="range"?+i.value:i.value;
+      const o=document.getElementById("o-"+p[1]);if(o)o.textContent=i.value;computeQuality();renderSim();dirty=true;});});
+}
+let dirty=false;
+function mealCard(m,n,swap){
+  const tags=[];if(m.fake)tags.push('<span class="pill neu">Plant-based meat</span>');if(m.isNew)tags.push('<span class="pill neu">New</span>');if(m.held)tags.push('<span class="pill bad">Low rating: not in box</span>');
+  if(m.spice!=="nein")tags.push(`<span class="pill warn">${m.spice==="very"?"Very spicy":"A little spicy"}</span>`);
+  return `<div class="meal ${swap?"swap":""}"><div class="t"><span>${esc(m.name)}</span><span class="mono">${n>1?"×"+n:""}</span></div>
+  <div class="m">${m.prot} g P · ${m.fib} g F · ${Math.round(m.kcal)} kcal · ${esc(m.cuis)}</div>
+  <div class="m">score ${m.score.toFixed(2)} · goal ${m.g.toFixed(2)} · quality ${m.qual.toFixed(2)}</div>
+  ${tags.length?`<div class="tags">${tags.join("")}</div>`:""}</div>`;
+}
+function mealTags(m){const t=[];if(m.fake)t.push('<span class="pill neu">Plant-based meat</span>');if(m.isNew)t.push('<span class="pill neu">New</span>');if(m.held)t.push('<span class="pill bad">Low rating</span>');
+  if(m.spice!=="nein")t.push(`<span class="pill warn">${m.spice==="very"?"Very spicy":"A little spicy"}</span>`);return t.join(" ");}
+function mealRow(m,n,i){return `<tr><td class="idx">${i}</td><td>${esc(m.name)}</td><td><div class="tags" style="margin:0">${mealTags(m)}</div></td><td class="n">${n>1?"×"+n:"1"}</td><td class="n">${m.prot} g</td><td class="n">${m.fib} g</td><td class="n">${Math.round(m.kcal)}</td><td>${esc(m.cuis)}</td><td class="n">${m.score.toFixed(2)}</td><td class="n">${m.g.toFixed(2)}</td><td class="n">${m.qual.toFixed(2)}</td></tr>`;}
+function nutriPanel(r,b){
+  const all=k=>MEALS.reduce((a,m)=>a+m[k],0)/MEALS.length;
+  const N=[["prot","Protein","g",r.prot,40,b[1],b[0]],["fib","Fibre","g",r.fib,25,b[2],b[0]],["kcal","Calories","kcal",r.kcal,800,b[3],b[0]],["fat","Fat","g",r.fat,40,null,null],["sug","Sugar","g",r.sugar,25,null,null]];
+  const key={prot:"prot",fib:"fib",kcal:"kcal",fat:"fat",sug:"sugar"};
+  const tile=([k,l,u,v,max,bm,bn])=>{const ref=bm!=null?bm:all(key[k]);const d=v-ref;const dd=(k==="kcal"?Math.round(d):d.toFixed(1));
+    return `<div class="nt" style="--c:var(--n-${k})"><span class="nl">${l}</span><span class="nv">${k==="kcal"?Math.round(v):v.toFixed(1)}<small>${u}</small></span>
+    <div class="track" role="img" aria-label="${l} ${v.toFixed(1)} ${u}, reference ${ref.toFixed(1)}"><span class="fill" style="width:${Math.min(100,v/max*100)}%"></span><span class="bm" style="left:${Math.min(100,ref/max*100)}%"></span></div>
+    <span class="nd"><b>${d>=0?"+":""}${dd} ${u}</b> vs ${bm!=null?esc(bn):"47-meal average"} (${k==="kcal"?Math.round(ref):ref.toFixed(1)})</span></div>`;};
+  return `<div class="panel"><div style="margin-bottom:10px"><h3 style="margin:0">Nutrition per meal</h3><p class="muted small">Box average across all ${r.units} meals; breakfast and shot not included. Black tick = reference.</p></div><div class="nutri">${N.map(tile).join("")}</div></div>`;
+}
+function renderSim(){
+  const r=build(Q), el=document.getElementById("result");
+  const b=BENCH[Q.goal];
+  if(r.fallback){
+    el.innerHTML=`<div class="panel"><div class="state"><span class="pill bad">Fallback (2.6)</span><strong>No 15-meal box possible</strong></div>
+    <p class="muted" style="margin-top:6px">${r.eligible} eligible meals × max ${P.maxPer} per meal = ${r.eligible*P.maxPer} units, under the 15-meal minimum. The page offers an allergen-safe bundle if one qualifies (O14), otherwise a browsable list with an email capture and no checkout.</p></div>
+    <div class="panel"><h3>Eligible meals</h3>${r.ranked.length?`<div class="tbl-wrap"><table><thead><tr><th class="idx">#</th><th>Product</th><th>Tags</th><th class="n">Qty</th><th class="n">Protein</th><th class="n">Fibre</th><th class="n">kcal</th><th>Cuisine</th><th class="n">Score</th><th class="n">Goal</th><th class="n">Quality</th></tr></thead><tbody>${r.ranked.map((m,i)=>mealRow(m,1,i+1)).join("")}</tbody></table></div>`:'<p class="muted">None</p>'}</div>`;
+    return;
+  }
+  const dp=r.prot-b[1];
+  const st=[];
+  if(r.downsized)st.push(`<span class="pill warn">Downsized ${r.target} → ${r.units}</span>`);
+  if(r.repeats)st.push(`<span class="pill warn">${r.repeats} meals ×2</span>`);
+  if(r.distinct<8)st.push('<span class="pill bad">Limited match (&lt;8 different)</span>');
+  if(!st.length)st.push('<span class="pill good">Standard box</span>');
+  const kp=[["List price",eur(r.listGross),`${r.units} meals${r.core&&r.core.length?" + "+r.core.length+" products":""}, no discounts`],["With "+P.disc+"% first-order discount",eur(r.listDisc),"list price × "+(1-P.disc/100).toFixed(2)],["With first-order + quantity discount",eur(r.price),`${r.units} meals at the ${tierKey(r.units)}-meal tier · ${eur(r.perMeal)} / meal`],["Meal COGS",eur(r.cogs),`${eur(r.cogsPerMeal)} per meal · ${pct(r.cogsPct)} of net revenue`,1],["Meal margin, net of VAT",pct(r.netMarginPct),`${eur(r.netMargin)} · gross method ${pct(r.marginPct)} · Q3 ref ${pct(REF.pm)}`,1],
+    ["Upsells",eur(r.upPrice),r.upsell.items.length+" items · list "+eur(r.upList)],["Total order",eur(r.total),"meal box + upsells, all discounts"],["Upsell COGS",eur(r.upCogs),"total order COGS "+eur(r.totalCogs),1],["Total order margin, net of VAT",pct(r.totalNetPct),"meals + upsells",1]];
+  const ups=r.upsell.slots.map(s=>`<div class="up"><span class="slot">${s.slot}</span><div>${s.items.length?s.items.map(k=>esc(UP[k].name)).join(" + "):'<span class="muted">Empty</span>'}<div class="muted small">${esc(s.why)}${s.backup?" · backup option":""}</div></div><span class="mono">${s.items.length?eur(s.items.reduce((a,k)=>a+upTierPrice(k,r.units),0)):""}</span></div>`).join("");
+  el.innerHTML=`<div class="panel"><div class="state">${st.join("")}<span class="muted small">${r.eligible} eligible meals · ${r.fake} plant-based-meat units · ${r.newIn} new meals</span></div></div>
+  <div class="kpis">${kp.filter(x=>!x[3]).map(x=>`<div class="kpi"><span class="l">${x[0]}</span><span class="v">${x[1]}</span><span class="d">${esc(x[2])}</span></div>`).join("")}</div>
+  ${nutriPanel(r,b)}
+  <div class="panel"><h3>Recommended box · ${r.products} products</h3><p class="note" style="margin:0 0 10px">${r.q.house==="me"?"Box logic for <strong>Just me</strong>: 15 meals + 1 breakfast + 1 shot pack (17 products).":`Box logic for <strong>${esc(label(HOUSES,r.q.house))}</strong>: 20 meals + 1 breakfast + 1 shot pack (22 products).`}${r.downsized?` Allergies leave too few meals, so this box has ${r.units} meals.`:""}</p><div class="tbl-wrap"><table><thead><tr><th class="idx">#</th><th>Product</th><th>Tags</th><th class="n">Qty</th><th class="n">Protein</th><th class="n">Fibre</th><th class="n">kcal</th><th>Cuisine</th><th class="n">Score</th><th class="n">Goal</th><th class="n">Quality</th></tr></thead><tbody>${r.lines.map((l,i)=>mealRow(l.m,l.n,i+1)).join("")}${(r.core||[]).map((k,j)=>`<tr><td class="idx">${r.lines.length+j+1}</td><td>${esc(UP[k].name)}</td><td><span class="pill neu">${UP[k].cat==="shot"?"Shot":"Breakfast"}</span></td><td class="n">1</td><td class="n" colspan="3" style="text-align:left">${UP[k].sugar} g sugar / serving · ${eur(upTierPrice(k,r.units))}</td><td></td><td></td><td></td><td></td></tr>`).join("")}</tbody></table></div></div>
+  <div class="panel"><h3>Swap options (2.4b)</h3>${r.swaps.length?`<div class="tbl-wrap"><table><thead><tr><th class="idx">#</th><th>Product</th><th>Tags</th><th class="n">Qty</th><th class="n">Protein</th><th class="n">Fibre</th><th class="n">kcal</th><th>Cuisine</th><th class="n">Score</th><th class="n">Goal</th><th class="n">Quality</th></tr></thead><tbody>${r.swaps.map((m,i)=>mealRow(m,1,i+1)).join("")}</tbody></table></div>`:'<p class="muted">No eligible meals left</p>'}</div>
+  <div class="panel"><h3>Upsell section (2.5)</h3>${ups||'<p class="muted">Upsells switched off</p>'}<p class="note" style="margin-top:8px">Upsells never count toward the 15/20 meals, the price tier or the box averages. Prices shown at the box's quantity tier${P.discAddons?", before the first-order discount":""}.</p></div>`;
+}
+
+/* ---------- matrix ---------- */
+function renderMatrix(){
+  const metric=document.getElementById("m-metric").value, sp=document.getElementById("m-spice").value;
+  const sug=document.getElementById("m-sugar").checked, pro=document.getElementById("m-protein").checked;
+  const val=r=>{if(r.fallback)return null;return {list:r.listGross,listdisc:r.listDisc,price:r.price,total:r.total,margin:r.marginPct,netmargin:r.netMarginPct,cogs:r.cogs,cogspct:r.cogsPct,protein:r.prot,fibre:r.fib,kcal:r.kcal,distinct:r.distinct,upsell:r.upPrice}[metric];};
+  const fmt=v=>["margin","netmargin","cogspct"].includes(metric)?pct(v):["list","listdisc","price","total","upsell","cogs"].includes(metric)?eur(v):metric==="kcal"||metric==="distinct"?Math.round(v):v.toFixed(1);
+  const cells=[];
+  GOALS.forEach(([g,gl])=>HOUSES.forEach(([h,hl])=>{const row=PROFILES.map(p=>{const q={goal:g,house:h,spice:sp,allergies:p[2],watch:[...(sug?["sugar"]:[]),...(pro?["protein"]:[])],cuisine:""};return {q,r:build(q)};});cells.push({g,gl,h,hl,row});}));
+  const all=cells.flatMap(c=>c.row.map(x=>val(x.r))).filter(v=>v!=null);const lo=Math.min(...all),hi=Math.max(...all);
+  const bg=v=>{if(v==null)return "var(--bad-bg)";const t=hi>lo?(v-lo)/(hi-lo):.5;return `color-mix(in srgb, var(--accent) ${Math.round(8+t*42)}%, var(--surface))`;};
+  const t=document.getElementById("matrix");
+  t.innerHTML=`<thead><tr><th>Goal</th><th>Household</th>${PROFILES.map(p=>`<th class="n">${p[1]}</th>`).join("")}</tr></thead><tbody>${cells.map((c,i)=>`<tr>${i%4===0?`<td class="rowh" rowspan="4">${c.gl}</td>`:""}<td class="rowh">${c.hl}</td>${c.row.map((x,j)=>{const v=val(x.r);return `<td class="cell" data-i="${i}" data-j="${j}" style="background:${bg(v)}" title="${esc(c.gl)} · ${esc(c.hl)} · ${esc(PROFILES[j][1])}">${v==null?'<span style="color:var(--bad)">Fallback</span>':fmt(v)}${x.r.repeats?'<span class="muted">*</span>':""}</td>`;}).join("")}</tr>`).join("")}</tbody>`;
+  t.querySelectorAll("td.cell").forEach(td=>td.onclick=()=>{const c=cells[+td.dataset.i],x=c.row[+td.dataset.j];Q={...x.q,watch:[...x.q.watch],allergies:[...x.q.allergies]};renderControls();renderSim();show("simulator");});
+  document.getElementById("m-legend").innerHTML=`<span><span class="sw" style="background:color-mix(in srgb, var(--accent) 8%, var(--surface))"></span>Lowest ${fmt(lo)}</span><span><span class="sw" style="background:color-mix(in srgb, var(--accent) 50%, var(--surface))"></span>Highest ${fmt(hi)}</span><span><span class="sw" style="background:var(--bad-bg)"></span>Fallback: no 16-meal box</span><span>* box contains repeated meals</span>`;
+}
+
+/* ---------- data tab ---------- */
+
+/* ---------- product mapping sheet (snapshot) ---------- */
+const PM={"hdr": ["SKU", "Category ", "Name", "INGREDIENTS (EN)", "Goal", "Week", "Household", "Spice level", "Cuisine", "Watching for", "Allergies", "Add-on conditions (other questions)", "Avg times swapped out per month (1st → 2nd order)", "Swap-out rate (% of 1st-order units)", "Months with data (Jan–Aug 2026)", "Swap data note", "Current review score (avg ★, all time)", "Number of reviews on 21.10.26", "Protein upsell (TRUE/FALSE)", "Upsell trigger", "Upsell qty", "Upsell note", "COGS € (DA, Oct 2026, total incl. replenishment)", "Price group", "Sale price € (DA): add-ons = unit price; meals = per meal in 16-meal box", "Sale price € per meal in 20-meal box (meals only)", "Margin € at sale price", "Margin % at sale price", "Price & COGS note"], "rows": [["F4005Z", "Signature Bowls", "Green Forest Bowl", "Cooked spelt (water, SPELT WHEAT) (33%), wild garlic pesto (pumpkin seeds, extra virgin olive oil, wild garlic (3%), salt, concentrated lemon juice, porcini mushroom powder, black pepper) (15%), mushrooms (14%), cut green asparagus, grilled courgettes, water, cut green beans, peas.", "MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Getting more protein, Lowering my sugar intake, Eating more plant-based, Consuming more calories", "Gluten", "", "530", "32%", "8", "", "4.42", "582", "FALSE", "", "", "", "€1.90", "Standard", "€7.64", "€7.19", "€5.74", "75.1%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4010Z", "Curries & Dals", "Dal Delight", "Cooked brown lentils (water, brown lentils) (20%), coconut milk (coconut, water) (11%), cooked kidney beans (water, kidney beans, salt) (10%), cooked black beans (water, black beans) (10%), leaf spinach, carrots, tomatoes, onions, fried sweet potatoes (sweet potatoes, sunflower oil) (6%), tomato juice, salt, coriander leaves, garlic, ginger, potato starch, fenugreek seed, coriander, turmeric, cumin, black pepper, concentrated lemon juice.", "HEALTHY_GUT, BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, POSTPARTUM", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Indian", "Getting more protein, Eating more Fiber, Eating more plant-based", "None of the V5 list", "", "1244", "27%", "8", "", "4.57", "658", "FALSE", "", "", "", "€1.63", "Standard", "€7.64", "€7.19", "€6.01", "78.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4011Z", "Curries & Dals", "Golden Curry", "Pumpkin (29%), chickpeas (19%), coconut milk (coconut, water), spinach leaves, cooked wild rice (wild rice, water, salt), water, onion, candied ginger (ginger, water, sugar), salt, potato starch, garlic, rice starch, concentrated lemon juice, cayenne pepper, coriander, turmeric, cumin, sweet paprika, black pepper.", "No goal match", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Indian", "Eating more Fiber, Eating more plant-based", "None of the V5 list", "", "651", "33%", "8", "", "4.64", "818", "FALSE", "", "", "", "€2.02", "Standard", "€7.64", "€7.19", "€5.62", "73.6%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4012Z", "Signature Bowls", "Green Boost", "Water, cooked brown lentils (water, lentils) (11%), chickpeas, romanesco (11%), broccoli (10%), peaches, sugar snap peas, spinach leaves, mint, extra virgin olive oil, pumpkin seeds, basil, garlic, salt, concentrated lemon juice, chilli, pepper, cumin.", "LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "None of the V5 list", "", "1055", "47%", "7", "", "4.18", "489", "FALSE", "", "", "", "€1.92", "Standard", "€7.64", "€7.19", "€5.72", "74.9%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4015Z", "Pasta & Noodles", "Bami Goreng", "Cooked ribbon noodles (water, DURUM WHEAT SEMOLINA) (35%), bell pepper, planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (13%), mu-err mushrooms, carrots, pak choi, onions, soy sauce (water, SOYBEANS, WHEAT, salt), spring onions, sunflower oil, water, garlic, coriander, ground paprika, spirit vinegar, tomato paste, cayenne pepper, salt, black pepper, potato starch, chili.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "840", "33%", "8", "", "4.51", "635", "FALSE", "", "", "", "€1.96", "Plant-based meat", "€8.49", "€7.99", "€6.53", "76.9%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4016Z", "Curries & Dals", "Tikka Masala", "Cooked basmati rice (water, basmati rice) (22%), bell pepper (14%), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (13%), coconut milk (coconut, water), tomatoes, choi sum (9%), red onions, cooked wild rice (water, wild rice, salt) (4%), peas, tomato juice, rapeseed oil, coriander leaf, garlic, ginger, salt, potato starch, chili, lemon juice, coriander, black pepper, cumin, cinnamon, turmeric, smoked paprika powder (paprika, smoke), cardamom.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Indian", "Getting more protein, Eating more plant-based", "Soy", "", "634", "28%", "8", "", "4.56", "629", "FALSE", "", "", "", "€2.46", "Plant-based meat", "€8.49", "€7.99", "€6.03", "71.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4017Z", "Curries & Dals", "Better Butter Chicken", "Cooked rice (water, rice, salt) (22%), tomatoes (15%), cauliflower, planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (13%), water, coconut milk (coconut, water), pak choi, potatoes, tomato paste (3%), rice starch, salt, garlic, ground paprika, candied ginger (ginger, sugar, water), sunflower oil, cumin, coriander, turmeric, cayenne pepper, cinnamon, cloves, cardamom.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Indian", "Getting more protein, Eating more plant-based", "Soy", "", "626", "28%", "8", "", "4.47", "116", "FALSE", "", "", "", "€2.23", "Plant-based meat", "€8.49", "€7.99", "€6.26", "73.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4018Z", "Signature Bowls", "Golden Glow Bowl", "Broccoli, coconut milk (coconut, water), fried sweet potatoes (sweet potatoes, sunflower oil) (11%), choy sum, cooked red kidney beans (water, red kidney beans, salt), cooked white quinoa (water, white quinoa) (9%), sweet corn, water, soaked chickpeas (water, chickpeas), vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), extra virgin olive oil, ginger, chillies, candied ginger (ginger, sugar, water), garlic, salt, mint, turmeric, potato starch, concentrated lemon juice, rice starch, black pepper.", "No goal match", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Eating more Fiber, Eating more plant-based", "None of the V5 list", "", "947", "31%", "8", "", "4.45", "74", "FALSE", "", "", "", "€2.07", "Standard", "€7.64", "€7.19", "€5.57", "72.9%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4027Z", "Pasta & Noodles", "Brilliant Bolognese", "Cooked tagliatelle (water, DURUM WHEAT SEMOLINA, salt, sunflower oil) (30%), tomatoes (17%), cooked brown lentils (water, lentils) (12%), carrots, parsnips, red onions, water, aubergines, tomato juice (3%), tomato purée (3%), extra virgin olive oil, vegetable broth (carrots, onions, leek, salt, water, extra virgin olive oil), basil, garlic, salt, rice starch, black pepper, oregano.", "MAINTAIN_WEIGHT, MORE_ENERGY", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten", "", "730", "24%", "8", "", "4.63", "767", "FALSE", "", "", "", "€1.76", "Standard", "€7.64", "€7.19", "€5.88", "77.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4028Z", "Signature Bowls", "Farmhouse Ratatouille", "cooked spelt (water, SPELT WHEAT) (17%), grilled zucchini, cherry tomatoes, fried peppers (peppers, sunflower oil), peppers, grilled aubergines, water, onions, fried potatoes (potatoes, sunflower oil, dextrose) (6%), tomato paste (3%), sunflower oil, basil, extra virgin olive oil, salt, garlic, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), spirit vinegar, agave syrup, ground paprika, rice starch, potato starch, oregano, nutmeg, allspice, black pepper, thyme", "No goal match", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Eating more plant-based", "Gluten", "", "239", "34%", "8", "Shopify SKU F4028Z also sold as \"Ratatouille Romance\"; F4028ZA adds 145 swaps (18/month)", "4.42", "198", "FALSE", "", "", "", "€1.72", "Standard", "€7.64", "€7.19", "€5.92", "77.5%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4043Z", "Pasta & Noodles", "Peas & Love", "Pre-cooked PASTA (water, DURUM WHEAT semolina) (31%), peas (15%), romanesco, water, savoy cabbage, broccoli, dried tomatoes (4%), basil (3%), pumpkin seeds, extra virgin olive oil, salt, concentrated lemon juice, garlic, black pepper.", "BALANCED, MAINTAIN_WEIGHT", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Gluten", "", "1339", "28%", "8", "", "4.59", "759", "FALSE", "", "", "", "€1.74", "Standard", "€7.64", "€7.19", "€5.90", "77.2%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4044Z", "Signature Bowls", "Naked Taco", "Cooked basmati rice (water, basmati rice) (20%), paprika (15%), cooked wild rice (water, wild rice, salt) (10%), fried onions (onions, contains sunflower oil and /or canola oil), sweetcorn, cooked kidney beans (water, kidney beans, salt), water, cherry tomatoes, cooked black beans (water, black beans) (4%), sun-dried tomatoes, canola oil, tomato paste 28% double concentrated, Sambal (water, tomato paste 36% triple concentrated, table salt, paprika, brandy vinegar, chili, cayenne pepper), salt, paprika powder, garlic, concentrated lemon juice, oregano, cumin, cayenne pepper, rice starch, MUSTARD seed, cardamom, allspice.", "HEALTHY_GUT, BALANCED", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Yes, very spicy is great", "Latin", "Eating more Fiber, Eating more plant-based", "Mustard", "", "527", "29%", "8", "", "4.57", "343", "FALSE", "", "", "", "€1.93", "Standard", "€7.64", "€7.19", "€5.71", "74.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4068Z", "Pasta & Noodles", "Pasta Arrabbiata", "Cooked pasta (water, DURUM WHEAT semolina) (36%), cherry tomatoes (18%), yellow carrots (18%), water, tomato paste 28% double concentrated (4%), tomatoes (3%), dried tomatoes (tomatoes, water, salt) (2%), tomato juice (1%), vegetable stock (carrots, onions, leeks, salt, water, extra virgin olive oil), extra virgin olive oil, sunflower seeds, salt, chilli, oregano, rice starch, potato starch, paprika, cayenne pepper, black pepper.", "BALANCED", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Yes, medium spicy is ok", "Italian", "Eating more plant-based", "Gluten", "", "268", "26%", "8", "", "4.30", "237", "FALSE", "", "", "", "€1.68", "Standard", "€7.64", "€7.19", "€5.96", "78.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4076Z", "Pasta & Noodles", "Garden Gnocchi", "Cooked gnocchi (potato puree, DURUM WHEAT SEMOLINA, water, WHEAT FLOUR, potato starch, salt, turmeric) (38%), spinach, water, snap beans (9%), broccoli (8%), red onions, cherry tomatoes (4%), semi-dried tomatoes (3%), red bell pepper, soft tomatoes (tomatoes, water, salt) (3%), pumpkin seeds, rapeseed oil, tomato paste 28% double concentrated, tomatoes, chives, garlic, salt, basil, tomato juice, rice starch, agave syrup, black pepper.", "BALANCED", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Eating more plant-based", "Gluten", "", "392", "23%", "8", "", "4.60", "312", "FALSE", "", "", "", "€1.60", "Standard", "€7.64", "€7.19", "€6.04", "79.1%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4088Z", "Curries & Dals", "Red Curry", "Cooked basmati rice (water, basmati rice) (24%), coconut milk (coconut, water), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (14%), green beans, broccoli, water, yellow carrots, tomato paste, soy sauce (water, SOYBEANS, WHEAT, salt), ginger, sultanas (sultanas, sunflower oil), garlic, chili, potato starch, lemongrass, salt, concentrated lemon juice, fennel, MUSTARD FLOUR, kaffir lime leaves, concentrated blackcurrant juice.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more plant-based", "Gluten, Soy, Mustard", "", "236", "25%", "8", "", "4.53", "253", "FALSE", "", "", "", "€2.51", "Plant-based meat", "€8.49", "€7.99", "€5.98", "70.4%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4092Z", "Pasta & Noodles", "Green Curry Noodles", "Mie noodles (WHEAT FLOUR, water, sunflower oil) (33%), cauliflower (25%), coconut milk (coconut, water), spinach leaves, red onions, water, garlic, soy sauce (water, SOYBEANS, WHEAT, salt), ginger, Thai basil, lemongrass, chili, salt, kaffir lime leaves, potato starch, coriander leaves, rice starch, coriander, turmeric, candied ginger (ginger, water, sugar), cumin.", "No goal match", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Yes, medium spicy is ok", "Asian (Thai, Japanese, Korean etc.)", "Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "319", "32%", "8", "", "4.50", "270", "FALSE", "", "", "", "€1.83", "Standard", "€7.64", "€7.19", "€5.81", "76.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4097Z", "Pasta & Noodles", "Ramen Noodles", "Mie noodles (WHEAT FLOUR, water, sunflower oil) (22%), water, savoy cabbage, grilled aubergines, choy sum, soy sauce (water, SOY BEANS, WHEAT, salt) (6%), fried onions (onions, rapeseed oil), SOY BEAN KERNELS, wood ear mushrooms, sweet corn, spring onions, rice starch, sunflower oil, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), garlic, chilli, coriander, ginger, candied ginger (ginger, water, sugar), porcini powder, black pepper.", "BALANCED, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Asian (Thai, Japanese, Korean etc.)", "Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "402", "37%", "8", "", "3.90", "240", "FALSE", "", "", "", "€1.96", "Standard", "€7.64", "€7.19", "€5.68", "74.3%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4098Z", "Signature Bowls", "Potato Panorama", "cooked spelt (water, SPELT) (15%), fried sweet potatoes (sweet potatoes, sunflower oil) (14%), fried potatoes (potatoes, contains sunflower oil and/or rapeseed oil, dextrose) (13%), bell peppers, broccoli, red onions, cut green beans, cherry tomatoes, grilled courgettes, water, extra virgin olive oil, salt, agave syrup, concentrated lemon juice, basil, garlic, rice starch, oregano, rosemary, thyme, marjoram, fennel, paprika, black pepper.", "No goal match", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Eating more plant-based", "Gluten", "", "141", "33%", "8", "", "4.22", "161", "FALSE", "", "", "", "€1.64", "Standard", "€7.64", "€7.19", "€6.00", "78.5%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4099Z", "Pasta & Noodles", "Coco Curry Pasta", "Cooked pasta (water, DURUM WHEAT SEMOLINA) (24%), broccoli (15%), coconut milk (coconut, water) (13%), sweet corn (9%), water, cooked brown lentils (water, lentils), chickpeas, yellow bell peppers, fried onions (onions, rapeseed oil), candied ginger (ginger, sugar, water), soy sauce (water, SOYA BEANS, WHEAT, salt), salt, rice starch, garlic, mint, lemon juice, potato starch, ginger, cayenne pepper, coriander, turmeric, cumin, paprika, black pepper.", "BALANCED, MAINTAIN_WEIGHT, MORE_ENERGY", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "1170", "27%", "8", "", "4.33", "224", "FALSE", "", "", "", "€1.60", "Standard", "€7.64", "€7.19", "€6.04", "79.1%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4103Z", "Pasta & Noodles", "Mushroom Spätzle", "Cooked spätzle (water, DURUM WHEAT SEMOLINA, salt) (28%), broccoli (15%), mushrooms (15%), white cabbage (15%), coconut milk (coconut, water), water, fried onions (onions, rapeseed oil), chestnuts, tomato paste, rapeseed oil, soy sauce (water, SOYBEANS, WHEAT, salt), parsley, garlic, salt, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), rice starch, ground paprika, potato starch, porcini powder, nutmeg, thyme, black pepper.", "No goal match", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "German", "Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "271", "30%", "8", "", "4.03", "215", "FALSE", "", "", "", "€1.69", "Standard", "€7.64", "€7.19", "€5.95", "77.9%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4104Z", "Signature Bowls", "Chili sin Carne", "Fried potatoes (potatoes, sunflower oil, dextrose) (15%), tomatoes (15%), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (11%), cooked kidney beans (water, kidney beans, salt) (10%), cooked black beans (water, black beans) (10%), yellow bell pepper, red bell pepper, water, sweetcorn, onions, tomato paste (4%), tomato juice (2%), extra virgin olive oil, salt, agave syrup, coriander leaf, garlic, chili, ground paprika, cumin, potato starch, MUSTARD SEED, cayenne pepper, oregano, rice starch, allspice, cardamom.", "HEALTHY_GUT, BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, POSTPARTUM", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Yes, medium spicy is ok", "Latin", "Getting more protein, Eating more Fiber, Eating more plant-based", "Soy, Mustard", "", "855", "38%", "8", "", "4.36", "123", "FALSE", "", "", "", "€2.83", "Plant-based meat", "€8.49", "€7.99", "€5.66", "66.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4110Z", "Signature Bowls", "Paella Del Sol", "Cooked rice (water, rice, salt, turmeric) (24%), cherry tomatoes (12%), green beans, grilled red bell pepper, peas, yellow bell pepper, planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12), water, soft tomatoes (residual moisture 80%) (tomatoes, water, salt), black olives (olives, salt) (2%), sunflower oil, extra virgin olive oil, tomato paste, garlic, basil, salt, ground paprika, agave syrup, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), thyme, rice starch, black pepper.", "BALANCED, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Eating more Fiber, Eating more plant-based", "Soy", "", "599", "35%", "8", "", "4.33", "52", "FALSE", "", "", "", "€2.18", "Plant-based meat", "€8.49", "€7.99", "€6.31", "74.3%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4111Z", "Pasta & Noodles", "Teriyaki Wok", "Mie noodles (WHEAT FLOUR, water, sunflower oil) (24%), water, choisum, planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (8%), SOYBEANS, mu-err mushrooms (wood ear mushrooms) (8%), yellow bell pepper, red bell pepper, onions, soy sauce (water, SOYBEANS, WHEAT, salt), sunflower oil, rice starch, candied ginger (ginger, sugar, water), Worcestershire sauce (spirit vinegar, sugar, water, salt, caramel syrup, spices, lemon oil), tomato paste, agave syrup, potato starch, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), garlic, coriander, porcini powder, cayenne pepper.", "BALANCED, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE", "Busy with work, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "472", "30%", "8", "", "4.03", "65", "FALSE", "", "", "", "€2.32", "Plant-based meat", "€8.49", "€7.99", "€6.17", "72.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4112Z", "Signature Bowls", "Umami Rice", "Cooked basmati rice (water, basmati rice) (27%), broccoli (21%), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, table salt, vitamin B12) (13%), red bell pepper (8%), cooked wild rice (water, wild rice, table salt) (7%), carrots, water, SOYBEANS, soy sauce (water, SOYBEANS, WHEAT, table salt), candied ginger (ginger, sugar, water), coriander leaf, ginger, mint, lemongrass, rice starch, table salt, potato starch, concentrated lemon juice.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "1002", "34%", "8", "", "4.31", "238", "FALSE", "", "", "", "€2.36", "Plant-based meat", "€8.49", "€7.99", "€6.13", "72.2%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4113Z", "Signature Bowls", "Nasi Goreng", "Cooked basmati rice (water, basmati rice) (33%), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (13%), carrots, peas, savoy cabbage, water chestnuts, leek, mu-err mushrooms (wood ear mushrooms), soy sauce (water, SOYBEANS, WHEAT, salt), sunflower oil, coconut flakes, turmeric, salt, garlic, cumin, coriander, cayenne pepper, fennel, rice starch, fenugreek seeds.", "BALANCED, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "672", "38%", "8", "", "4.22", "45", "FALSE", "", "", "", "€2.04", "Plant-based meat", "€8.49", "€7.99", "€6.45", "76.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4114Z", "Pasta & Noodles", "Edamame Zen", "Cooked ribbon noodles (water, DURUM WHEAT SEMOLINA) (27%), carrots, pak choi, SOYBEANS (12%), cooked wild rice (water, wild rice, salt) (10%), water, soy sauce (water, SOYBEANS, WHEAT, salt), leek, candied ginger (ginger, sugar, water), coriander, mint, ginger, rice starch, lemongrass.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "497", "37%", "8", "", "3.64", "146", "FALSE", "", "", "", "€1.61", "Standard", "€7.64", "€7.19", "€6.03", "78.9%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4116Z", "Curries & Dals", "Spätzle Goulash", "Cooked spaetzle (water, DURUM WHEAT SEMOLINA, salt) (25%), planted.pulled (water, plant-based protein (peas, sunflower, OATS), pea fiber, rapeseed oil, bell pepper, yeast, garlic powder, onion powder, vitamin B12, fenugreek seeds) (13%), mushrooms (13%), red bell pepper (13%), water, onions, sunflower oil, tomato paste, soy sauce (water, SOYBEANS, WHEAT, salt), garlic, ground paprika, parsley, potato starch, rice starch, salt, black pepper", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "German", "Getting more protein, Eating more plant-based", "Gluten, Soy", "", "379", "32%", "8", "", "4.23", "39", "FALSE", "", "", "", "€2.74", "Plant-based meat", "€8.49", "€7.99", "€5.75", "67.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4117Z", "Pasta & Noodles", "Mushroom Gnocchi", "Cooked gnocchi (potato purée, DURUM WHEAT semolina, water, WHEAT flour, potato starch, salt, turmeric) (31%), mushrooms (19%), cooked brown lentils (water, lentils) (11%), cherry tomatoes (10%), fried onions (onions, rapeseed oil), water, coconut milk (coconut, water), soft tomatoes (residual moisture 80%) (tomatoes, water, salt) (3%), tomato paste, olive oil, soy sauce (water, SOYBEANS, WHEAT, salt), mustard (water, MUSTARD SEED, spirit vinegar, salt, sugar, cayenne pepper, turmeric), parsley, garlic, chives, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), ground paprika, rice starch, salt, porcini powder, nutmeg, black pepper.", "BALANCED", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Eating more plant-based", "Gluten, Soy, Mustard", "", "335", "26%", "8", "", "4.29", "41", "FALSE", "", "", "", "€1.74", "Standard", "€7.64", "€7.19", "€5.90", "77.2%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4118Z", "Pasta & Noodles", "Pasta Rustica", "Cooked penne pasta (water, DURUM WHEAT SEMOLINA) (24%), grilled bell pepper (16%), grilled zucchini, spinach, water, eggplant (9%), tomato paste (7%), coconut milk (coconut, water), bell pepper (3%), pumpkin seeds, soy sauce (water, SOYBEANS, WHEAT, salt), extra virgin olive oil, garlic, salt, oregano, rice starch, smoked paprika powder (paprika, smoke), thyme, potato starch, ground paprika, black pepper.", "No goal match", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Eating more plant-based", "Gluten, Soy", "", "212", "26%", "8", "", "4.18", "28", "FALSE", "", "", "", "€1.64", "Standard", "€7.64", "€7.19", "€6.00", "78.5%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4119Z", "Curries & Dals", "Japanese Sweet Curry", "Carrots, mushrooms, fried potatoes (potatoes, sunflower oil, dextrose) (12%), cooked rice (water, rice, salt) (12%), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12) (10%), water, onions, SOYBEANS, Worcestershire sauce (vinegar, sugar, water, salt, caramel syrup, spices, lemon oil), soy sauce (water, SOYBEANS, WHEAT, salt), tomato paste, candied ginger (ginger, sugar, water), WHEAT FLOUR, apple purée, sunflower oil, garlic, chili, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), rice starch, paprika, coriander, cumin, ginger, fennel, turmeric, cinnamon.", "HEALTHY_GUT, BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, POSTPARTUM", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, very spicy is great", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "339", "33%", "8", "", "4.08", "26", "FALSE", "", "", "", "€2.78", "Plant-based meat", "€8.49", "€7.99", "€5.71", "67.3%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4120Z", "Curries & Dals", "Creamy Mango Curry", "Pak choi, carrots, bell pepper, mango (11%), cauliflower, potatoes, sweet potatoes, coconut milk (coconut, water), cooked wild rice (water, wild rice, salt), pumpkin seeds, water, garlic, salt, lemongrass, ginger, turmeric, concentrated lemon juice, chili, rice starch, fenugreek seeds, cayenne pepper, coriander, black pepper.", "No goal match", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, medium spicy is ok", "Fusion (no V5 option)", "Eating more plant-based", "None of the V5 list", "", "266", "30%", "8", "Shopify shows SKU F4120Z as \"Greenforce Protein Add-on\" — check SKU mapping", "3.74", "27", "FALSE", "", "", "", "€2.90", "Standard", "€7.64", "€7.19", "€4.74", "62.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4123Z", "Pasta & Noodles", "Creamy Paprika Pasta", "Cooked ribbon noodles (water, DURUM WHEAT SEMOLINA) (27%), bell pepper (20%), coconut milk (coconut, water), planted.pulled (water, plant proteins (pea, SOY, sunflower), rapeseed oil, onion powder, ground paprika, salt, vitamin B12), cherry tomatoes, water, onions, soy sauce (water, SOYBEANS, WHEAT, salt), tomato paste, rice starch, ground paprika, garlic, chili, salt, cayenne pepper, black pepper.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Getting more protein, Eating more plant-based", "Gluten, Soy", "", "391", "22%", "4", "", "4.10", "29", "FALSE", "", "", "", "€2.08", "Plant-based meat", "€8.49", "€7.99", "€6.41", "75.5%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4124Z", "Pasta & Noodles", "Lemon Zucchini Gnocchi", "Cooked gnocchi (water, DURUM WHEAT SEMOLINA, WHEAT FLOUR, potato starch, potato flakes, salt, turmeric) (34%), grilled zucchini (19%), mushrooms (16%), leek (10%), soaked chickpeas (chickpeas, water) (8%), coconut milk (coconut, water), water, extra virgin olive oil, ginger, soy sauce (water, SOYBEANS, WHEAT, salt), basil, vegetable stock (carrots, onions, leek, salt, water, extra virgin olive oil), salt, mustard (water, MUSTARD SEEDS, spirit vinegar, salt, sugar, cayenne pepper, turmeric), garlic, lemongrass, ground paprika, concentrated lemon juice, porcini mushroom powder, rice starch, black pepper, cayenne pepper.", "No goal match", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Eating more Fiber, Eating more plant-based", "Gluten, Soy, Mustard", "", "405", "26%", "4", "", "4.09", "23", "FALSE", "", "", "", "€1.58", "Standard", "€7.64", "€7.19", "€6.06", "79.3%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F4125Z", "Signature Bowls", "Creamy Fricassée", "Cooked rice (water, parboiled rice) (37%), planted.pulled (water, plant proteins (pea, SOYA, sunflower), rapeseed oil, onion powder, ground paprika, Vitamin B12) (10%), mushrooms, chopped green asparagus, water, coconut milk (coconut, water), peas, onions, yellow carrots, carrots, roux (WHEAT FLOUR, sunflower oil), soy sauce (water, SOYA BEANS, WHEAT), rice starch, parsley, concentrated lemon juice, nutmeg, black pepper.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "German", "Getting more protein, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "376", "31%", "4", "", "4.10", "21", "FALSE", "", "", "", "€1.87", "Plant-based meat", "€8.49", "€7.99", "€6.62", "78.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5000Z", "Pasta & Noodles", "Peanut Noodles", "EN Cooked noodles (WHEAT FLOUR, water, sunflower oil, salt) (22%), bell pepper (15%), carrots (12%), snow peas (10%), water, mushrooms, PEANUTS (8%), spring onions, soy sauce (water, SOYBEANS, WHEAT, salt), lemongrass purée (water, lemongrass, salt, lemon juice concentrate), chives, apple juice concentrate, waxy corn starch, salt, olive oil, lemon juice concentrate, garlic, cumin, coriander, chili, nutmeg, fenugreek seeds, pepper.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more plant-based", "Gluten, Soy (also: Peanuts)", "", "346", "21%", "6", "", "4.12", "52", "FALSE", "", "", "", "€2.96", "Standard", "€7.64", "€7.19", "€4.68", "61.3%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5001Z", "Curries & Dals", "Creamy Peanut Curry", "Rice mix (water, long grain rice, wild rice, salt) (16%), water, broccoli (10%), sweet potatoes (10%), green beans, planted.pulled (water, plant protein (pea, SOY, sunflower), rapeseed oil, spices, salt, vitamin B12) (10%), coconut milk (coconut extract, water) (8%), PEANUT PASTE (5%), carrots, soy sauce (water, SOYBEANS, WHEAT, salt), apple juice concentrate, ginger paste (ginger, spirit vinegar), garlic, modified starch, curry, rapeseed oil, black pepper, chili powder.", "No goal match", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Indian", "Getting more protein, Eating more plant-based", "Gluten, Soy (also: Peanuts)", "", "33", "21%", "1", "Only 1 month of data", "5.00", "5", "FALSE", "", "", "", "€3.17", "Plant-based meat", "€8.49", "€7.99", "€5.32", "62.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5002Z", "Curries & Dals", "Spiced Peanut Couscous", "Cooked couscous (water, DURUM WHEAT SEMOLINA) (18%), eggplant (10%), bell peppers (10%), zucchini, chickpeas, onions, PEANUTS (7%), water, tomatoes, coconut milk (coconut extract, water), raisins, ginger paste (ginger, spirit vinegar), tomato paste, salt, coriander, garlic, modified starch, paprika, cumin, coriander, nutmeg, cloves, black pepper, cinnamon, chili.", "BALANCED, MAINTAIN_WEIGHT", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Getting more protein, Eating more Fiber, Eating more plant-based, Consuming more calories", "Gluten (also: Peanuts)", "", "35", "41%", "1", "Only 1 month of data", "4.00", "8", "FALSE", "", "", "", "€2.93", "Standard", "€7.64", "€7.19", "€4.71", "61.6%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5003Z", "Pasta & Noodles", "Lemon Cashew Pasta", "Water, cooked pasta (20%) (water, DURUM WHEAT SEMOLINA, WHEAT GLUTEN), peas (12%), planted.pulled (water, plant protein (pea, SOY, sunflower), rapeseed oil, spices, salt, vitamin B12) (12%), broccoli (11%), CASHEW NUTS (6%), carrots, onions, CELERY, starch, WHEAT FLOUR, extra virgin olive oil, lemongrass puree (water, lemongrass, salt, lemon juice concentrate), salt, apple juice concentrate, basil, garlic, lime juice concentrate, lemon juice concentrate (0.1%), nutmeg, kaffir lime leaves, pepper, lovage root.", "BALANCED, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Fusion (no V5 option)", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based, Consuming more calories", "Gluten, Soy, Tree nuts, Celery", "", "68", "25%", "1", "Only 1 month of data", "3.83", "12", "FALSE", "", "", "", "€3.45", "Plant-based meat", "€8.49", "€7.99", "€5.04", "59.4%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5004Z", "Pasta & Noodles", "Paprika Thai Ragout", "Cooked noodles (WHEAT FLOUR, water, sunflower oil, salt) (30%), water, Boonian Crumbles (water, SOY PROTEIN, rapeseed oil, spices, apple vinegar, dried mushrooms, tomato paste, table salt) (12%), carrots, bell pepper (8%), SOYBEANS (7%), zucchini, soy sauce (water, SOYBEANS, WHEAT, table salt), tomato paste, Thai paste (water, garlic, paprika, chili powder, coriander, cumin, cardamom, white pepper, rapeseed oil, ginger, lemongrass, onions, table salt, lime leaves, lemon juice concentrate), rapeseed oil, lemongrass purée (water, lemongrass, salt, lemon juice concentrate), starch, basil, apple juice concentrate, lime juice concentrate, sea salt, garlic, ginger powder, kaffir lime leaves, pepper, fenugreek.", "HEALTHY_GUT, BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE, POSTPARTUM", "Busy with work, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, very spicy is great", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Gluten, Soy", "", "403", "27%", "6", "", "4.44", "18", "FALSE", "", "", "", "€2.57", "Plant-based meat", "€8.49", "€7.99", "€5.92", "69.7%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5005Z", "Pasta & Noodles", "Lemongrass Thai Ragout", "Cooked noodles (WHEAT FLOUR, water, sunflower oil, salt) (30%), zucchini (20%), Boonian Crumbles (water, SOY PROTEIN, rapeseed oil, spices, apple vinegar, dried mushrooms, tomato paste, salt) (12%), tomatoes, carrots (9%), water, tomato paste, soy sauce (water, SOYBEANS, WHEAT, salt), onions, oil blend (SOY OIL, SESAME OIL), lemongrass purée (water, lemongrass, salt, lemon juice concentrate), apple juice concentrate, starch, basil, rapeseed oil, lime juice concentrate, salt, coriander, garlic, ginger powder, kaffir lime leaves, pepper, chili powder, cumin, fenugreek, cardamom.", "BALANCED, LOOSE_WEIGHT_MEDICAL, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Me and my roommates", "Yes, very spicy is great", "Asian (Thai, Japanese, Korean etc.)", "Getting more protein, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy, Sesame", "", "348", "24%", "6", "", "4.49", "45", "FALSE", "", "", "", "€2.67", "Plant-based meat", "€8.49", "€7.99", "€5.82", "68.6%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5006Z", "Curries & Dals", "Smoky Lentil Stew", "Water, cooked lentils (water, lentils) (17%), bell pepper (13%), broccoli (13%), Boonian Crumbles (water, SOY PROTEIN, rapeseed oil, spices, apple vinegar, dried mushrooms, tomato paste, table salt) (12%), tomatoes, potatoes, chickpeas, tomato paste, balsamic vinegar (white wine vinegar, grape must concentrate), extra virgin olive oil, cauliflower, parsley, WHEAT FLOUR, sea salt, apple juice concentrate, smoked paprika (paprika, smoke), starch, garlic, onion powder, cumin, coriander, chili powder, nutmeg, black pepper.", "LOOSE_WEIGHT_MEDICAL, POSTPARTUM", "Busy with work, Going out with friends, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "289", "28%", "6", "", "4.70", "20", "FALSE", "", "", "", "€2.73", "Plant-based meat", "€8.49", "€7.99", "€5.76", "67.8%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F5007Z", "Signature Bowls", "Chimichurri Glow", "Sweet potatoes (19%), water, SOYBEANS (15%), chickpeas, cooked quinoa (water, quinoa) (9%), BREW HACK (water, pumpkin seed flour, pea protein, WHEAT PROTEIN, BARLEY PROTEIN, sunflower protein, salt) (9%), corn, cooked wild rice (water, wild rice, salt) (2%), extra virgin olive oil, parsley, coriander, starch, white wine vinegar, garlic, salt, cumin, dried red bell peppers, turmeric, chili powder, ginger powder, concentrated grape must.", "BALANCED, MAINTAIN_WEIGHT, STAY_LEAN_HEALTHY, BUILD_MUSCLE", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Latin", "Getting more protein, Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Gluten, Soy", "", "49", "37%", "1", "Only 1 month of data", "4.60", "5", "FALSE", "", "", "", "€2.31", "Plant-based meat", "€8.49", "€7.99", "€6.18", "72.8%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F6000Z", "Signature Bowls", "Sesame Fried Rice", "Cooked red rice (water, red rice, salt) (31%), cooked brown rice (water, brown rice) (14%), broccoli (11%), zucchini (7%), sweet potato (6%), carrot, prefried onion (onion, rapeseed oil), SOYBEAN, ginger, ALMOND, sunflower seed, pumpkin seed, PISTACHIO, soy sauce (water, SOY, WHEAT, salt, alcohol, vinegar), rapeseed oil, water, SESAME oil, olive oil, spring onion, salt, concentrated date juice, porcini mushroom powder, miso powder (SOYBEAN, rice, salt, ethyl alcohol), white pepper, flax fiber.", "No goal match", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Asian (Thai, Japanese, Korean etc.)", "Eating more Fiber, Eating more plant-based, Consuming more calories", "Gluten, Soy, Tree nuts, Sesame", "", "450", "25%", "4", "", "3.92", "24", "FALSE", "", "", "", "€2.95", "Standard", "€7.64", "€7.19", "€4.69", "61.4%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F6001Z", "Pasta & Noodles", "Red Pesto Gnocchi", "Potato gnocchi (water, durum WHEAT semolina, WHEAT flour, potato flake (potato, turmeric), potato starch, salt) (32%), courgette (18%), cooked chickpeas (water, chickpeas) (18%), water, red bell pepper (7%), extra virgin olive oil, tomato purée (tomato, acid: citric acid), CASHEW NUTS (2%), onion, tomato (1%), double concentrated tomato, basil (0,6%), salt, balsamic vinegar (wine vinegar, cooked grape must), garlic, flax fiber, herbs mix (rosemary, basil, oregano, parsley, thyme, salt, garlic, pepper, tomato, lavender), dried yeast, MALT EXTRACT, thyme, white pepper.", "HEALTHY_GUT, BALANCED, MORE_ENERGY", "Busy with work, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Italian", "Eating more Fiber, Eating more plant-based, Consuming more calories", "Gluten, Tree nuts", "", "296", "24%", "4", "", "3.75", "20", "FALSE", "", "", "", "€2.03", "Standard", "€7.64", "€7.19", "€5.61", "73.4%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F6002Z", "Salads", "Pearl Pasta Salad", "Cooked pasta (water, DURUM WHEAT SEMOLINA, olive oil, salt) (26%), grilled zucchini (12%), SOYBEANS (11%), red bell peppers (10%), yellow bell peppers (10%), cooked chickpeas (8%), water, semi-dried tomatoes, extra virgin olive oil, ALMONDS (1.7%), sherry vinegar, salt, Dijon MUSTARD (water, MUSTARD SEEDS, spirit vinegar, salt), basil, parsley, lemon zest, concentrated date juice, spearmint, potato starch, coriander, turmeric, cumin, paprika, coriander seed powder, white pepper, ginger powder, cinnamon.", "HEALTHY_GUT, BALANCED, MAINTAIN_WEIGHT", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Eating more Fiber, Eating more plant-based", "Gluten, Soy, Mustard, Tree nuts", "", "366", "35%", "2", "Only 2 months of data", "4.50", "12", "FALSE", "", "", "", "€2.18", "Standard", "€7.64", "€7.19", "€5.46", "71.5%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F6003Z", "Salads", "Sesame Quinoa Salad", "Cooked white quinoa (white quinoa, water, salt) (18%), cooked red quinoa (red quinoa, water, salt) (17%), grilled eggplant (13%), grilled carrot (13%), chickpeas (11%), SOYBEANS (9%), water, lemon juice (2%), SESAME oil, SESAME paste (1%), extra virgin olive oil, white SESAME seed (0,7%), parsley, salt, date juice concentrate, white balsamic condiment (wine vinegar, grape must), garlic, flax fiber, white pepper.", "HEALTHY_GUT, BALANCED, MAINTAIN_WEIGHT, POSTPARTUM", "Busy with work, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Getting more protein, Eating more Fiber, Eating more plant-based", "Soy, Sesame", "", "416", "39%", "2", "Only 2 months of data", "3.67", "12", "FALSE", "", "", "", "€1.91", "Standard", "€7.64", "€7.19", "€5.73", "75.0%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F6005Z", "Salads", "Crunchy Beetroot Salad", "Cooked red rice (red rice, water, salt) (24%), precooked white kidney beans (21%), beetroot (16%), fennel (12%), cooked carrot (6%), water, grilled HAZELNUT (2%), sunflower oil, orange juice, sherry vinegar, lemon juice, extra virgin olive oil, HAZELNUT oil, salt, lemon zest, poppy seed, basil, garlic, citrus fiber, thyme, white pepper. May contain trace of celery, gluten and other nuts.", "No goal match", "Busy with work, Going out with friends, Spend time at home with family, A bit of everything", "Just me, Me and my partner, Family with kids, Me and my roommates", "Not really · I can eat it, but can’t say it’s my favorite", "Mediterranean (no V5 option)", "Eating more Fiber, Lowering my sugar intake, Eating more plant-based", "Tree nuts", "", "404", "39%", "2", "Only 2 months of data", "4.50", "10", "FALSE", "", "", "", "€1.94", "Standard", "€7.64", "€7.19", "€5.70", "74.6%", "Meal price depends on box size (tier). Before 20% first-order discount and VAT"], ["F8004Z", "Add-on · Shots", "Ginger Glow Shot", "White carrot* (38%), orange*, apple*, ginger* (11%), lemon*, aloe vera*, dill*, tarragon*, lemon balm*, cinnamon* *organically grown", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Yes, very spicy is great", "–", "Eating more plant-based", "None of the V5 list", "", "n/a (meals only)", "", "", "Add-ons not included in swap analysis", "4.00", "4", "FALSE", "", "", "", "€2.17", "Add-on", "€3.49", "", "€1.32", "37.8%", "Before 20% first-order discount and VAT"], ["F8005Z", "Add-on · Shots", "Green Garden Shot", "Cucumber* (33%), parsley*, apple*, coriander* (4%), oregano*, rosemary*, mint*, sage*, lemon* *organically grown", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "4.67", "3", "FALSE", "", "", "", "€1.60", "Add-on", "€3.49", "", "€1.89", "54.2%", "Before 20% first-order discount and VAT"], ["F8006Z", "Add-on · Shots", "Golden Roots Shot", "Orange*, carrot*, turmeric* (18%), lemon*, honey*, ginger*, apple cider vinegar*, sage*, black pepper* *organically grown", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "–", "None of the V5 list", "", "", "", "", "", "4.17", "6", "FALSE", "", "", "", "€1.60", "Add-on", "€3.49", "", "€1.89", "54.2%", "Before 20% first-order discount and VAT"], ["F8007Z", "Add-on · Shots", "Berry Boost Shot", "Pomegranate* (17%), aronia berry*, currants*, wild berries*, black currant*, cranberry*, sea buckthorn berry*, raspberry*, gooseberry*, cranberry*, blackberry*, clove*, cinnamon*, vanilla*, licorice * *organically grown", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "5.00", "3", "FALSE", "", "", "", "€2.31", "Add-on", "€3.49", "", "€1.18", "33.8%", "Before 20% first-order discount and VAT"], ["F8008Z", "Add-on · Ice cream", "Coconut Ice Cream", "Coconut milk* 41% (coconut (meat) extract* 75%, water), water, raw cane sugar*, glucose syrup*, sweetener (erythritol*), inulin*, acacia fiber*, desiccated coconut* 1%, thickener (pectin, guar gum*, locust bean gum *), sea-salt. *from controlled organic farming", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "4.20", "10", "FALSE", "", "", "", "€1.99", "Add-on", "€3.49", "", "€1.50", "43.0%", "Before 20% first-order discount and VAT"], ["F8009Z", "Add-on · Ice cream", "Vanilla Ice Cream", "Water, beet sugar*, coconut milk (coconut (meat) extract* 75%, water), glucose syrup*, inulin*, cashew butter*, acacia fiber*, sweetener (erythritol*), bourbon vanilla extract* 0.45%, vanilla powder*, sea salt , thickeners (pectin, guar gum*, locust bean gum*). *from controlled organic farming", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "4.67", "6", "FALSE", "", "", "", "€1.99", "Add-on", "€3.49", "", "€1.50", "43.0%", "Before 20% first-order discount and VAT"], ["F8010Z", "Add-on · Ice cream", "Mango Ice Cream", "Mango puree* 43%, water, raw cane sugar*, coconut milk (coconut (meat) extract* 75%, water), acacia fiber*, lemon juice*, glucose syrup*, inulin*, thickeners (pectin, guar gum*, locust bean gum*). *from controlled organic farming", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "4.38", "8", "FALSE", "", "", "", "€1.99", "Add-on", "€3.49", "", "€1.50", "43.0%", "Before 20% first-order discount and VAT"], ["F8011Z", "Add-on · Ice cream", "Cocoa Ice Cream", "Water, raw cane sugar*, cocoa powder* 8%, coconut milk* (coconut (meat) extract* 75%, water), cashew butter*, glucose syrup*, sweetener (erythritol*), dark chocolate* 2.5% (cocoa mass*, raw cane sugar*, Cocoa butter*), acacia fiber*, inulin*, sea salt, emulsifier (sunflower lecithin*), thickener (guar gum*, locust bean gum*). *from controlled organic farming", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "4.80", "5", "FALSE", "", "", "", "€1.99", "Add-on", "€3.49", "", "€1.50", "43.0%", "Before 20% first-order discount and VAT"], ["F8012Z", "Add-on · Smoothies", "Triple Berry Smoothie", "Strawberry (27%), banana, blueberry (18%), blackcurrant, dates, açaí purée (7%), hemp protein, baobab fruit (ingredients from controlled organic farming).", "n/a (add-on)", "Busy with work, Spend time at home with family", "Family with kids", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "4.17", "12", "FALSE", "", "", "", "€1.90", "Add-on", "€3.99", "", "€2.09", "52.4%", "Before 20% first-order discount and VAT"], ["F8013Z", "Add-on · Smoothies", "Daily Greens Smoothie", "Apple (34%), spinach (23%), dates, broccoli (13%), banana, lime, pea protein, parsley, mint (1%) (ingredients from controlled organic farming).", "n/a (add-on)", "Busy with work, Spend time at home with family", "Family with kids", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "3.89", "9", "FALSE", "", "", "", "€1.64", "Add-on", "€3.99", "", "€2.35", "58.9%", "Before 20% first-order discount and VAT"], ["F8014Z", "Add-on · Smoothies", "Pitaya Mango Smoothie", "Pitaya (red dragon fruit) (30%), banana, mango (20%), coconut milk (15%), dates (ingredients from controlled organic farming).", "n/a (add-on)", "Busy with work, Spend time at home with family", "Family with kids", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "4.67", "9", "FALSE", "", "", "", "€1.66", "Add-on", "€3.99", "", "€2.33", "58.4%", "Before 20% first-order discount and VAT"], ["F8015Z", "Add-on · Smoothies", "Mango Tango Smoothie", "Mango (55%), pineapple (15%), coconut milk (10%), dates, passion fruit, acerola (ingredients from controlled organic farming).", "n/a (add-on)", "Busy with work, Spend time at home with family", "Family with kids", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "4.54", "13", "FALSE", "", "", "", "€1.15", "Add-on", "€3.99", "", "€2.84", "71.2%", "Before 20% first-order discount and VAT"], ["F8016Z", "Add-on · Sweet snacks", "Épique Mixed Box (6 Slices)", "Dates, cashews*, almonds*, coconut oil*, coconut milk*, peanuts* (8.8%), sunflower seeds*, maple syrup*, cocoa butter*, cocoa powder*, salt, vanilla powder* *from organic farming", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts (also: Peanuts)", "", "", "", "", "", "4.27", "22", "FALSE", "", "", "", "€12.60", "Add-on", "€27.99", "", "€15.39", "55.0%", "Box of 6 slices"], ["F8020Z", "Add-on · Ice cream", "Pistachio Ice Cream", "Water, raw cane sugar*, pistachio paste* (7%), coconut milk (coconut flesh extract 75%, water), glucose syrup, acacia fiber*, inulin*, almond paste*, sea salt, thickening agents (guar gum*, locust bean gum*, pectin). *from controlled organic farming May contain traces of peanuts and tree nuts.", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more Fiber, Eating more plant-based", "Tree nuts", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "4.00", "6", "FALSE", "", "", "", "€3.99", "Add-on", "€6.49", "", "€2.50", "38.5%", "Before 20% first-order discount and VAT"], ["F8021Z", "Add-on · Protein", "Planted. Pulled Protein", "Water, plant proteins (pea, SOY, sunflower) (34%), rapeseed oil, spices, salt, vitamin B12.", "n/a (add-on)", "Sports multiple times a week", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Getting more protein, Lowering my sugar intake, Eating more plant-based", "Soy", "Protein upsell: always recommend if main priority = Fitness / protein OR watching for = Getting more protein (see column S)", "", "", "", "", "4.83", "6", "TRUE", "Goal = Fitness / protein OR watching for = Getting more protein", "1", "Upsell section only: not in the meal box, meal count, quantity tier or box nutrition averages. Contains soy, so hidden for soy allergy. Margin check: costs €2.32 (DA total COGS) vs €2.15 after a 20% first-order discount", "€2.32", "Add-on", "€2.69", "", "€0.37", "13.8%", "Before 20% first-order discount and VAT"], ["F8022Z", "Add-on · Protein", "Boonian Crumbles Protein", "Water, soy protein, cold-pressed rapeseed oil, gluten-free soy sauce (water, SOYBEANS, salt, spirit vinegar), spices, yeast extracts, mushroom powder, tomato powder.", "n/a (add-on)", "Sports multiple times a week", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Getting more protein, Lowering my sugar intake, Eating more plant-based", "Soy", "Protein upsell: always recommend if main priority = Fitness / protein OR watching for = Getting more protein (see column S)", "", "", "", "", "4.33", "9", "TRUE", "Goal = Fitness / protein OR watching for = Getting more protein", "1", "Upsell section only: not in the meal box, meal count, quantity tier or box nutrition averages. Contains soy, so hidden for soy allergy", "€1.45", "Add-on", "€2.69", "", "€1.24", "46.1%", "Before 20% first-order discount and VAT"], ["F8026Z", "Add-on · Toppings", "Chili Crisp Oil", "Rapeseed oil (63%), chili (12%), roasted shallots (shallots, sunflower oil), garlic, panko (wheat flour, yeast, salt), ginger, sesame, shiitake, salt, brown sugar, shoyu powder (soy sauce [soybeans (19%), wheat, sea salt, rice]), Szechuan pepper, cinnamon, star anise, bay leaf", "n/a (add-on)", "– (no signal)", "Just me, Me and my partner, Me and my roommates", "Yes, very spicy is great", "–", "Eating more plant-based", "Gluten, Soy, Sesame", "Only show if spice = Yes, medium spicy is ok / Yes, very spicy is great. Family with kids excluded unless they picked one of those", "", "", "", "", "4.33", "9", "FALSE", "", "", "", "€3.65", "Add-on", "€8.99", "", "€5.34", "59.4%", "Before 20% first-order discount and VAT"], ["F8031Z", "Add-on · Ice cream", "Matcha Ice Cream", "Water, beet sugar*, coconut milk* (coconut(meat)extract* 75%, water), cashew paste*, dry glucose*, inulin*, acacia fiber*, matcha green tea powder* 1%, sea salt, thickener (guar gum*, locust bean gum*, pectin). *from checked ecological cultivation EU/-non-EU-agriculture", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more Fiber, Eating more plant-based", "Tree nuts", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€3.99", "Add-on", "€6.49", "", "€2.50", "38.5%", "Price from Non-core CM2 (listed there as delisted); check"], ["F8034Z", "Add-on · Sweet snacks", "Raspberry Crumble", "Gluten-free whole grain oat flakes*, coconut blossom syrup*, ALMOND butter*, CASHEW butter*, cocoa butter*, freeze-dried raspberries* 4%, sea salt, vanilla extract*. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "", "", "", "", "", "5.00", "1", "FALSE", "", "", "", "€1.16", "Add-on", "€2.49", "", "€1.33", "53.4%", "Before 20% first-order discount and VAT"], ["F8035Z", "Add-on · Sweet snacks", "Blueberry White Chocolate Crumble", "Gluten-free oats*, CASHEW butter*, coconut nectar*, white chocolate* 6% (cacao butter*, coconut sugar*, gluten-free oats*, sea salt, vanilla extract*, cacao content 40%), cacao butter*, freeze-dried blueberries* 4%, sea salt. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "", "", "", "", "", "5.00", "1", "FALSE", "", "", "", "€1.16", "Add-on", "€2.49", "", "€1.33", "53.4%", "Before 20% first-order discount and VAT"], ["F8036Z", "Add-on · Sweet snacks", "Apple Crumble", "CASHEW butter*, coconut nectar*, gluten-free oats*, freeze-dried apples* 10%, cacao butter*, sea salt, cinnamon*, vanilla extract*. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€1.16", "Add-on", "€2.49", "", "€1.33", "53.4%", "Before 20% first-order discount and VAT"], ["F8037Z", "Add-on · Sweet snacks", "Swedish Chocolate Ball", "Gluten-free whole grain oat flakes*, coconut blossom syrup*, cocoa butter*, cocoa powder* 10%, sunflower oil*, shredded coconut*, freeze-dried coffee powder*, sea salt. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "5.00", "2", "FALSE", "", "", "", "€1.02", "Add-on", "€2.19", "", "€1.17", "53.4%", "Before 20% first-order discount and VAT"], ["F8038Z", "Add-on · Sweet snacks", "Swedish Cinnamon Bun Ball", "Coconut blossom syrup*, gluten-free whole grain oat flakes*, ALMOND butter*, CASHEW butter*, ALMONDS*, cocoa butter*, cinnamon* 3%, cardamom*, sea salt. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "", "", "", "", "", "5.00", "1", "FALSE", "", "", "", "€1.02", "Add-on", "€2.19", "", "€1.17", "53.4%", "Before 20% first-order discount and VAT"], ["F8039Z", "Add-on · Sweet snacks", "Lemon Cake Ball", "Coconut blossom syrup*, gluten-free whole grain oat flakes*, ALMONDS*, ALMOND butter*, CASHEW butter*, cocoa butter*, freeze-dried lemon juice* 2%, lemon essential oil* 0,4%, sea salt, vanilla extract*. *Organic", "n/a (add-on)", "Busy with work", "Just me", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts", "", "", "", "", "", "5.00", "2", "FALSE", "", "", "", "€1.02", "Add-on", "€2.19", "", "€1.17", "53.4%", "Before 20% first-order discount and VAT"], ["F8040Z", "Add-on · Ice cream", "Lime-Mint Ice Cream", "Water, lime juice* (13%), lemon juice*, beet sugar*, coconut milk* (coconut (meat) extract*, water), acacia fiber*, dextrose*, inulin*, sweetener (erythritol*), thickener (guar gum*, locust bean gum*), mint* (0.15%), essential mint oil* (carrier: sunflower oil*). *From controlled organic cultivation. EU/non-EU agriculture.", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more Fiber, Eating more plant-based", "None of the V5 list", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "5.00", "1", "FALSE", "", "", "", "€3.99", "Add-on", "€6.49", "", "€2.50", "38.5%", "Before 20% first-order discount and VAT"], ["F8041Z", "Add-on · Toppings", "Miso Paste", "Hulled BARLEY* 55%, chickpeas* 37%, salt , water (*from organic farming.)", "n/a (add-on)", "– (no signal)", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Lowering my sugar intake, Eating more plant-based", "Gluten", "", "", "", "", "", "5.00", "2", "FALSE", "", "", "", "€5.40", "Add-on", "€11.99", "", "€6.59", "55.0%", "Before 20% first-order discount and VAT"], ["F8043Z", "Add-on · Shots", "Ginger Ritual Cubes", "White carrots*, orange*, ginger* (20%), apple*, lemon*, agave syrup*, aloe vera*, tarragon*, lemon balm*, dill*, Ceylon cinnamon*. *from controlled organic farming.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Yes, very spicy is great", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€4.75", "Add-on", "€20.99", "", "€16.24", "77.4%", "Pack of 7 cubes"], ["F8044Z", "Add-on · Shots", "Herbal Ritual Cubes", "Cucumber* (31%), apple*, parsley*, lemon*, coriander*, spinach*, oregano*, mint* (1%), rosemary*, sage*. *from controlled organic farming.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Lowering my sugar intake, Eating more plant-based", "None of the V5 list", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€4.75", "Add-on", "€20.99", "", "€16.24", "77.4%", "Pack of 7 cubes"], ["F8045Z", "Add-on · Shots", "Turmeric Ritual Cubes", "Orange juice* (37%), turmeric* (25%), carrots*, ginger* (8%), lemon juice* (7%), agave syrup*, apple cider vinegar*, sage*, ground black pepper*. *from controlled organic farming.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€4.75", "Add-on", "€20.99", "", "€16.24", "77.4%", "Pack of 7 cubes"], ["F8046Z", "Add-on · Shots", "Berry Ritual Cubes", "Purple carrots*, cranberries*, pomegranate* (8%), raspberries*, red currants*, blueberries*, black currants*, sea buckthorn berries*, gooseberries*, blackberries*, aronia berries*, liquorice*, vanilla*, Ceylon cinnamon*, cloves*. *from controlled organic farming.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€4.75", "Add-on", "€20.99", "", "€16.24", "77.4%", "Pack of 7 cubes"], ["F8048Z", "Add-on · Smoothies", "Spirulina Glow Smoothie", "Fig, cauliflower (20%), banana, rhubarb, coconut milk (15%), dates, lime juice, blue spirulina extract (0.5%) (ingredients from controlled organic farming).", "n/a (add-on)", "Busy with work, Spend time at home with family", "Family with kids", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "4.08", "12", "FALSE", "", "", "", "€1.89", "Add-on", "€3.99", "", "€2.10", "52.6%", "Before 20% first-order discount and VAT"], ["F8052Z", "Add-on · Breakfast", "Apple Cinnamon Porridge", "gluten-free whole grain OAT flakes* small leaf (56%), sprouted ground buckwheat kernels*, dried apple pieces* (9%), hulled hemp seeds*, chia seeds*, date powder* (100% date), sprouted quinoa*, sprouted golden flaxseeds*, Ceylon cinnamon* (0.8%), ground Bourbon vanilla*. *from controlled organic cultivation.", "n/a (add-on)", "– (no signal)", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "", "", "", "", "", "5.00", "4", "FALSE", "", "", "", "€5.26", "Add-on", "€11.99", "", "€6.73", "56.1%", "Before 20% first-order discount and VAT"], ["F8053Z", "Add-on · Breakfast", "Red Berry Porridge", "Gluten free OAT flakes* small leaf (43%), SOY flakes* (11%), SOY flour* (8%), Date powder* (100% date), Freeze-dried raspberry pieces* (100% raspberry) (6%), Hemp seeds* peeled, Chia seeds*, Currants* black dried (4%), Buckwheat kernels* sprouted, Buckwheat kernels* sprouted ground, Sunflower seeds* sprouted, Quinoa* sprouted, Rock salt. *from controlled organic farming.", "n/a (add-on)", "– (no signal)", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Soy", "", "", "", "", "", "4.00", "5", "FALSE", "", "", "", "€6.76", "Add-on", "€12.99", "", "€6.23", "48.0%", "Before 20% first-order discount and VAT"], ["F8054Z", "Add-on · Breakfast", "Vanilla Hazelnut Müsli", "Gluten-free whole grain OAT flakes* large leaf (48%), SOY flakes* (12%), date pieces* (100% date), roasted HAZELNUTS* (6%), sprouted buckwheat kernels*, sprouted sunflower seeds*, hulled hemp seeds*, broken CASHEW nuts* (4%), sprouted golden flaxseeds*, pumpkin seeds*, ground Bourbon vanilla*. *from controlled organic farming.", "n/a (add-on)", "– (no signal)", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Soy, Tree nuts", "", "", "", "", "", "4.80", "5", "FALSE", "", "", "", "€4.70", "Add-on", "€11.99", "", "€7.29", "60.8%", "Before 20% first-order discount and VAT"], ["F8055Z", "Add-on · Breakfast", "Pistachio Pecan Granola", "gluten-free OAT flakes* (42%), extra virgin olive oil*, diced dates*, date paste*, roasted CASHEWS* halved (6%), sunflower seeds*, PECANS* quartered (5%), hemp seeds*, PISTACHIOS* (4%), roasted pumpkin seeds*, roasted black SESAME*, vanilla*. *from controlled organic farming.", "n/a (add-on)", "– (no signal)", "– (no signal)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "Tree nuts, Sesame", "", "", "", "", "", "4.33", "6", "FALSE", "", "", "", "€6.48", "Add-on", "€12.99", "", "€6.51", "50.1%", "Before 20% first-order discount and VAT"], ["F8065Z", "Add-on · Toppings", "Super Crunch Sachet (DE)", "Roasted pumpkin seeds (14%), roasted unhulled white and black SESAME SEEDS (13%), roasted sunflower seeds (12%), sprouted buckwheat (11%), shelled hemp seeds (7%), roasted chopped PEANUTS (6%), roasted chopped ALMONDS (6%), roasted chopped HAZELNUTS (6%), nutritional yeast flakes (4.5%), red lentil flakes, PINE NUTS (4%), golden flaxseeds (3%), red algae (Lithothamnium ca.) (2.5%), chia seeds (2%), shiitake granules (1%), inulin (from chicory), lion’s mane mushroom powder (0.8%), cordyceps mushroom powder (0.8%), onion powder, parsley, thyme, turmeric powder, rosemary.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Lowering my sugar intake, Eating more plant-based", "Tree nuts, Sesame (also: Peanuts)", "", "", "", "", "", "4.25", "4", "FALSE", "", "", "", "€1.87", "Add-on", "€2.99", "", "€1.12", "37.5%", "Price from Non-core CM2 (listed there as delisted); check"], ["F8066Z", "Add-on · Toppings", "Super Crunch Sachet (NL)", "Roasted pumpkin seeds (14%), roasted unhulled white and black SESAME SEEDS (13%), roasted sunflower seeds (12%), sprouted buckwheat (11%), shelled hemp seeds (7%), roasted chopped PEANUTS (6%), roasted chopped ALMONDS (6%), roasted chopped HAZELNUTS (6%), nutritional yeast flakes (4.5%), red lentil flakes, PINE NUTS (4%), golden flaxseeds (3%), red algae (Lithothamnium ca.) (2.5%), chia seeds (2%), shiitake granules (1%), inulin (from chicory), lion’s mane mushroom powder (0.8%), cordyceps mushroom powder (0.8%), onion powder, parsley, thyme, turmeric powder, rosemary.", "n/a (add-on)", "All (push to everyone)", "All (push to everyone)", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Lowering my sugar intake, Eating more plant-based", "Tree nuts, Sesame (also: Peanuts)", "", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€1.87", "Add-on", "€2.99", "", "€1.12", "37.5%", "Price from Non-core CM2 (listed there as delisted); check"], ["F8068Z", "Add-on · Ice cream", "Mango & Passionfruit Ice Cream", "Mango puree (27%), passion fruit puree (26%), sugar, water, inulin, emulsifier: pectin, citrus fiber.", "n/a (add-on)", "All (push to everyone)", "Family with kids (boost); everyone else eligible", "Not really · I can eat it, but can’t say it’s my favorite", "–", "Eating more plant-based", "None of the V5 list", "Exclude if main priority = Eat lighter to lose weight, or Watching for = Lowering my sugar intake", "", "", "", "", "no reviews", "0", "FALSE", "", "", "", "€2.20", "Add-on", "€6.49", "", "€4.29", "66.1%", "Before 20% first-order discount and VAT"]]};
+const PM_DEP=new Set([22,26,27]);
+function renderPM(){
+  const catSel=document.getElementById("pm-cat"),q=document.getElementById("pm-q");
+  if(!catSel.options.length){const cats=[...new Set(PM.rows.map(r=>r[1].trim()))];catSel.innerHTML=`<option value="">All</option>`+cats.map(c=>`<option>${esc(c)}</option>`).join("");
+    catSel.onchange=renderPM;q.oninput=renderPM;}
+  const c=catSel.value,t=q.value.trim().toLowerCase();
+  const rows=PM.rows.filter(r=>(!c||r[1].trim()===c)&&(!t||[r[0],r[2],r[3]].join(" ").toLowerCase().includes(t)));
+  document.getElementById("pm-count").textContent=PM.rows.length;
+  const cols=PM.hdr.map((h,i)=>i).filter(i=>i!==3);
+  document.getElementById("pm-tbl").innerHTML=`<thead><tr>${cols.map(i=>`<th class="${PM_DEP.has(i)?"dep":""}">${esc(PM.hdr[i].trim())}${PM_DEP.has(i)?'<span class="dep-tag">Deprioritized</span>':""}</th>`).join("")}<th>Ingredients (EN)</th></tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(i=>`<td class="${PM_DEP.has(i)?"dep":""}"${i===2?' style="font-weight:600;white-space:nowrap"':""}>${esc(r[i]||"")}</td>`).join("")}<td style="min-width:260px">${r[3]?`<details><summary class="small" style="cursor:pointer">Ingredients</summary><span class="small">${esc(r[3])}</span></details>`:""}</td></tr>`).join("")||`<tr><td colspan="${cols.length+1}" class="muted">No products match</td></tr>`}</tbody>`;
+}
+function renderData(){
+  renderPM();
+  const rows=[...MEALS].sort((a,b)=>b.qual-a.qual).map(m=>{const p=m.fake?8.49:7.64;const st=m.held?'<span class="pill bad">Excluded: low rating</span>':m.isNew?'<span class="pill neu">New</span>':'<span class="pill good">Active</span>';
+    return `<tr><td>${esc(m.name)}<div class="muted small">${m.sku} · ${esc(m.cat)}</div></td><td>${st}</td><td class="n">${m.qual.toFixed(2)}</td><td class="n">${m.rating.toFixed(2)} (${m.reviews})</td><td class="n">${m.swap}%</td><td class="n">${m.prot}</td><td class="n">${m.fib}</td><td class="n">${Math.round(m.kcal)}</td><td>${esc(m.contains.map(a=>label(ALLERGENS,a)).join(", ")||"—")}</td><td class="n">${eur(m.cogs)}</td><td class="n">${eur(p)}</td><td class="n">${pct((p-m.cogs)/p)}</td><td class="n">${m.exposure!=null?pct(m.exposure):"—"}</td></tr>`;}).join("");
+  document.getElementById("meals-tbl").innerHTML=`<thead><tr><th>Meal</th><th>Status</th><th class="n">Quality</th><th class="n">Rating</th><th class="n">Swap-out (not used)</th><th class="n">Protein</th><th class="n">Fibre</th><th class="n">kcal</th><th>Contains</th><th class="n dep">COGS</th><th class="n">Price (16)</th><th class="n dep">Margin</th><th class="n">In boxes</th></tr></thead><tbody>${rows}</tbody>`;
+  const d=1-P.disc/100;
+  document.getElementById("ups-tbl").innerHTML=`<thead><tr><th>Product</th><th class="n">List price</th><th class="n">15-meal tier</th><th class="n">20-meal tier</th><th class="n dep">COGS</th><th class="n dep">Margin after discount</th><th class="n">Sugar / serving</th><th>Contains</th><th>Treat</th></tr></thead><tbody>${Object.values(UP).map(u=>{const pr=(u.tiers?u.tiers[15]:u.price)*(P.discAddons?d:1);const mg=pr-u.cogs;return `<tr><td>${esc(u.name)}</td><td class="n">${eur(u.price)}</td><td class="n">${u.tiers?eur(u.tiers[15]):"—"}</td><td class="n">${u.tiers?eur(u.tiers[20]):"—"}</td><td class="n dep">${eur(u.cogs)}</td><td class="n dep">${eur(mg)}</td><td class="n">${u.sugar} g</td><td>${esc(u.contains.map(a=>label(ALLERGENS,a)).join(", ")||"—")}</td><td>${u.treat?"Yes":"—"}</td></tr>`;}).join("")}</tbody>`;
+}
+
+/* ---------- tabs ---------- */
+const VIEWS=["overview","logic","fallbacks","ux","simulator","data"];
+function show(v){
+  if(!VIEWS.includes(v))v="overview";
+  VIEWS.forEach(x=>{document.getElementById("view-"+x).hidden=x!==v;document.getElementById("tab-"+x).setAttribute("aria-selected",x===v);});
+  if(v==="overview"&&dirty){runSweep();renderOverview();dirty=false;}
+  if(v==="logic"||v==="fallbacks"){if(dirty){runSweep();renderOverview();dirty=false;}renderLogic();renderFallbacks();}
+  if(v==="data"){if(dirty){runSweep();renderOverview();dirty=false;}renderData();}
+  try{localStorage.setItem("qbs-tab",v)}catch(e){}
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
+document.getElementById("reset").onclick=()=>{P={...DEFAULTS};renderParams();computeQuality();renderSim();dirty=true;};
+
+computeQuality();runSweep();renderOverview();renderParams();renderControls();renderSim();renderData();
+let start=(location.hash||"").replace("#","");
+if(!start){try{start=localStorage.getItem("qbs-tab")||""}catch(e){}}
+show(start||"overview");
+</script>
+
+</body></html>
