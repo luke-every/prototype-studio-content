@@ -1,0 +1,983 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/shared/Button";
+import { PlusIcon } from "@/components/icons";
+import { euro, quantityRate } from "@/lib/box-price";
+import { revealMotion } from "@/lib/step-motion";
+import { statText } from "@/lib/meal-stats";
+import { PRESS } from "@/lib/press-classes";
+import type { Meal } from "@/lib/recommendation";
+import { AddOns } from "./AddOns";
+import { AllergenNote } from "./AllergenNote";
+import { BundleMealGrid } from "../bundle-v3/BundleMealGrid";
+import { AllMeals } from "./AllMeals";
+import { Consultation, RecommendationSection } from "./Consultation";
+import { allergensIn, allergensOf } from "./copy";
+import { ContentSection, POINTS } from "./ContentSection";
+import { FaqSection } from "./FaqSection";
+import { ExpertReviewsCarouselV2 } from "../homepage/GlobalReviewsCarousel";
+import { FrozenIngredientsImageTop } from "../ingredients/FrozenIngredientsImageTop";
+import { FOOTER } from "@/lib/site-chrome-sample";
+import { FAQ, INGREDIENTS } from "./sample-data";
+import { SaidToast } from "./SaidToast";
+import { FirstBoxPrice } from "./FirstBoxPrice";
+import {
+  angleHeadline,
+  headlineFor,
+  heroTilesFor,
+  tasteKeywords,
+  whyHeadline,
+  type Framing,
+} from "./framing";
+import { MealCard } from "./MealCard";
+import { MealPicker, type PickerMode } from "./MealPicker";
+import { MealSheet } from "./MealSheet";
+import { PromoBar } from "./PromoBar";
+import { BundleReviewsSection } from "../bundle-v3/BundleReviewsSection";
+import { FaqComponent } from "../faq/FaqComponent";
+import { Footer } from "../Footer";
+import { RoutineComponentV2 } from "../routine/RoutineComponentV2";
+import { FRAME, ResultsHero } from "./ResultsHero";
+import { ResultsNav } from "./ResultsNav";
+import { RoutineBriefs } from "./RoutineBriefs";
+import { GoalCard } from "./GoalCard";
+import { ProfileHero } from "./ProfileHero";
+import { tasteHeadline } from "./taste";
+import { routineFor } from "./routine";
+import { AVERAGE, REVIEWS, ReviewsSection } from "./ReviewsSection";
+import { NutritionTiles } from "./NutritionTiles";
+import { StatBar } from "./StatBar";
+import { StickyCartBar } from "./StickyCartBar";
+import { TierCelebration } from "./TierCelebration";
+import type { MenuItem, ResultsPageProps } from "./types";
+import { UPSELLS } from "@/lib/recommendation-data";
+import { useBox, type BoxLine } from "./useBox";
+
+/** The navigation is 72px tall: 16px padding around a 40px circle */
+const NAV_HEIGHT = 72;
+/** A swap waits for the sheets to be nearly down, then the old meal takes this long to leave */
+const SHEETS_DOWN_MS = 480;
+const SWAP_OUT_MS = 220;
+/** An added meal waits this long to play in, while the choices go down and the page scrolls to it */
+const ADD_SCROLL_MS = 1000;
+/** When the box changes, the cards that stay glide to their new places over this long */
+const REFLOW_MS = 420;
+/** The discount celebration waits for the new meal to be seen in the box */
+const CELEBRATE_DELAY_MS = 900;
+/** The box shows this many meals until they ask for the rest */
+const MEALS_SHOWN = 6;
+
+const H2 =
+  "m-0 font-book text-[28px] leading-[30px] tracking-[-0.56px] text-dark";
+
+/**
+ * A tells their answers as one sentence and explains the routine before it shows it. B is A told as a
+ * consultation on the page: their profile, then our recommendation, then the meals as the routine.
+ * C is A with their goal and what it holds every meal to in the hero, and the recommendation as a ledger of rows that open.
+ */
+export type Iteration = "A" | "B" | "C";
+
+/**
+ * The box the quiz made: what they told us and the box in brief, then every meal in it (each opens to
+ * swap it or change how many), then the add-ons we recommend, then the price.
+ */
+export function ResultsPage({
+  iteration = "A",
+  profileHero = false,
+  lean = false,
+  carousel = false,
+  answers,
+  products,
+  chrome,
+  revealed,
+  instant,
+  cartCount,
+  onAdd,
+  onPickerChange,
+  onLogo,
+  angle = "identity",
+}: ResultsPageProps & {
+  iteration?: Iteration;
+  profileHero?: boolean;
+  /** No profile section or numbered labels: the recommendation, then the meals (A and B) */
+  lean?: boolean;
+  /** The meals as the PDP's carousel on the goal's colour, with an all-meals sheet, instead of the grid (A) */
+  carousel?: boolean;
+}) {
+  const framing: Framing = 1;
+  /* B builds on A: the same framing, with the consultation in place of A's recommendation */
+  const asA = iteration === "A";
+  const consult = iteration === "B";
+  /* A and B share the meals section: "plan", no nutrition under the heading, and the same buttons */
+  const asPlan = iteration !== "A";
+  /* A and C open with the same hero: the goal and the challenge it gets them past */
+  const leadsWithWhy = asA || iteration === "C";
+  const box = useBox(answers);
+  const [picker, setPicker] = useState<PickerMode | null>(null);
+  const [pickerOpen, setPickerOpen] = useState<boolean>(false);
+  /** The meal whose sheet is open, by its place in the box; the item stays while the sheet closes */
+  const [sheetId, setSheetId] = useState<string | null>(null);
+  const [sheetItem, setSheetItem] = useState<MenuItem | null>(null);
+  /** The all-meals sheet is up (A and B) */
+  const [allOpen, setAllOpen] = useState<boolean>(false);
+  /** Counts the times the all-meals sheet is sent back to its grid, after a swap */
+  const [allBack, setAllBack] = useState<number>(0);
+  /** The place whose meal is on its way out during a swap */
+  const [leaving, setLeaving] = useState<string | null>(null);
+  const swapTimers = useRef<number[]>([]);
+  /** The discount the box has just crossed into, while its celebration is up */
+  /** The rest of the meals are showing; there is no going back, for now */
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [unlocked, setUnlocked] = useState<number | null>(null);
+  const [navDark, setNavDark] = useState<boolean>(false);
+  const [stickyIn, setStickyIn] = useState<boolean>(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const promoRef = useRef<HTMLParagraphElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const buyRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  /** The place of a meal just added, whose card holds back until the page has scrolled to it */
+  const [arriving, setArriving] = useState<string | null>(null);
+  /** Where each card sat in the grid after the last change to the box */
+  const cardSpots = useRef<Map<Element, { x: number; y: number }>>(new Map());
+
+  /* Storyblok knows a dish by its slug, the engine by its SKU */
+  const slugs = useMemo(() => {
+    const map: Record<string, string> = {};
+    Object.entries(products ?? {}).forEach(([slug, product]) => {
+      if (product.sku) map[product.sku] = slug;
+    });
+    return map;
+  }, [products]);
+  const slugOf = (meal: Meal): string => slugs[meal.sku] ?? "";
+  const imageOf = (meal: Meal): string => products?.[slugOf(meal)]?.image ?? "";
+
+  const { lines, units, price } = box;
+  /* there's no minimum order, only an empty box can't be checked out */
+  const empty = units === 0;
+  const allergens = allergensOf(answers);
+  const canSwap = box.recommendation.pool.length > 1;
+  const hidden = !expanded && lines.length > MEALS_SHOWN;
+  const shown = hidden ? lines.slice(0, MEALS_SHOWN) : lines;
+
+  /*
+   * The navigation reads whatever has scrolled under it. The cart bar waits for the hero to leave,
+   * and stands down whenever the page's own Add to cart is on screen.
+   */
+  const check = () => {
+    const scroller = scrollRef.current;
+    const promo = promoRef.current;
+    const hero = heroRef.current;
+    const buy = buyRef.current;
+    if (!scroller || !promo || !hero || !buy) return;
+    const view = scroller.getBoundingClientRect();
+    setNavDark(promo.getBoundingClientRect().bottom <= view.top + NAV_HEIGHT);
+    const buyRect = buy.getBoundingClientRect();
+    const heroGone = hero.getBoundingClientRect().bottom < view.top;
+    setStickyIn(
+      heroGone && !(buyRect.top < view.bottom && buyRect.bottom > view.top),
+    );
+  };
+
+  useEffect(
+    () => () =>
+      swapTimers.current.forEach((timer) => window.clearTimeout(timer)),
+    [],
+  );
+
+  /*
+   * When a meal leaves (or comes back with an undo), the cards around it glide from their old places
+   * to the new ones rather than jump. Offsets within the grid, so scrolling doesn't count as a move
+   */
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const spots = new Map<Element, { x: number; y: number }>();
+    Array.from(grid.children).forEach((child) => {
+      const el = child as HTMLElement;
+      const spot = { x: el.offsetLeft, y: el.offsetTop };
+      spots.set(el, spot);
+      const was = cardSpots.current.get(el);
+      if (still || !was || (was.x === spot.x && was.y === spot.y)) return;
+      el.animate(
+        [
+          { transform: `translate(${was.x - spot.x}px, ${was.y - spot.y}px)` },
+          { transform: "none" },
+        ],
+        {
+          duration: REFLOW_MS,
+          easing: "cubic-bezier(0.32, 0.86, 0.24, 1)" /* --ease-swing */,
+        },
+      );
+    });
+    cardSpots.current = spots;
+  }, [lines]);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(check);
+    return () => cancelAnimationFrame(frame);
+  });
+
+  /* Esc belongs to the page's own sheets while either is up */
+  const showPicker = (open: boolean) => {
+    setPickerOpen(open);
+    onPickerChange(open || sheetItem !== null || allOpen);
+  };
+
+  const sheetLine = lines.find((line) => line.id === sheetId) ?? null;
+  const openMeal = (line: BoxLine) => {
+    setSheetId(line.id);
+    setSheetItem({
+      name: line.meal.name,
+      image: imageOf(line.meal),
+      slug: slugOf(line.meal),
+      qty: line.qty,
+    });
+    onPickerChange(true);
+  };
+  const closeMeal = () => {
+    setSheetItem(null);
+    onPickerChange(pickerOpen);
+  };
+  const sheetQty = (qty: number) => {
+    if (sheetLine) setQty(sheetLine, qty);
+  };
+  const sheetRemove = () => {
+    if (sheetLine) playOut(sheetLine, () => setQty(sheetLine, 0));
+  };
+  /* the choices open over the meal, so closing them goes back to it */
+  const sheetSwap = () => {
+    if (sheetLine) openPicker({ kind: "swap", line: sheetLine });
+  };
+  const openPicker = (mode: PickerMode) => {
+    setPicker(mode);
+    showPicker(true);
+  };
+
+  // TODO(lift): replace with translation keys
+  /* one shape for every change, on one line: the action, then the meal it happened to, with an undo */
+  const said = (action: string, meal: string, undo?: () => void) => {
+    /* only one at a time: the last one animates out as this one comes in */
+    /* the one on screen lifts and fades as this one comes in (see globals.css) */
+    document
+      .querySelectorAll("[data-sonner-toast]")
+      .forEach((shown) => shown.setAttribute("data-replaced", ""));
+    toast.dismiss();
+    toast.custom(
+      (id) => (
+        <SaidToast
+          action={action}
+          meal={meal}
+          onUndo={() => {
+            (undo ?? box.undo)();
+            toast.dismiss(id);
+          }}
+        />
+      ),
+      { duration: 3500 },
+    );
+  };
+
+  /*
+   * A swap or a removal plays where the meal sits: both sheets go down, the card comes into view, the
+   * meal draws back and dissolves, then the box changes. Without motion, it just changes.
+   */
+  const playOut = (line: BoxLine, finish: () => void) => {
+    /* from the all-meals sheet: the choices go down, the sheet goes back to its grid, and the card plays out there */
+    if (allOpen) {
+      setPickerOpen(false);
+      onPickerChange(true);
+      setAllBack((n) => n + 1);
+      const done = () => {
+        setLeaving(null);
+        finish();
+      };
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+        return done();
+      const card = document.querySelector<HTMLElement>(
+        `[data-line="${line.id}"]`,
+      );
+      card?.scrollIntoView({ behavior: "smooth", block: "center" });
+      swapTimers.current.push(
+        window.setTimeout(() => setLeaving(line.id), SHEETS_DOWN_MS),
+        window.setTimeout(done, SHEETS_DOWN_MS + SWAP_OUT_MS),
+      );
+      return;
+    }
+    setSheetItem(null);
+    setPickerOpen(false);
+    onPickerChange(false);
+    const done = () => {
+      setLeaving(null);
+      finish();
+    };
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      return done();
+    /* A and B show the meals as the PDP's carousel, whose tiles are found by their label and played with the same keyframes */
+    const tile = carousel
+      ? Array.from(
+          carouselRef.current?.querySelectorAll<HTMLElement>("button") ?? [],
+        ).find(
+          (el) =>
+            el.getAttribute("aria-label") ===
+            `View details for ${line.meal.name}`,
+        )
+      : undefined;
+    if (tile) {
+      tile.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+      const spring =
+        getComputedStyle(document.documentElement)
+          .getPropertyValue("--ease-spring")
+          .trim() || "ease-out";
+      const hide = { opacity: 0, scale: 0.9, filter: "blur(8px)" };
+      const show = { opacity: 1, scale: 1, filter: "blur(0)" };
+      swapTimers.current.push(
+        window.setTimeout(
+          () =>
+            tile.animate([show, hide], {
+              duration: SWAP_OUT_MS,
+              easing: "ease-out",
+              fill: "forwards",
+            }),
+          SHEETS_DOWN_MS,
+        ),
+        window.setTimeout(() => {
+          finish();
+          /* a swap keeps the tile and changes its photo; a removal takes the tile away */
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() => {
+              if (!tile.isConnected) return;
+              tile.getAnimations().forEach((animation) => animation.cancel());
+              tile.animate([hide, show], { duration: 550, easing: spring });
+            }),
+          );
+        }, SHEETS_DOWN_MS + SWAP_OUT_MS),
+      );
+      return;
+    }
+    const card = scrollRef.current?.querySelector<HTMLElement>(
+      `[data-line="${line.id}"]`,
+    );
+    const view = scrollRef.current?.getBoundingClientRect();
+    const rect = card?.getBoundingClientRect();
+    if (
+      card &&
+      view &&
+      rect &&
+      (rect.top < view.top + NAV_HEIGHT || rect.bottom > view.bottom)
+    ) {
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    swapTimers.current.push(
+      window.setTimeout(() => setLeaving(line.id), SHEETS_DOWN_MS),
+      window.setTimeout(done, SHEETS_DOWN_MS + SWAP_OUT_MS),
+    );
+  };
+  const playSwap = (line: BoxLine, meal: Meal) =>
+    playOut(line, () => {
+      box.swap(line, meal);
+      said("Meal Swapped", meal.name);
+    });
+
+  /* a change that takes the box into a bigger discount is celebrated once the change has been seen */
+  const celebrateIfUnlocked = (change: number) => {
+    const rate = quantityRate(units + box.added.length + change);
+    if (rate <= price.quantityRate) return;
+    swapTimers.current.push(
+      window.setTimeout(() => {
+        setUnlocked(rate);
+        onPickerChange(true);
+      }, CELEBRATE_DELAY_MS),
+    );
+  };
+  const dismissUnlocked = () => {
+    setUnlocked(null);
+    onPickerChange(pickerOpen || sheetItem !== null);
+  };
+
+  const pick = (meal: Meal) => {
+    if (!picker) return;
+    if (picker.kind === "swap") {
+      playSwap(picker.line, meal);
+      return;
+    } else {
+      /* a meal already in the box gets another portion rather than a second card */
+      const again = box.qtyOf(meal) > 0;
+      if (again) {
+        box.add(meal);
+        celebrateIfUnlocked(1);
+        said("Portion Added", meal.name);
+      } else {
+        /* a new meal goes last: the meals open with it in place, the choices go down, one scroll takes the page to it, and then it plays in */
+        const id = `${meal.sku}+`;
+        setExpanded(true);
+        setArriving(id);
+        box.add(meal);
+        celebrateIfUnlocked(1);
+        said("Meal Added", meal.name);
+        swapTimers.current.push(
+          window.setTimeout(
+            () =>
+              document
+                .querySelector(`[data-line="${id}"]`)
+                ?.scrollIntoView({ behavior: "smooth", block: "center" }),
+            SHEETS_DOWN_MS,
+          ),
+          window.setTimeout(() => setArriving(null), ADD_SCROLL_MS + 1000),
+        );
+      }
+    }
+    showPicker(false);
+  };
+
+  /* every change to how many says what happened, with an undo, as swapping and removing do */
+  // TODO(lift): replace with translation keys
+  const setQty = (line: BoxLine, qty: number) => {
+    box.setQty(line, qty);
+    celebrateIfUnlocked(qty - line.qty);
+    if (qty === 0) said("Meal Removed", line.meal.name);
+    else
+      said(
+        qty > line.qty ? "Portion Added" : "Portion Removed",
+        line.meal.name,
+      );
+  };
+
+  /* an add-on change says so like a meal's, and its undo puts it back */
+  const changeAddOn = (key: string, by: 1 | -1) => {
+    box.changeAddOn(key, by);
+    said(by > 0 ? "Add-on Added" : "Add-on Removed", UPSELLS[key].name, () =>
+      box.changeAddOn(key, by > 0 ? -1 : 1),
+    );
+  };
+
+  // TODO(lift): replace with translation keys
+  /* the plan and its price: its own block at the foot of the page, and on a wide screen the sticky rail beside the hero and the meals, as on the PDP */
+  const plan = (
+    <>
+      {/* TODO(lift): replace with translation key */}
+      <div>
+        <h2 className={H2}>Your personalised plan</h2>
+        <p className="m-0 mt-2 text-lg leading-6 tracking-[-0.36px] text-light-text">
+          {euro(price.perMeal)} average per meal
+        </p>
+      </div>
+      <FirstBoxPrice box={box} />
+      {empty && (
+        <p className="m-0 text-sm leading-[18px] tracking-[-0.28px] text-dark">
+          Add a meal to check out.
+        </p>
+      )}
+      <Button
+        type="button"
+        variant="dark"
+        onClick={() => onAdd(units)}
+        disabled={empty}
+        aria-label="Add to cart"
+        sizeClassName="h-12"
+        className="w-full justify-center rounded-[30px] text-xs font-medium tracking-[1.8px] uppercase transition-[scale,opacity] duration-[240ms] ease-spring active:scale-[.975] active:duration-[90ms] active:ease-out disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        {/* TODO(lift): replace with translation key */}
+        Add to cart
+      </Button>
+      {/* TODO(lift): replace with translation key */}
+      <p className="m-0 text-center text-sm leading-[18px] tracking-[-0.28px] text-dark">
+        Delivered in 2-3 days · Skip or cancel anytime
+      </p>
+    </>
+  );
+
+  const promo = revealMotion(0, revealed, instant);
+  const body = revealMotion(4, revealed, instant);
+
+  return (
+    <div className="absolute inset-0">
+      <ResultsNav
+        visible={chrome}
+        dark={navDark}
+        cartCount={cartCount}
+        onLogo={onLogo}
+      />
+      <div
+        ref={scrollRef}
+        onScroll={check}
+        className="scrollbar-hide absolute inset-0 overflow-x-hidden overflow-y-auto overscroll-contain"
+      >
+        <div className="min-h-full bg-white">
+          <div className={promo.className} style={promo.style}>
+            <PromoBar ref={promoRef} />
+          </div>
+          {/* on a wide screen the hero and the first sections share the PDP's frame, with the rail laid over them */}
+          <div className="relative">
+            <ResultsHero
+              ref={heroRef}
+              box={box}
+              revealed={revealed}
+              instant={instant}
+              framing={framing}
+              answers={answers}
+              /* no numbers in any hero now: A's sit under "What's in your box", B's come with its recommendation.
+               B's sentence opens its profile, so its hero is just the title */
+              showTiles={false}
+              /* A and C say the goal and the challenge it gets them past: "Made to help you …, without …" */
+              headline={
+                asA
+                  ? angleHeadline(angle, answers, box.engine)
+                  : leadsWithWhy
+                    ? whyHeadline(answers)
+                    : undefined
+              }
+              showHeadline={!consult && iteration !== "C"}
+              showTitle={iteration !== "C"}
+              introducing={consult}
+              showEve={!profileHero}
+              showGoal={profileHero && !lean}
+              tight={profileHero}
+              noun={consult || leadsWithWhy ? "routine" : "box"}
+            >
+              {profileHero && <ProfileHero answers={answers} showTags={lean} />}
+              {/* C's hero is their goal, what every meal is held to for it, and the box in photos */}
+              {iteration === "C" && <GoalCard engineGoal={box.engine.goal} />}
+            </ResultsHero>
+            {/* everything under the hero arrives together, a beat after it; from lg its content keeps to the frame left of the rail, and a coloured band runs the full width */}
+            <div className={body.className} style={body.style}>
+              <div className={FRAME}>
+                {/* A explains the box before it shows it, briefly: B's recommendation as just its heading and rules */}
+                {asA && (
+                  <RecommendationSection
+                    routine={routineFor(box.engine.goal, answers)}
+                    lines={lines}
+                    compact
+                    onSheetChange={(open) =>
+                      onPickerChange(open || pickerOpen || sheetItem !== null)
+                    }
+                  />
+                )}
+                {lean && (
+                  <RecommendationSection
+                    routine={routineFor(box.engine.goal, answers)}
+                    lines={lines}
+                    numbered
+                    intro={false}
+                    onSheetChange={(open) =>
+                      onPickerChange(open || pickerOpen || sheetItem !== null)
+                    }
+                  />
+                )}
+                {consult && !lean && (
+                  <Consultation
+                    headline={
+                      profileHero
+                        ? tasteHeadline(answers)
+                        : headlineFor(framing, answers, box.engine)
+                    }
+                    title={profileHero ? "Your taste profile" : undefined}
+                    intro={!profileHero}
+                    outlined={profileHero}
+                    allergens={allergens}
+                    routine={routineFor(box.engine.goal, answers)}
+                    lines={lines}
+                    onSheetChange={(open) =>
+                      onPickerChange(open || pickerOpen || sheetItem !== null)
+                    }
+                  />
+                )}
+                {/* C is A with the goal card in the hero, and its sentence as the recommendation's title, over the ledger */}
+                {iteration === "C" && (
+                  <RoutineBriefs
+                    only="ledger"
+                    deep
+                    headline={
+                      <h2 className="m-0 font-book text-[28px] leading-[34px] tracking-[-0.56px] text-dark">
+                        {/* TODO(lift): replace with translation key */}
+                        Designed by chefs to{" "}
+                        {routineFor(box.engine.goal, answers).to}
+                      </h2>
+                    }
+                    routine={routineFor(box.engine.goal, answers)}
+                    lines={lines}
+                    onSheetChange={(open) =>
+                      onPickerChange(open || pickerOpen || sheetItem !== null)
+                    }
+                  />
+                )}
+              </div>
+
+              {carousel && (
+                <section
+                  className={`mt-12 rounded-[32px] bg-(--bundle,var(--color-light-brown)) py-12 ${FRAME}`}
+                >
+                  <h2
+                    className={`${H2} mx-6 flex items-center justify-between gap-4 lg:text-[48px] lg:leading-[50px] lg:tracking-[-0.96px]`}
+                  >
+                    {/* TODO(lift): replace with translation keys */}
+                    What’s in your plan
+                    <span className="rounded-full bg-white/60 px-2 py-1 font-sans text-sm leading-[19px] tracking-[-0.28px] text-dark">
+                      {units} {units === 1 ? "meal" : "meals"}
+                    </span>
+                  </h2>
+                  <p className="mx-6 mt-2 mb-0 text-sm leading-[18px] tracking-[-0.28px] text-dark/65">
+                    {/* TODO(lift): replace with translation key */}
+                    Swap, add or remove meals below.
+                  </p>
+                  <div className="mx-6">
+                    <AllergenNote
+                      tone="tint"
+                      allergens={allergens}
+                      fallback={box.recommendation.fallback}
+                      mixed={
+                        lines.filter(
+                          (line) =>
+                            allergensIn(line.meal, allergens).length > 0,
+                        ).length
+                      }
+                    />
+                  </div>
+                  {/* the PDP's meal carousel, as it is: tiles four to a page */}
+                  <div ref={carouselRef} className="mt-5">
+                    <BundleMealGrid
+                      /* a tile needs a photo: until the products load, or for a dish with none, it waits */
+                      meals={lines
+                        .filter((line) => imageOf(line.meal))
+                        .map((line) => ({
+                          id: line.id,
+                          handle: slugOf(line.meal),
+                          title: line.meal.name,
+                          image: imageOf(line.meal),
+                        }))}
+                      onSelectMeal={(meal) => {
+                        const line = lines.find((item) => item.id === meal.id);
+                        if (line) openMeal(line);
+                      }}
+                    />
+                  </div>
+                  <NutritionTiles lines={lines} className="mx-6 mt-6" />
+                  <div className="mx-6 mt-4 flex flex-col gap-2">
+                    <Button
+                      type="button"
+                      variant="dark"
+                      onClick={() => {
+                        setAllOpen(true);
+                        onPickerChange(true);
+                      }}
+                      sizeClassName="h-11 w-full px-6"
+                      className="justify-center rounded-[30px] text-xs font-medium tracking-[1.8px] uppercase transition-[scale] duration-[240ms] ease-spring active:scale-[.975] active:duration-[90ms] active:ease-out"
+                    >
+                      {/* TODO(lift): replace with translation key */}
+                      See and edit all my meals
+                    </Button>
+                    <p className="m-0 text-center text-xs leading-4 tracking-[-0.24px] text-dark">
+                      {/* TODO(lift): replace with translation key */}
+                      Swap, add or remove any meal
+                    </p>
+                  </div>
+                </section>
+              )}
+              <div className={FRAME}>
+                {!carousel && (
+                  <section className="mx-6 pt-12">
+                    <h2
+                      className={`${H2} flex justify-between gap-4 lg:text-[48px] lg:leading-[50px] lg:tracking-[-0.96px] ${asPlan ? "items-center" : "items-baseline"}`}
+                    >
+                      {asPlan ? "What’s in your plan" : "Meals in your routine"}
+                      {/* the plan's count is a pill in the goal's colour */}
+                      <span
+                        className={`font-sans text-sm tracking-[-0.28px] ${
+                          asPlan
+                            ? "rounded-full bg-(--bundle,var(--color-light-brown)) px-2 py-1 leading-[19px] text-dark"
+                            : "leading-[18px] text-light-text"
+                        }`}
+                      >
+                        {asPlan
+                          ? `${units} ${units === 1 ? "meal" : "meals"}`
+                          : units}
+                      </span>
+                    </h2>
+                    {asPlan && (
+                      <p className="mt-2 mb-0 text-sm leading-[18px] tracking-[-0.28px] text-light-text">
+                        {/* TODO(lift): replace with translation key */}
+                        Swap, add or remove meals below.
+                      </p>
+                    )}
+                    {lean && (
+                      <NutritionTiles lines={lines} className="mt-4" symbol />
+                    )}
+                    {/* the box's nutrition sits under the heading, ahead of its meals */}
+                    {!asPlan && (
+                      <div className="mt-4">
+                        <StatBar
+                          tiles={heroTilesFor(framing, answers, box)}
+                          tone="page"
+                        />
+                      </div>
+                    )}
+                    {/* under the nutrition where it's there, straight under the heading otherwise */}
+                    <AllergenNote
+                      allergens={allergens}
+                      fallback={box.recommendation.fallback}
+                      mixed={
+                        lines.filter(
+                          (line) =>
+                            allergensIn(line.meal, allergens).length > 0,
+                        ).length
+                      }
+                    />
+                    <div
+                      ref={gridRef}
+                      className={`relative mt-5 grid grid-cols-2 gap-x-3 gap-y-6 lg:grid-cols-3 ${asPlan && hidden ? "pb-6 lg:pb-0" : ""}`}
+                    >
+                      {shown.map((line) => (
+                        <MealCard
+                          key={`${line.id}:${line.meal.sku}`}
+                          line={line}
+                          image={imageOf(line.meal)}
+                          stats={box.stats.map((stat) =>
+                            statText(line.meal, stat),
+                          )}
+                          leaving={leaving === line.id}
+                          late={arriving === line.id}
+                          onOpen={() => openMeal(line)}
+                        />
+                      ))}
+                      {!hidden && (
+                        <button
+                          type="button"
+                          onClick={() => openPicker({ kind: "add" })}
+                          className={`col-span-2 flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-[30px] border-0 bg-light-brown p-0 text-xs leading-4 font-medium tracking-[1.8px] text-dark uppercase lg:col-span-3 ${PRESS} active:scale-[.975]`}
+                        >
+                          <PlusIcon size={14} />
+                          {/* TODO(lift): replace with translation key */}
+                          <span>Add an extra meal</span>
+                        </button>
+                      )}
+                      {/* on a phone the plan fades the row after the sixth meal into white, with both buttons over the fade; from lg the buttons sit under the three rows and columns */}
+                      {asPlan && hidden && (
+                        <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-linear-to-b from-white/0 to-white to-80% pt-14 lg:static lg:col-span-3 lg:bg-none lg:pt-0">
+                          <button
+                            type="button"
+                            onClick={() => setExpanded(true)}
+                            className={`flex h-10 w-full cursor-pointer items-center justify-center rounded-[30px] border-0 bg-dark p-0 text-xs font-medium tracking-[1.8px] text-white uppercase ${PRESS} active:scale-[.975]`}
+                          >
+                            {/* TODO(lift): replace with translation key */}
+                            Show all {units} meals
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => openPicker({ kind: "add" })}
+                            className={`flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-[30px] border-0 bg-light-brown p-0 text-xs font-medium tracking-[1.8px] text-dark uppercase ${PRESS} active:scale-[.975]`}
+                          >
+                            <PlusIcon size={12} />
+                            {/* TODO(lift): replace with translation key */}
+                            Add an extra meal
+                          </button>
+                        </div>
+                      )}
+                      {!asPlan && hidden && (
+                        <button
+                          type="button"
+                          onClick={() => setExpanded(true)}
+                          aria-label="Show all meals"
+                          className={`col-span-2 flex h-12 cursor-pointer items-center justify-center rounded-[30px] border border-light-grey-3 bg-white p-0 text-xs font-medium tracking-[1.8px] text-dark uppercase ${PRESS} active:scale-[.975]`}
+                        >
+                          {/* TODO(lift): replace with translation key */}
+                          Show all meals
+                        </button>
+                      )}
+                    </div>
+                    {/* C puts the numbers after the meals and their add button */}
+                    {!lean && (
+                      <NutritionTiles lines={lines} className="mt-6" symbol />
+                    )}
+                  </section>
+                )}
+
+                <div className="mt-14">
+                  <AddOns
+                    box={box}
+                    products={products}
+                    onChange={changeAddOn}
+                    onSheetChange={(open) =>
+                      onPickerChange(open || pickerOpen || sheetItem !== null)
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={body.className} style={body.style}>
+              <section
+                ref={buyRef}
+                className="mt-14 flex flex-col gap-4 rounded-[32px] bg-(--bundle,var(--color-light-brown)) px-6 py-8 lg:hidden"
+              >
+                {plan}
+              </section>
+
+              <div className="lg:hidden">
+                <ReviewsSection />
+              </div>
+              {/* from lg the sections after the meals are the PDP's own, so they clear the rail the same way */}
+              <section className="hidden w-full bg-(--bundle)/50 lg:mt-16 lg:block lg:rounded-[32px]">
+                <div className="mx-auto max-w-[1440px] px-6 pt-12 pb-16 lg:px-40 lg:pt-16 lg:pb-32">
+                  <div className="lg:max-w-[calc(100%-384px)]">
+                    <BundleReviewsSection
+                      headline="Over 200,000 happy customers"
+                      reviews={REVIEWS}
+                      rating={{ label: "Excellent", average: AVERAGE }}
+                    />
+                  </div>
+                </div>
+              </section>
+
+              <div className="mt-14 lg:hidden">
+                <ContentSection />
+              </div>
+              <div className="hidden lg:mt-6 lg:block">
+                {/* TODO(lift): replace with translation keys; the eyebrow is empty because this section has none in the design */}
+                <RoutineComponentV2
+                  eyebrow=""
+                  headline={
+                    <>
+                      When dinner is sorted, <em>the rest gets easier.</em>
+                    </>
+                  }
+                  slides={["img/dinner-sorted.png"]}
+                  pillars={POINTS.map(([title, body]) => ({ title, body }))}
+                  backgroundColor="var(--bundle)"
+                />
+              </div>
+              {/* the section ends 24px early, so its 64px bottom padding reads as 40px; the shared component takes no padding prop */}
+              {/* the shared component has no narrow option, so it is padded to clear the rail: 384px more than its own 160px, and the centred band's edge above 1440 */}
+              <div className="-mb-6 lg:mt-6 lg:mb-0 lg:pr-[max(384px,calc(50%-336px))] lg:pl-[max(0px,calc(50%-720px))]">
+                <FrozenIngredientsImageTop
+                  eyebrow={INGREDIENTS.eyebrow}
+                  headline={
+                    <>
+                      Can frozen food <em>really be fresh?</em>
+                    </>
+                  }
+                  body={INGREDIENTS.body}
+                  summerNote={INGREDIENTS.note}
+                  posterImage={INGREDIENTS.image}
+                  backgroundColor="transparent"
+                >
+                  <ExpertReviewsCarouselV2
+                    title={INGREDIENTS.experts.title}
+                    experts={INGREDIENTS.experts.experts}
+                    embedded
+                  />
+                </FrozenIngredientsImageTop>
+              </div>
+              <div className="lg:hidden">
+                <FaqSection />
+              </div>
+              <div className="hidden lg:mt-6 lg:block">
+                {/* TODO(lift): replace with translation keys */}
+                <FaqComponent
+                  eyebrow="COMMON QUESTIONS"
+                  headline="Dig a little deeper"
+                  items={FAQ.map(([question, answer]) => ({
+                    question,
+                    answer,
+                  }))}
+                />
+              </div>
+            </div>
+            {/* the PDP's rail: a white card that sticks below the navigation down the page beside the hero, the meals and the sections after them */}
+            <div className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
+              <div className="mx-auto h-full max-w-[1440px] px-10 pt-16 xl:px-40">
+                <aside className="pointer-events-auto sticky top-[88px] ml-auto flex w-[352px] flex-col gap-4 rounded-[32px] bg-white p-8 shadow-[0_4px_16px_rgba(0,0,0,0.25)]">
+                  {plan}
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* the site footer closes every results page; the room under it on a phone is for the sticky cart bar */}
+        <div className="bg-background pb-[120px] lg:pb-0">
+          <Footer {...FOOTER} rating={{ average: AVERAGE }} />
+        </div>
+      </div>
+      <StickyCartBar
+        visible={stickyIn}
+        meals={units}
+        addOns={box.added.length}
+        total={euro(price.total)}
+        was={euro(price.was)}
+        disabled={empty}
+        onAdd={() => onAdd(units)}
+        onPrice={() =>
+          buyRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          })
+        }
+      />
+      <MealSheet
+        open={sheetItem !== null}
+        line={sheetLine}
+        item={sheetItem}
+        products={products}
+        canSwap={canSwap}
+        onQty={sheetQty}
+        onRemove={sheetRemove}
+        covered={pickerOpen}
+        items={units + box.added.length}
+        allergens={allergens}
+        fallback={box.recommendation.fallback}
+        onSwap={sheetSwap}
+        onClose={closeMeal}
+      />
+      {carousel && (
+        <AllMeals
+          open={allOpen}
+          back={allBack}
+          leaving={leaving}
+          arriving={arriving}
+          lines={lines}
+          products={products}
+          imageOf={imageOf}
+          slugOf={slugOf}
+          statsOf={(meal) => box.stats.map((stat) => statText(meal, stat))}
+          canSwap={canSwap}
+          items={units + box.added.length}
+          allergens={allergens}
+          fallback={box.recommendation.fallback}
+          onQty={setQty}
+          onRemove={(line) => setQty(line, 0)}
+          onSwap={(line) => openPicker({ kind: "swap", line })}
+          onAdd={() => openPicker({ kind: "add" })}
+          covered={pickerOpen}
+          onClose={() => {
+            setAllOpen(false);
+            onPickerChange(pickerOpen || sheetItem !== null);
+          }}
+        />
+      )}
+      <MealPicker
+        open={pickerOpen}
+        mode={picker}
+        box={box}
+        products={products}
+        taste={tasteKeywords(answers, box.engine, allergens)}
+        allergens={allergens}
+        slugOf={slugOf}
+        onPick={pick}
+        onQty={(meal, qty) => {
+          const line = lines.find((l) => l.meal.sku === meal.sku);
+          if (line) setQty(line, qty);
+        }}
+        onClose={() => showPicker(false)}
+      />
+      {unlocked !== null && (
+        <TierCelebration rate={unlocked} onDismiss={dismissUnlocked} />
+      )}
+    </div>
+  );
+}
