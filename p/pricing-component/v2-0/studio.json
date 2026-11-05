@@ -1,0 +1,17 @@
+{
+  "controls": [
+    {
+      "id": "variation",
+      "label": "Pricing variation",
+      "type": "choice",
+      "variants": true,
+      "default": "protein",
+      "options": [
+        { "value": "protein", "label": "Current" },
+        { "value": "perfect", "label": "Perfect Portions" },
+        { "value": "immunity", "label": "Immunity" },
+        { "value": "postpartum", "label": "Postpartum" }
+      ]
+    }
+  ]
+}
