@@ -1,0 +1,18 @@
+{
+  "controls": [
+    {
+      "id": "variant",
+      "label": "Design",
+      "type": "choice",
+      "variants": true,
+      "default": "current",
+      "options": [
+        { "value": "current", "label": "A: stacked cards" },
+        { "value": "b", "label": "B: swipe on mobile" },
+        { "value": "c", "label": "C: Menu grid" },
+        { "value": "d", "label": "D: Menu pages" },
+        { "value": "e", "label": "E: Goal led" }
+      ]
+    }
+  ]
+}
