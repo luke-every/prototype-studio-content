@@ -1,0 +1,127 @@
+import type { ReactNode } from "react";
+import Image from "next/image";
+import { CheckedIcon } from "@/components/icons";
+import { Button } from "@/components/shared/Button";
+import type { Bundle } from "./bundles";
+import { FACTS, type BundleFacts } from "./BundleComparisonA.data";
+
+const BODY = "font-sans text-sm leading-[19px] tracking-[-0.28px]";
+const NUMERAL = "font-book text-lg leading-[22px] tracking-[-0.36px] text-near-black";
+// Image, name + headline, four facts, button: every card spans the same rows so facts line up across cards on desktop.
+export const ROW_COUNT = 7;
+
+type FactKey = "protein" | "kcal" | "allDay" | "extra";
+
+/** Lower ranks first; the bundle with the lowest rank wins that fact. */
+const RANKS: { key: FactKey; rank: (f: BundleFacts) => number }[] = [
+  { key: "protein", rank: (f) => -f.protein },
+  { key: "kcal", rank: (f) => f.kcal },
+  { key: "allDay", rank: (f) => (f.allDay ? 0 : 1) },
+  { key: "extra", rank: (f) => (f.extra ? 0 : 1) },
+];
+
+/** The fact a bundle is best at: the first one it wins. It is tinted in the bundle's colour. */
+function strengthOf(f: BundleFacts): FactKey | undefined {
+  return RANKS.find((r) => r.rank(f) === Math.min(...FACTS.map(r.rank)))?.key;
+}
+
+function Fact({ label, tight, children }: { label: string; tight: boolean; children: ReactNode }) {
+  return (
+    <div className={`flex items-center justify-between gap-4 border-t border-light-grey ${tight ? "min-h-10 py-2" : "min-h-12 py-3"}`}>
+      <span className={`${BODY} text-light-text`}>{label}</span>
+      <span className={`${BODY} flex items-center gap-2 text-right text-near-black`}>{children}</span>
+    </div>
+  );
+}
+
+function Value({ lead, b, children }: { lead: boolean; b: Bundle; children: ReactNode }) {
+  return (
+    <span className="-mr-2 inline-flex items-baseline gap-1 rounded-full px-2 py-0.5" style={lead ? { backgroundColor: b.colors.tile } : undefined}>
+      {children}
+    </span>
+  );
+}
+
+/** One bundle card. Mobile: bordered, the bundle name as a tag in its colour under the image. Desktop: plain column, name under the image. */
+export function BundleCardA({ f, b, current = false, inSheet = false }: { f: BundleFacts; b: Bundle; current?: boolean; inSheet?: boolean }) {
+  const strength = strengthOf(f);
+
+  return (
+    <article
+      className={`flex flex-col rounded-2xl border p-4 ${current ? "border-dark" : "border-light-grey-2"} lg:grid lg:grid-rows-subgrid lg:rounded-none lg:border-0 lg:p-0`}
+      style={{ gridRow: `span ${ROW_COUNT}` }}
+      aria-label={b.title}
+    >
+      <div className="relative aspect-[256/195] w-full overflow-clip rounded-[18px] lg:aspect-[256/215]" style={{ backgroundColor: b.colors.tile }}>
+        <div className="absolute" style={b.art}>
+          <Image src={b.image} alt="" fill sizes="(min-width: 1024px) 256px, 100vw" className="object-cover" />
+        </div>
+      </div>
+
+      <span
+        className={`mt-3 w-fit rounded-full font-sans font-medium tracking-[-0.24px] text-near-black lg:hidden ${inSheet ? "px-2.5 py-1 text-xs leading-4" : "px-3 py-1.5 text-sm leading-[19px] tracking-[-0.28px]"}`}
+        style={{ backgroundColor: b.colors.tile }}
+      >
+        {b.title}
+      </span>
+
+      <div className={`flex flex-col gap-1 ${inSheet ? "pb-3 pt-3" : "pb-4 pt-4"}`}>
+        <h3 className={`${BODY} hidden font-medium text-near-black lg:block`}>{b.title}</h3>
+        {/* TODO(lift): replace with translation key */}
+        <p className="font-book text-2xl leading-7 tracking-[-0.48px] text-near-black">{f.headline}</p>
+      </div>
+
+      {/* TODO(lift): replace labels with translation keys */}
+      <Fact label="Protein per meal" tight={inSheet}>
+        <Value lead={strength === "protein"} b={b}>
+          <span className={NUMERAL}>{f.protein}</span>g
+        </Value>
+      </Fact>
+      <Fact label="Calories per meal" tight={inSheet}>
+        <Value lead={strength === "kcal"} b={b}>
+          <span className={NUMERAL}>{f.kcal}</span>kcal
+        </Value>
+      </Fact>
+      <Fact label="Breakfast and snacks" tight={inSheet}>
+        <Value lead={strength === "allDay"} b={b}>
+          <span className={f.allDay ? "" : "text-light-text"}>{f.allDay ? "Included" : "Not included"}</span>
+        </Value>
+      </Fact>
+      <Fact label="Free extras" tight={inSheet}>
+        {f.extra ? (
+          <Value lead={strength === "extra"} b={b}>
+            <span className="relative size-6 shrink-0 self-center overflow-hidden rounded-md bg-light-grey">
+              <Image src={f.extra.image} alt="" fill sizes="24px" className="object-cover" />
+            </span>
+            {f.extra.name}
+          </Value>
+        ) : (
+          <Value lead={false} b={b}>
+            <span className="text-light-text">None</span>
+          </Value>
+        )}
+      </Fact>
+
+      {/* In a scrolling sheet the action stays pinned to the bottom of the card's visible area */}
+      <div className={`${inSheet ? "self-stretch sticky bottom-0 -mx-4 -mb-4 mt-auto rounded-b-[14px] border-t border-light-grey bg-white p-4 lg:mx-0 lg:mb-0 lg:rounded-none lg:px-0 lg:pb-0" : "mt-6 w-full self-end"}`}>
+        {current ? (
+          <p className={`${BODY} flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-off-white font-medium text-near-black`}>
+            <CheckedIcon size={16} />
+            {/* TODO(lift): replace with translation key */}
+            You&apos;re viewing this bundle
+          </p>
+        ) : (
+          <Button
+            variant="dark"
+            sizeClassName="h-11 px-6"
+            className="w-full justify-center font-sans text-xs font-medium uppercase leading-none tracking-[1.8px]"
+            aria-label={`Continue with ${b.title}`}
+          >
+            {/* TODO(lift): replace with translation key */}
+            Continue
+          </Button>
+        )}
+      </div>
+    </article>
+  );
+}
