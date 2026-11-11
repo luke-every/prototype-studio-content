@@ -1,12 +1,1 @@
-[
-  {
-    "subscription": {
-      "endpoint": "https://web.push.apple.com/QAIsUyqDROGQycllzGrfCjCWL39JrJtHucxn-BZU-yc7_srB54arnuijEfZMSUq95_lOeJoEyiSny7YSnWmqQ-Yl5ZeVhMbA5dVuwRNCRHnAWNcspbIJFPEbC8esVcmnAgbqsmSQcvzZObZPkKXKf2_EQvLxRTdXlAvRrBxsXnE",
-      "keys": {
-        "p256dh": "BOODbb6sps2cxc4ISnUv2cObJ2awLNuwDiZ8up69YgJYRp8iS9k8gh82rkPDaaWTscIOr_-A06cFYLiYlO9puuw",
-        "auth": "HJ_9vKJ_QERrrGnrWhobUQ"
-      }
-    },
-    "name": "Luke"
-  }
-]
+[{"subscription":{"endpoint":"https://web.push.apple.com/QAIsUyqDROGQycllzGrfCjCWL39JrJtHucxn-BZU-yc7_srB54arnuijEfZMSUq95_lOeJoEyiSny7YSnWmqQ-Yl5ZeVhMbA5dVuwRNCRHnAWNcspbIJFPEbC8esVcmnAgbqsmSQcvzZObZPkKXKf2_EQvLxRTdXlAvRrBxsXnE","keys":{"p256dh":"BOODbb6sps2cxc4ISnUv2cObJ2awLNuwDiZ8up69YgJYRp8iS9k8gh82rkPDaaWTscIOr_-A06cFYLiYlO9puuw","auth":"HJ_9vKJ_QERrrGnrWhobUQ"}},"name":"Luke"},{"subscription":{"endpoint":"https://web.push.apple.com/QMRYjF-_OkJIMK5N9MDgdu193ZsbgYqXp5qUpv5qH3v_hT9uInRfbNdFJHbCoVb02mzKnzWseO4SYCB4dlVwNYedwRaMCRHeEAwJCo8-C7pakZO0r0Qign4Xrf6-n07wCdtjRFl1M2rRvtZSyxAtqEiKu4SdzNDSN5i4BoqWc8E","expirationTime":null,"keys":{"p256dh":"BFVbZrk5tvyq8H8IICmEajKvy55OtRk4kbA6UPFXh5sleR-AKyZZ6mB9v2r54s8UHbjuQSq3oVk7xSRiDaUeGqc","auth":"p4QK29d3qYPJzHk7GPmFCQ"}},"name":"Luke"}]
