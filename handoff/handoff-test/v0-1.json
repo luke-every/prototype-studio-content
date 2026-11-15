@@ -1420,5 +1420,9 @@
     ]
   },
   "applied": null,
-  "signOff": null
+  "signOff": {
+    "by": "Luke",
+    "at": "2026-11-15T15:00:03.073Z",
+    "left": 0
+  }
 }
