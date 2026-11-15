@@ -4,7 +4,7 @@
     "slug": "handoff-test",
     "version": "v0.1"
   },
-  "scannedAt": "2026-11-15T14:02:58.544Z",
+  "scannedAt": "2026-11-15T14:59:39.396Z",
   "scannedBy": "Luke",
   "designSystem": {
     "repo": "Every-Foods/every-website",
@@ -18,18 +18,13 @@
         "id": "main",
         "label": "main",
         "entries": [
-          "src/app/page.tsx"
+          "src/components/carousel/CardCarousel.tsx",
+          "src/components/website/HeaderV2.tsx",
+          "src/components/website/Footer.tsx"
         ]
       }
     ],
     "live": [
-      {
-        "file": "src/app/page.tsx",
-        "role": "new",
-        "variants": [
-          "main"
-        ]
-      },
       {
         "file": "src/components/carousel/CardCarousel.tsx",
         "role": "new",
@@ -589,17 +584,414 @@
         "variants": [
           "main"
         ]
-      },
-      {
-        "file": "src/lib/site-chrome-sample.ts",
-        "role": "kit",
-        "variants": [
-          "main"
-        ]
       }
     ],
+    "hashes": {
+      "src/components/carousel/CardCarousel.tsx": "2872c8069fe78b3dd292530930963b4837556890",
+      "src/components/carousel/carousel.data.ts": "4484301650d8a5eee9a10a3b7ce7ae178eb42eb6",
+      "src/components/icons/AmexIcon.tsx": "a581adb1eedca9965f734a676f1a93b905884516",
+      "src/components/icons/ArrowLeftIcon.tsx": "c17f6f20de20af05ba55a56489e14978c5abfebb",
+      "src/components/icons/ArrowRightIcon.tsx": "9dd4dbb29554a7a8a09e8f164737409e9b540703",
+      "src/components/icons/ArrowRightLongIcon.tsx": "247b328069d0f714ef618463566936e7b97ddd5b",
+      "src/components/icons/BellOffIcon.tsx": "f0d266a7676ba715fde229b16798952b48b78f50",
+      "src/components/icons/CarouselArrowIcon.tsx": "f1a5ea07939e5a0c7d20f7f70299f612f7a79cbf",
+      "src/components/icons/CarouselArrowMobileIcon.tsx": "483cb209d9e96bc1a3fee26bc71a4ca498eb66b5",
+      "src/components/icons/CartIcon.tsx": "280de94d1fbc5f6e68c90f5db79b94fd7a67952f",
+      "src/components/icons/CheckedIcon.tsx": "f484bdadf09436a4af78f82f24de57ac5e63a152",
+      "src/components/icons/ChevronDownFilledIcon.tsx": "222e03d0347c3df5321113c877d7f17a069bf0da",
+      "src/components/icons/ChevronDownIcon.tsx": "9bb1e13c7481d6c4e01c5ca32736aa9e6543ca63",
+      "src/components/icons/ChevronLeftIcon.tsx": "0fef4b9647fae94720b979f015192eadd78b077f",
+      "src/components/icons/ChevronRightFilledIcon.tsx": "5324ee73e993e66902357fdff206bd9a447b6380",
+      "src/components/icons/ChevronRightIcon.tsx": "64723ead26121f686eefda27f44e223d0d0a196a",
+      "src/components/icons/CloseFilledIcon.tsx": "2c4ff999f890ed89431147ca1a5b4d41a2b3ceea",
+      "src/components/icons/CloseIcon.tsx": "7cee9d154ffd9cf2bab9c337c574d9006f1808fa",
+      "src/components/icons/DeliveryBoxIcon.tsx": "1ef11b0ac2843d8faf702a5c9bc0c015381e6376",
+      "src/components/icons/DeliveryTruckIcon.tsx": "06152f90aa014298b55a3c080e9ff8d59eacee56",
+      "src/components/icons/EmptyBoxIcon.tsx": "8169cda82f986ef1700c819163b450a0c4268160",
+      "src/components/icons/FacebookIcon.tsx": "70998e096157bbffc0e1e649deceada85d187595",
+      "src/components/icons/FlagCHIcon.tsx": "381bdb6d0707cda55b421df0f17779d9124108cd",
+      "src/components/icons/FlagDEIcon.tsx": "6a8651c50ad899b3cb865e5ed1081f283c59abd9",
+      "src/components/icons/FlagFRIcon.tsx": "ba35409b6045680ebde4f62a7b3a28fb08da1650",
+      "src/components/icons/FlagGBIcon.tsx": "409b903151746c8e3af5007e648dd5bdb1c164c6",
+      "src/components/icons/FlagNLIcon.tsx": "d50966f02bf9645f4096cf968a094aa3a5cf6dc5",
+      "src/components/icons/GenericCardIcon.tsx": "e6fadab1d3bc6673b63762203ba76117159c4a3a",
+      "src/components/icons/GiftIcon.tsx": "ffd00b6bb486ca0259794f284358bfbd051b9658",
+      "src/components/icons/GlobeLocationIcon.tsx": "25ab06c0b45e8d01661344b61d6a4812a08dc3d2",
+      "src/components/icons/HelpIcon.tsx": "a66ec5100e7e77bbe0f546bdebddeaf1a530ace5",
+      "src/components/icons/InfoIcon.tsx": "ac939614bf3740b1df372a0eeffdadbe43cdb22c",
+      "src/components/icons/InstagramIcon.tsx": "5c9e7cf83aa6fec5a257476bdbbb3fd79e30b30d",
+      "src/components/icons/LanguageIcon.tsx": "e5c919c3f0298e9ddfdb0cdbcb7cb3bd534c4c01",
+      "src/components/icons/LanguagePickerIcon.tsx": "37d8c9429c92363bdeea3cce073211b1c7a1cdca",
+      "src/components/icons/LinkedInIcon.tsx": "5abb2c71a350bfec49ff11fd2e0a17f93cb4f02e",
+      "src/components/icons/LogOutIcon.tsx": "bfb95461cc57cf0318365f3e8c8c098d8838cbab",
+      "src/components/icons/LogoIcon.tsx": "9249553e8d937ef63de914a2e3908154e935930b",
+      "src/components/icons/MaestroIcon.tsx": "75fac1ddf6e2e3a3f83d3152059d1d4fbab0a6de",
+      "src/components/icons/MastercardIcon.tsx": "9d33fa455e95f72b5aba63a76b02ade2d7003e35",
+      "src/components/icons/MenuIcon.tsx": "8203fec4339253735a0c23cfb9f27fc7434a82b2",
+      "src/components/icons/MinusIcon.tsx": "45eaa048bf94d5b853d3b933cd917b52688f2607",
+      "src/components/icons/MonthlyDeliveryIcon.tsx": "7895d4fb9ff57b440915c2d85be37e81032610f6",
+      "src/components/icons/OrderHistoryIcon.tsx": "daeacf12606fba71c3fa74d17a88e6ef3947dd8a",
+      "src/components/icons/PanIcon.tsx": "1ec145164d2c0ca9d733e832cf7b9075deb0f9a8",
+      "src/components/icons/PauseCancelIcon.tsx": "b6b9e1edf74037bee1ad9f1e4c9083cb7e7688c8",
+      "src/components/icons/PaypalIcon.tsx": "8ef40814ecba9a9e3ddeb57375f8f4a9f520a816",
+      "src/components/icons/PeasIcon.tsx": "0b3a7be2f4b3e6db7fba421cbc34a194c24a11e8",
+      "src/components/icons/PencilIcon.tsx": "3872e8100173d82b4933903e33dc6f49dc85406e",
+      "src/components/icons/PlusFilledIcon.tsx": "3f75f962883b750eb9dab785093f8e636d520084",
+      "src/components/icons/PlusIcon.tsx": "b86bd24ec76fe622e79a2bdc65656a53ccab9ea4",
+      "src/components/icons/PointerIcon.tsx": "c9627fed5f8e0da8d54faa67c1cb3712a4696f25",
+      "src/components/icons/ReviewsIoIcon.tsx": "98083e5457fa0b4b30c8abca1e51629235d81e68",
+      "src/components/icons/SettingsIcon.tsx": "f7e90ecf929d27c6d3659d383c930de7a1551459",
+      "src/components/icons/ShieldCheckIcon.tsx": "0d834cd099646beecb48d725b605bde3ea7d8341",
+      "src/components/icons/ShoppingBagIcon.tsx": "1a56409b4e21e9b6329d58d3ae1116f1c4d9db65",
+      "src/components/icons/StarIcon.tsx": "56c59a2bd4f8b0587e65c207273dc08111122ace",
+      "src/components/icons/TagIcon.tsx": "cd34267e14a54f5335a74556f598386d529288bd",
+      "src/components/icons/ThirtyDaysIcon.tsx": "d5adf37c5a267074a57d7c0af1535a9e2093e1e9",
+      "src/components/icons/TikTokIcon.tsx": "6e5e89e7f48299f79aaf3afe4b80799df84ee625",
+      "src/components/icons/TrackDeliveryIcon.tsx": "97785385cfde56328afa56f4af2e153606259257",
+      "src/components/icons/TranslationIcon.tsx": "5aa1f9e337e20841e98457f1a2433b7af79b5af1",
+      "src/components/icons/TrashFilledIcon.tsx": "28d2c07d151931f07a5fd1feba3f6490750ee021",
+      "src/components/icons/TrashIcon.tsx": "f31c004b1719283d427f3762ffd1b10f105d6255",
+      "src/components/icons/Truck1058Icon.tsx": "5346055052fb441f55e3040cbef709e699854560",
+      "src/components/icons/UncheckedIcon.tsx": "59f159b63f3d994bc4d1e0efa8957fad1df72997",
+      "src/components/icons/UserIcon.tsx": "c3f39dda4db886746a715e73a6c03bdc470fcf70",
+      "src/components/icons/UserOutlineIcon.tsx": "15f78d4c5d1d8f94a1cc042e428dea93052cadf5",
+      "src/components/icons/VisaIcon.tsx": "b0ed6f9a066ecd97497edc02215aa7ad2a1d6ad0",
+      "src/components/icons/YouTubeIcon.tsx": "5015cf6335da2a7de786425f93d3ced3435afb5d",
+      "src/components/icons/index.ts": "0f5fe3b57b5f3cf084a5e613e01a95ca4c078c81",
+      "src/components/icons/types.ts": "cd4c41b62d40f931d3d4458140fc21c2c72bae28",
+      "src/components/shared/Button.tsx": "c58d714222a07a82694df820a41099e606721952",
+      "src/components/website/DesktopNav.tsx": "6c47e0bf1a8425ad15930ed37d059d032a55fb25",
+      "src/components/website/Footer.tsx": "92c0996b79a00b4446c5e80f7b3fe629e55a3b52",
+      "src/components/website/FooterAccordionNav.tsx": "102a90b22595fbc27bd5f5b609e7d49f777884d2",
+      "src/components/website/HeaderV2.tsx": "1102571bb557e3300a857c27792089edcb3fd8b8",
+      "src/components/website/MobileNavDrawer.tsx": "54a3b66000b261778479494a3689bf1bee72d773",
+      "src/components/website/nav-types.ts": "251744a37e8a005c0e7784f21e08a93ff845f555",
+      "src/hooks/useBodyScrollLock/index.ts": "fe4e1fa095557651971f8afc1aec19df9511b7bd"
+    },
+    "graph": {
+      "src/components/carousel/CardCarousel.tsx": [
+        "src/components/shared/Button.tsx",
+        "src/components/carousel/carousel.data.ts"
+      ],
+      "src/components/carousel/carousel.data.ts": [],
+      "src/components/icons/AmexIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ArrowLeftIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ArrowRightIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ArrowRightLongIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/BellOffIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CarouselArrowIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CarouselArrowMobileIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CartIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CheckedIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ChevronDownFilledIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ChevronDownIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ChevronLeftIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ChevronRightFilledIcon.tsx": [],
+      "src/components/icons/ChevronRightIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CloseFilledIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/CloseIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/DeliveryBoxIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/DeliveryTruckIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/EmptyBoxIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/FacebookIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/FlagCHIcon.tsx": [],
+      "src/components/icons/FlagDEIcon.tsx": [],
+      "src/components/icons/FlagFRIcon.tsx": [],
+      "src/components/icons/FlagGBIcon.tsx": [],
+      "src/components/icons/FlagNLIcon.tsx": [],
+      "src/components/icons/GenericCardIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/GiftIcon.tsx": [],
+      "src/components/icons/GlobeLocationIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/HelpIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/InfoIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/InstagramIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/LanguageIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/LanguagePickerIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/LinkedInIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/LogOutIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/LogoIcon.tsx": [],
+      "src/components/icons/MaestroIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/MastercardIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/MenuIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/MinusIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/MonthlyDeliveryIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/OrderHistoryIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PanIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PauseCancelIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PaypalIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PeasIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PencilIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PlusFilledIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PlusIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/PointerIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ReviewsIoIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/SettingsIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ShieldCheckIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/ShoppingBagIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/StarIcon.tsx": [],
+      "src/components/icons/TagIcon.tsx": [],
+      "src/components/icons/ThirtyDaysIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/TikTokIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/TrackDeliveryIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/TranslationIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/TrashFilledIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/TrashIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/Truck1058Icon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/UncheckedIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/UserIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/UserOutlineIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/VisaIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/YouTubeIcon.tsx": [
+        "src/components/icons/types.ts"
+      ],
+      "src/components/icons/index.ts": [
+        "src/components/icons/types.ts",
+        "src/components/icons/MenuIcon.tsx",
+        "src/components/icons/PeasIcon.tsx",
+        "src/components/icons/PlusIcon.tsx",
+        "src/components/icons/PlusFilledIcon.tsx",
+        "src/components/icons/MinusIcon.tsx",
+        "src/components/icons/CloseIcon.tsx",
+        "src/components/icons/CloseFilledIcon.tsx",
+        "src/components/icons/ChevronRightFilledIcon.tsx",
+        "src/components/icons/ArrowRightIcon.tsx",
+        "src/components/icons/ArrowRightLongIcon.tsx",
+        "src/components/icons/TrackDeliveryIcon.tsx",
+        "src/components/icons/Truck1058Icon.tsx",
+        "src/components/icons/OrderHistoryIcon.tsx",
+        "src/components/icons/SettingsIcon.tsx",
+        "src/components/icons/HelpIcon.tsx",
+        "src/components/icons/LogOutIcon.tsx",
+        "src/components/icons/InfoIcon.tsx",
+        "src/components/icons/StarIcon.tsx",
+        "src/components/icons/ReviewsIoIcon.tsx",
+        "src/components/icons/TrashIcon.tsx",
+        "src/components/icons/LogoIcon.tsx",
+        "src/components/icons/MastercardIcon.tsx",
+        "src/components/icons/VisaIcon.tsx",
+        "src/components/icons/AmexIcon.tsx",
+        "src/components/icons/PaypalIcon.tsx",
+        "src/components/icons/GenericCardIcon.tsx",
+        "src/components/icons/MaestroIcon.tsx",
+        "src/components/icons/PencilIcon.tsx",
+        "src/components/icons/CheckedIcon.tsx",
+        "src/components/icons/UncheckedIcon.tsx",
+        "src/components/icons/ArrowLeftIcon.tsx",
+        "src/components/icons/CarouselArrowIcon.tsx",
+        "src/components/icons/CarouselArrowMobileIcon.tsx",
+        "src/components/icons/UserIcon.tsx",
+        "src/components/icons/LanguageIcon.tsx",
+        "src/components/icons/GlobeLocationIcon.tsx",
+        "src/components/icons/TranslationIcon.tsx",
+        "src/components/icons/InstagramIcon.tsx",
+        "src/components/icons/FacebookIcon.tsx",
+        "src/components/icons/YouTubeIcon.tsx",
+        "src/components/icons/LinkedInIcon.tsx",
+        "src/components/icons/TikTokIcon.tsx",
+        "src/components/icons/CartIcon.tsx",
+        "src/components/icons/ChevronDownIcon.tsx",
+        "src/components/icons/ChevronDownFilledIcon.tsx",
+        "src/components/icons/TrashFilledIcon.tsx",
+        "src/components/icons/ChevronLeftIcon.tsx",
+        "src/components/icons/ChevronRightIcon.tsx",
+        "src/components/icons/MonthlyDeliveryIcon.tsx",
+        "src/components/icons/ThirtyDaysIcon.tsx",
+        "src/components/icons/PauseCancelIcon.tsx",
+        "src/components/icons/TagIcon.tsx",
+        "src/components/icons/EmptyBoxIcon.tsx",
+        "src/components/icons/LanguagePickerIcon.tsx",
+        "src/components/icons/FlagGBIcon.tsx",
+        "src/components/icons/FlagDEIcon.tsx",
+        "src/components/icons/FlagFRIcon.tsx",
+        "src/components/icons/FlagNLIcon.tsx",
+        "src/components/icons/FlagCHIcon.tsx",
+        "src/components/icons/GiftIcon.tsx",
+        "src/components/icons/UserOutlineIcon.tsx",
+        "src/components/icons/ShoppingBagIcon.tsx",
+        "src/components/icons/DeliveryTruckIcon.tsx",
+        "src/components/icons/ShieldCheckIcon.tsx",
+        "src/components/icons/BellOffIcon.tsx",
+        "src/components/icons/DeliveryBoxIcon.tsx",
+        "src/components/icons/PanIcon.tsx",
+        "src/components/icons/PointerIcon.tsx"
+      ],
+      "src/components/icons/types.ts": [],
+      "src/components/shared/Button.tsx": [],
+      "src/components/website/DesktopNav.tsx": [
+        "src/components/icons/index.ts",
+        "src/components/website/nav-types.ts"
+      ],
+      "src/components/website/Footer.tsx": [
+        "src/components/icons/index.ts",
+        "src/components/website/FooterAccordionNav.tsx"
+      ],
+      "src/components/website/FooterAccordionNav.tsx": [
+        "src/components/icons/index.ts"
+      ],
+      "src/components/website/HeaderV2.tsx": [
+        "src/components/icons/index.ts",
+        "src/components/shared/Button.tsx",
+        "src/components/website/DesktopNav.tsx",
+        "src/components/website/MobileNavDrawer.tsx",
+        "src/components/website/nav-types.ts"
+      ],
+      "src/components/website/MobileNavDrawer.tsx": [
+        "src/components/icons/index.ts",
+        "src/hooks/useBodyScrollLock/index.ts",
+        "src/components/website/nav-types.ts"
+      ],
+      "src/components/website/nav-types.ts": [],
+      "src/hooks/useBodyScrollLock/index.ts": []
+    },
+    "elements": {
+      "src/components/carousel/CardCarousel.tsx": [
+        [
+          7,
+          20,
+          "ul",
+          "-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4 lg:gap-6",
+          "Shop now"
+        ],
+        [
+          9,
+          18,
+          "li",
+          "w-[260px] shrink-0 snap-start md:w-auto",
+          "Shop now"
+        ],
+        [
+          10,
+          12,
+          "div",
+          "relative aspect-[4/5] overflow-hidden rounded-2xl bg-light-grey",
+          ""
+        ],
+        [
+          13,
+          13,
+          "h3",
+          "mt-4 font-book text-[22px] leading-[24px] tracking-[-0.44px] text-near-black",
+          ""
+        ]
+      ]
+    },
     "dropped": [
-      "src/hooks/useModalFocusTrap/index.ts"
+      "src/hooks/useModalFocusTrap/index.ts",
+      "src/lib/site-chrome-sample.ts"
     ],
     "designSystem": [
       {
@@ -670,139 +1062,8 @@
       }
     ]
   },
-  "findings": [
-    {
-      "id": "components:feature-only:src/components/carousel/CardCarousel.tsx",
-      "rule": "components",
-      "kind": "feature-only",
-      "where": [
-        {
-          "file": "src/components/carousel/CardCarousel.tsx",
-          "line": 1,
-          "variants": [
-            "main"
-          ]
-        }
-      ],
-      "mine": {
-        "name": "CardCarousel",
-        "file": "src/components/carousel/CardCarousel.tsx",
-        "code": "import Image from \"next/image\";\nimport { Button } from \"@/components/shared/Button\";\nimport { CARDS } from \"./carousel.data\";\n\nexport function CardCarousel() {\n  return (\n    <ul className=\"-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4 lg:gap-6\">\n      {CARDS.map((card) => (\n        <li key={card.id} className=\"w-[260px] shrink-0 snap-start md:w-auto\">\n          <div className=\"relative aspect-[4/5] overflow-hidden rounded-2xl bg-light-grey\">\n            <Image src={card.image} alt={card.title} fill sizes=\"(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 260px\" className=\"object-cover\" />\n          </div>\n          <h3 className=\"mt-4 font-book text-[22px] leading-[24px] tracking-[-0.44px] text-near-black\">{card.title}</h3>\n          <Button variant=\"dark\" href={card.href} className=\"mt-3\" aria-label={`Shop ${card.title}`}>\n            {/* TODO(lift): replace with translation key */}\n            Shop now\n          </Button>\n        </li>\n      ))}\n    </ul>\n  );\n}\n",
-        "props": [],
-        "uses": [
-          {
-            "file": "src/app/page.tsx",
-            "count": 1
-          }
-        ],
-        "useCount": 1,
-        "duplicates": [],
-        "generic": true,
-        "entry": false,
-        "find": {
-          "tag": "ul",
-          "classes": [
-            "-mx-4",
-            "flex",
-            "snap-x",
-            "snap-mandatory",
-            "gap-4",
-            "overflow-x-auto",
-            "px-4",
-            "pb-2",
-            "md:mx-0",
-            "md:grid",
-            "md:grid-cols-2",
-            "md:overflow-visible",
-            "md:px-0",
-            "md:pb-0",
-            "lg:grid-cols-4",
-            "lg:gap-6"
-          ],
-          "text": "Shop now"
-        },
-        "module": "var __defs = {}, __cache = {};\nfunction __req(id) { var c = __cache[id]; if (c) return c.exports; var m = { exports: {} }; __cache[id] = m; __defs[id].call(m.exports, m, m.exports, require); return m.exports; }\n__defs[\"0\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.CardCarousel = CardCarousel;\nconst image_1 = __importDefault(require(\"next/image\"));\nconst Button_1 = __req(\"1\");\nconst carousel_data_1 = __req(\"2\");\nfunction CardCarousel() {\n    return (React.createElement(\"ul\", { className: \"-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4 lg:gap-6\" }, carousel_data_1.CARDS.map((card) => (React.createElement(\"li\", { key: card.id, className: \"w-[260px] shrink-0 snap-start md:w-auto\" },\n        React.createElement(\"div\", { className: \"relative aspect-[4/5] overflow-hidden rounded-2xl bg-light-grey\" },\n            React.createElement(image_1.default, { src: card.image, alt: card.title, fill: true, sizes: \"(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 260px\", className: \"object-cover\" })),\n        React.createElement(\"h3\", { className: \"mt-4 font-book text-[22px] leading-[24px] tracking-[-0.44px] text-near-black\" }, card.title),\n        React.createElement(Button_1.Button, { variant: \"dark\", href: card.href, className: \"mt-3\", \"aria-label\": `Shop ${card.title}` }, \"Shop now\"))))));\n}\n\n};\n__defs[\"1\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.GREY_BUTTON_CLASS = void 0;\nexports.Button = Button;\nconst react_1 = __importDefault(require(\"react\"));\nconst link_1 = __importDefault(require(\"next/link\"));\nconst BASE = \"inline-flex items-center gap-2 rounded-full cursor-pointer\";\nconst DEFAULT_SIZE = \"px-4 py-2\";\n/** Shared grey treatment — reused by SbButton's \"grey\" color so the two button components can't drift apart. */\nexports.GREY_BUTTON_CLASS = \"bg-light-grey text-dark\";\nconst VARIANTS = {\n    dark: \"bg-dark text-white\",\n    white: \"bg-white text-dark\",\n    grey: exports.GREY_BUTTON_CLASS,\n    nearBlack: \"bg-near-black text-white\",\n    primary: \"bg-signal-orange\"\n};\n/**\n * The data-* props, for the link form, which passes on nothing else from the button props. They\n * carry markers such as actionTracking() (PRODUCT-932), which are meant for whichever element renders.\n */\nfunction dataAttributes(props) {\n    return Object.fromEntries(Object.entries(props).filter(([key]) => key.startsWith(\"data-\")));\n}\nfunction Button({ children, icon, iconPosition = \"right\", variant, href, target, className, sizeClassName = DEFAULT_SIZE, ...rest }) {\n    const classes = [BASE, sizeClassName, variant ? VARIANTS[variant] : \"\", \"disabled:opacity-50\", className].filter(Boolean).join(\" \");\n    const content = (react_1.default.createElement(react_1.default.Fragment, null,\n        iconPosition === \"left\" && icon,\n        children,\n        iconPosition === \"right\" && icon));\n    if (href) {\n        return (react_1.default.createElement(link_1.default, { href: href, target: target, rel: target === \"_blank\" ? \"noopener noreferrer\" : undefined, className: classes, \"aria-label\": rest[\"aria-label\"], ...dataAttributes(rest) }, content));\n    }\n    return (react_1.default.createElement(\"button\", { className: classes, ...rest }, content));\n}\n\n};\n__defs[\"2\"] = function (module, exports, require) {\n\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.CARDS = void 0;\n// TODO(lift): sample data — replace with real data source\nexports.CARDS = [\n    { id: \"1\", title: \"Perfect Portions\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"2\", title: \"The Immunity Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"3\", title: \"The Postpartum Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"4\", title: \"Protein Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n];\n\n};\nmodule.exports = __req(\"0\");",
-        "builtFrom": [
-          {
-            "name": "Button",
-            "file": "src/components/shared/Button.tsx",
-            "from": "design-system",
-            "count": 1,
-            "importPath": "@/components/shared/Button",
-            "props": [
-              {
-                "name": "children",
-                "optional": false,
-                "type": "React.ReactNode"
-              },
-              {
-                "name": "icon",
-                "optional": true,
-                "type": "React.ReactNode"
-              },
-              {
-                "name": "iconPosition",
-                "optional": true,
-                "type": "\"left\" | \"right\""
-              },
-              {
-                "name": "variant",
-                "optional": true,
-                "type": "ButtonVariant"
-              },
-              {
-                "name": "href",
-                "optional": true,
-                "type": "string"
-              },
-              {
-                "name": "target",
-                "optional": true,
-                "type": "string"
-              },
-              {
-                "name": "className",
-                "optional": true,
-                "type": "string"
-              },
-              {
-                "name": "sizeClassName",
-                "optional": true,
-                "type": "string"
-              }
-            ]
-          }
-        ]
-      },
-      "candidates": [],
-      "tier": "none",
-      "proposed": {
-        "summary": "Keep <CardCarousel> with the feature, in src/components/carousel/. Nothing to add to the system.",
-        "keep": "src/components/carousel/CardCarousel.tsx"
-      },
-      "decision": {
-        "action": "new",
-        "by": "Luke",
-        "at": "2026-11-15T14:07:57.168Z"
-      }
-    }
-  ],
+  "findings": [],
   "lift": [
-    {
-      "file": "src/app/page.tsx",
-      "line": 11,
-      "text": "TODO(lift): replace with translation key"
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 15,
-      "text": "TODO(lift): replace with translation key"
-    },
-    {
-      "file": "src/app/page.tsx",
-      "line": 23,
-      "text": "TODO(lift): sample data — rating comes from reviews.io"
-    },
     {
       "file": "src/components/carousel/CardCarousel.tsx",
       "line": 15,
@@ -812,114 +1073,62 @@
       "file": "src/components/carousel/carousel.data.ts",
       "line": 1,
       "text": "TODO(lift): sample data — replace with real data source"
-    },
-    {
-      "file": "src/lib/site-chrome-sample.ts",
-      "line": 3,
-      "text": "TODO(lift): sample data — header nav and footer, from the live global/layout story (Storyblok)"
     }
   ],
   "pages": [
     {
-      "file": "src/app/page.tsx",
-      "name": "page",
+      "file": "src/components/carousel/CardCarousel.tsx",
+      "name": "CardCarousel",
       "variants": [
         "main"
       ],
       "builtFrom": [
         {
-          "name": "HeaderV2",
-          "file": "src/components/website/HeaderV2.tsx",
-          "from": "kit",
+          "name": "Button",
+          "file": "src/components/shared/Button.tsx",
+          "from": "design-system",
           "count": 1,
-          "importPath": "@/components/website/HeaderV2",
+          "importPath": "@/components/shared/Button",
           "props": [
             {
-              "name": "navItems",
+              "name": "children",
               "optional": false,
-              "type": "NavItem[]"
+              "type": "React.ReactNode"
             },
             {
-              "name": "logoSrc",
-              "optional": false,
-              "type": "string"
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode"
             },
             {
-              "name": "loginLabel",
+              "name": "iconPosition",
+              "optional": true,
+              "type": "\"left\" | \"right\""
+            },
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "ButtonVariant"
+            },
+            {
+              "name": "href",
               "optional": true,
               "type": "string"
             },
             {
-              "name": "loginHref",
+              "name": "target",
               "optional": true,
               "type": "string"
             },
             {
-              "name": "cartCount",
+              "name": "className",
               "optional": true,
-              "type": "number"
-            },
-            {
-              "name": "onCartClick",
-              "optional": true,
-              "type": "() => void"
-            },
-            {
-              "name": "overlay",
-              "optional": true,
-              "type": "boolean"
-            }
-          ]
-        },
-        {
-          "name": "CardCarousel",
-          "file": "src/components/carousel/CardCarousel.tsx",
-          "from": "own",
-          "count": 1,
-          "importPath": "@/components/carousel/CardCarousel",
-          "props": []
-        },
-        {
-          "name": "Footer",
-          "file": "src/components/website/Footer.tsx",
-          "from": "kit",
-          "count": 1,
-          "importPath": "@/components/website/Footer",
-          "props": [
-            {
-              "name": "logoSrc",
-              "optional": false,
               "type": "string"
             },
             {
-              "name": "tagline",
-              "optional": false,
+              "name": "sizeClassName",
+              "optional": true,
               "type": "string"
-            },
-            {
-              "name": "nav",
-              "optional": false,
-              "type": "{ title: string; links: { label: string; href: string }[] }[]"
-            },
-            {
-              "name": "social",
-              "optional": false,
-              "type": "{ label: string; icon: string; href: string }[]"
-            },
-            {
-              "name": "legal",
-              "optional": false,
-              "type": "{ label: string; href: string }[]"
-            },
-            {
-              "name": "payments",
-              "optional": false,
-              "type": "{ label: string; icon: string }[]"
-            },
-            {
-              "name": "rating",
-              "optional": false,
-              "type": "{ average: number }"
             }
           ]
         }
@@ -927,9 +1136,6 @@
     }
   ],
   "modules": {
-    "src/components/website/HeaderV2.tsx": "var __defs = {}, __cache = {};\nfunction __req(id) { var c = __cache[id]; if (c) return c.exports; var m = { exports: {} }; __cache[id] = m; __defs[id].call(m.exports, m, m.exports, require); return m.exports; }\n__defs[\"0\"] = function (module, exports, require) {\n\"use strict\";\n\"use client\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.HeaderV2 = HeaderV2;\nconst react_1 = require(\"react\");\nconst link_1 = __importDefault(require(\"next/link\"));\nconst image_1 = __importDefault(require(\"next/image\"));\nconst icons_1 = require(\"@/components/icons\");\nconst Button_1 = __req(\"1\");\nconst DesktopNav_1 = __req(\"2\");\nconst MobileNavDrawer_1 = __req(\"4\");\n/** Port of every-website `src/components/website/HeaderV2.tsx`: no Storyblok blok, cart store, locale switcher or promo bar. */\nfunction HeaderV2({ navItems, logoSrc, loginLabel = \"Login\", loginHref = \"#\", cartCount = 0, onCartClick, overlay = true }) {\n    const [isMenuOpen, setIsMenuOpen] = (0, react_1.useState)(false);\n    const [isScrolled, setIsScrolled] = (0, react_1.useState)(false);\n    const headerRef = (0, react_1.useRef)(null);\n    (0, react_1.useEffect)(() => {\n        const el = headerRef.current;\n        const root = document.documentElement;\n        if (!el || !overlay || typeof ResizeObserver === \"undefined\")\n            return;\n        const publish = () => root.style.setProperty(\"--header-overlay-h\", `${Math.round(el.getBoundingClientRect().height)}px`);\n        publish();\n        const observer = new ResizeObserver(publish);\n        observer.observe(el);\n        return () => {\n            observer.disconnect();\n            root.style.removeProperty(\"--header-overlay-h\");\n        };\n    }, [overlay]);\n    (0, react_1.useEffect)(() => {\n        const handleScroll = () => setIsScrolled(window.scrollY > 0);\n        handleScroll();\n        window.addEventListener(\"scroll\", handleScroll, { passive: true });\n        return () => window.removeEventListener(\"scroll\", handleScroll);\n    }, []);\n    // \"fixed\" never reserves space, so the hero is not pushed down; \"sticky\" reserves it, which in-flow pages need.\n    const position = overlay ? (isScrolled ? \"fixed top-0 left-0 w-full\" : \"absolute top-0 left-0 w-full\") : \"sticky top-0 w-full\";\n    const ACTION = \"border border-near-black text-dark\";\n    const ACTION_SIZE = \"h-[34px] w-12 justify-center p-0 lg:h-auto lg:w-auto lg:justify-start lg:px-[17px] lg:py-[9px]\";\n    return (React.createElement(React.Fragment, null,\n        React.createElement(\"div\", { ref: headerRef, className: `${position} z-50` },\n            React.createElement(\"header\", null,\n                React.createElement(\"div\", { className: `flex h-[72px] items-center justify-between px-[12px] lg:h-[90px] lg:px-8 ${overlay\n                        ? `bg-transparent lg:backdrop-blur-[16px] ${isScrolled ? \"border-b border-dark/6 backdrop-blur-[16px]\" : \"backdrop-blur-none\"}`\n                        : \"border-b border-dark/6 bg-white\"}` },\n                    React.createElement(\"div\", { className: \"flex items-center gap-12\" },\n                        React.createElement(link_1.default, { href: \"/\", className: \"flex h-full shrink-0 items-center justify-center\", \"aria-label\": \"every home\" },\n                            React.createElement(image_1.default, { src: logoSrc, alt: \"every\", width: 72, height: 24, priority: true, className: \"block h-6 max-h-6 w-auto\" })),\n                        React.createElement(DesktopNav_1.DesktopNav, { items: navItems, className: \"hidden items-center gap-12 lg:flex\", itemClassName: \"text-[16px] leading-[22px] tracking-[-0.32px] text-near-black\" })),\n                    React.createElement(\"div\", { className: \"flex items-center gap-4 lg:gap-3\" },\n                        React.createElement(Button_1.Button, { href: loginHref, icon: React.createElement(icons_1.UserOutlineIcon, { size: 22.62 }), iconPosition: \"left\", className: ACTION, sizeClassName: ACTION_SIZE, \"aria-label\": loginLabel },\n                            React.createElement(\"span\", { className: \"hidden lg:inline\" }, loginLabel)),\n                        React.createElement(\"button\", { type: \"button\", onClick: onCartClick, className: \"relative inline-flex h-[34px] w-12 cursor-pointer items-center justify-center rounded-full border border-near-black p-0 lg:h-auto lg:w-auto lg:px-[17px] lg:py-[9px]\", \"aria-label\": \"Cart\" },\n                            React.createElement(icons_1.ShoppingBagIcon, { size: 21 }),\n                            cartCount > 0 && (React.createElement(\"span\", { className: \"absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-signal-orange font-sans text-[10px] font-medium leading-none text-near-black\" }, cartCount))),\n                        React.createElement(\"button\", { type: \"button\", onClick: () => setIsMenuOpen(true), className: \"inline-flex cursor-pointer items-center justify-center lg:hidden\", \"aria-label\": \"Open menu\" },\n                            React.createElement(icons_1.MenuIcon, { size: 24 })))))),\n        React.createElement(MobileNavDrawer_1.MobileNavDrawer, { isOpen: isMenuOpen, onClose: () => setIsMenuOpen(false), items: navItems, loginLabel: loginLabel, loginHref: loginHref })));\n}\n\n};\n__defs[\"1\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.GREY_BUTTON_CLASS = void 0;\nexports.Button = Button;\nconst react_1 = __importDefault(require(\"react\"));\nconst link_1 = __importDefault(require(\"next/link\"));\nconst BASE = \"inline-flex items-center gap-2 rounded-full cursor-pointer\";\nconst DEFAULT_SIZE = \"px-4 py-2\";\n/** Shared grey treatment — reused by SbButton's \"grey\" color so the two button components can't drift apart. */\nexports.GREY_BUTTON_CLASS = \"bg-light-grey text-dark\";\nconst VARIANTS = {\n    dark: \"bg-dark text-white\",\n    white: \"bg-white text-dark\",\n    grey: exports.GREY_BUTTON_CLASS,\n    nearBlack: \"bg-near-black text-white\",\n    primary: \"bg-signal-orange\"\n};\n/**\n * The data-* props, for the link form, which passes on nothing else from the button props. They\n * carry markers such as actionTracking() (PRODUCT-932), which are meant for whichever element renders.\n */\nfunction dataAttributes(props) {\n    return Object.fromEntries(Object.entries(props).filter(([key]) => key.startsWith(\"data-\")));\n}\nfunction Button({ children, icon, iconPosition = \"right\", variant, href, target, className, sizeClassName = DEFAULT_SIZE, ...rest }) {\n    const classes = [BASE, sizeClassName, variant ? VARIANTS[variant] : \"\", \"disabled:opacity-50\", className].filter(Boolean).join(\" \");\n    const content = (react_1.default.createElement(react_1.default.Fragment, null,\n        iconPosition === \"left\" && icon,\n        children,\n        iconPosition === \"right\" && icon));\n    if (href) {\n        return (react_1.default.createElement(link_1.default, { href: href, target: target, rel: target === \"_blank\" ? \"noopener noreferrer\" : undefined, className: classes, \"aria-label\": rest[\"aria-label\"], ...dataAttributes(rest) }, content));\n    }\n    return (react_1.default.createElement(\"button\", { className: classes, ...rest }, content));\n}\n\n};\n__defs[\"2\"] = function (module, exports, require) {\n\"use strict\";\n\"use client\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.DesktopNav = DesktopNav;\nconst react_1 = require(\"react\");\nconst link_1 = __importDefault(require(\"next/link\"));\nconst icons_1 = require(\"@/components/icons\");\n/** Port of every-website `src/components/website/DesktopNav.tsx`: plain NavItem props instead of Storyblok nav bloks. */\nfunction DesktopNav({ items, className = \"hidden items-center gap-6 lg:flex\", itemClassName = \"text-base text-dark\" }) {\n    const [openDropdown, setOpenDropdown] = (0, react_1.useState)(null);\n    return (React.createElement(\"nav\", { className: className, \"aria-label\": \"Main navigation\" }, items.map((item) => {\n        if (item.items) {\n            const isOpen = openDropdown === item.label;\n            return (React.createElement(\"div\", { key: item.label, className: \"relative\", onMouseEnter: () => setOpenDropdown(item.label), onMouseLeave: () => setOpenDropdown(null) },\n                React.createElement(\"button\", { type: \"button\", className: `inline-flex cursor-pointer items-center gap-1 transition-opacity hover:opacity-70 ${itemClassName}`, \"aria-expanded\": isOpen, \"aria-haspopup\": \"true\", onFocus: () => setOpenDropdown(item.label), onKeyDown: (e) => e.key === \"Escape\" && setOpenDropdown(null) },\n                    item.label,\n                    React.createElement(icons_1.ChevronDownIcon, { className: `transition-transform ${isOpen ? \"rotate-180\" : \"\"}` })),\n                isOpen && (React.createElement(\"div\", { className: \"absolute left-0 top-full z-50 min-w-48 rounded-lg border border-light-grey bg-white py-2 shadow-lg\" }, item.items.map((subItem) => (React.createElement(link_1.default, { key: subItem.label, href: subItem.href, className: \"block px-4 py-2 text-sm text-dark transition-colors hover:bg-light-grey\" }, subItem.label)))))));\n        }\n        return (React.createElement(link_1.default, { key: item.label, href: item.href, className: `transition-opacity hover:opacity-70 ${itemClassName}` }, item.label));\n    })));\n}\n\n};\n__defs[\"4\"] = function (module, exports, require) {\n\"use strict\";\n\"use client\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.MobileNavDrawer = MobileNavDrawer;\nconst react_1 = require(\"react\");\nconst link_1 = __importDefault(require(\"next/link\"));\nconst icons_1 = require(\"@/components/icons\");\nconst useBodyScrollLock_1 = __req(\"3\");\nconst ROW = \"rounded-lg px-4 py-3 text-lg text-dark transition-colors hover:bg-light-grey\";\n/** Port of every-website `src/components/website/MobileNavDrawer.tsx`, without the locale switcher. */\nfunction MobileNavDrawer({ isOpen, onClose, items, loginLabel, loginHref }) {\n    const [expanded, setExpanded] = (0, react_1.useState)(null);\n    (0, useBodyScrollLock_1.useBodyScrollLock)(isOpen);\n    if (!isOpen)\n        return null;\n    return (React.createElement(\"div\", { className: \"fixed inset-0 z-50 flex flex-col bg-white\" },\n        React.createElement(\"div\", { className: \"flex items-center justify-end px-4 py-4\" },\n            React.createElement(\"button\", { type: \"button\", onClick: onClose, className: \"inline-flex cursor-pointer items-center gap-2 rounded-full border border-dark px-4 py-2 text-dark\", \"aria-label\": \"Close menu\" },\n                React.createElement(icons_1.CloseIcon, { size: 18 }))),\n        React.createElement(\"nav\", { className: \"flex flex-1 flex-col gap-1 px-4\", \"aria-label\": \"Mobile navigation\" },\n            items.map((item) => {\n                if (item.items) {\n                    const isExpanded = expanded === item.label;\n                    return (React.createElement(\"div\", { key: item.label },\n                        React.createElement(\"button\", { type: \"button\", onClick: () => setExpanded(isExpanded ? null : item.label), className: `flex w-full cursor-pointer items-center justify-between ${ROW}`, \"aria-expanded\": isExpanded },\n                            item.label,\n                            React.createElement(icons_1.ChevronDownIcon, { className: `transition-transform ${isExpanded ? \"rotate-180\" : \"\"}` })),\n                        isExpanded && (React.createElement(\"div\", { className: \"flex flex-col gap-1 pl-4\" }, item.items.map((subItem) => (React.createElement(link_1.default, { key: subItem.label, href: subItem.href, onClick: onClose, className: \"rounded-lg px-4 py-2 text-base text-dark transition-colors hover:bg-light-grey\" }, subItem.label)))))));\n                }\n                return (React.createElement(link_1.default, { key: item.label, href: item.href, onClick: onClose, className: ROW }, item.label));\n            }),\n            React.createElement(\"hr\", { className: \"my-2 border-light-grey\" }),\n            React.createElement(link_1.default, { href: loginHref, onClick: onClose, className: `inline-flex items-center gap-3 ${ROW}` },\n                React.createElement(icons_1.UserIcon, { size: 20 }),\n                loginLabel))));\n}\n\n};\n__defs[\"3\"] = function (module, exports, require) {\n\"use strict\";\n\"use client\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.useBodyScrollLock = useBodyScrollLock;\nconst react_1 = require(\"react\");\n/**\n * Locks body scroll when `locked` is true; restores on unlock or unmount.\n * Tracks a reference count so nested usages don't conflict.\n */\nlet lockCount = 0;\nfunction useBodyScrollLock(locked) {\n    (0, react_1.useEffect)(() => {\n        if (!locked)\n            return;\n        lockCount++;\n        document.body.style.overflow = \"hidden\";\n        document.documentElement.style.overflowY = \"hidden\";\n        return () => {\n            lockCount--;\n            if (lockCount === 0) {\n                document.body.style.overflow = \"\";\n                document.documentElement.style.overflowY = \"\";\n            }\n        };\n    }, [locked]);\n}\n\n};\nmodule.exports = __req(\"0\");",
-    "src/components/carousel/CardCarousel.tsx": "var __defs = {}, __cache = {};\nfunction __req(id) { var c = __cache[id]; if (c) return c.exports; var m = { exports: {} }; __cache[id] = m; __defs[id].call(m.exports, m, m.exports, require); return m.exports; }\n__defs[\"0\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.CardCarousel = CardCarousel;\nconst image_1 = __importDefault(require(\"next/image\"));\nconst Button_1 = __req(\"1\");\nconst carousel_data_1 = __req(\"2\");\nfunction CardCarousel() {\n    return (React.createElement(\"ul\", { className: \"-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-4 lg:gap-6\" }, carousel_data_1.CARDS.map((card) => (React.createElement(\"li\", { key: card.id, className: \"w-[260px] shrink-0 snap-start md:w-auto\" },\n        React.createElement(\"div\", { className: \"relative aspect-[4/5] overflow-hidden rounded-2xl bg-light-grey\" },\n            React.createElement(image_1.default, { src: card.image, alt: card.title, fill: true, sizes: \"(min-width: 1024px) 25vw, (min-width: 768px) 50vw, 260px\", className: \"object-cover\" })),\n        React.createElement(\"h3\", { className: \"mt-4 font-book text-[22px] leading-[24px] tracking-[-0.44px] text-near-black\" }, card.title),\n        React.createElement(Button_1.Button, { variant: \"dark\", href: card.href, className: \"mt-3\", \"aria-label\": `Shop ${card.title}` }, \"Shop now\"))))));\n}\n\n};\n__defs[\"1\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.GREY_BUTTON_CLASS = void 0;\nexports.Button = Button;\nconst react_1 = __importDefault(require(\"react\"));\nconst link_1 = __importDefault(require(\"next/link\"));\nconst BASE = \"inline-flex items-center gap-2 rounded-full cursor-pointer\";\nconst DEFAULT_SIZE = \"px-4 py-2\";\n/** Shared grey treatment — reused by SbButton's \"grey\" color so the two button components can't drift apart. */\nexports.GREY_BUTTON_CLASS = \"bg-light-grey text-dark\";\nconst VARIANTS = {\n    dark: \"bg-dark text-white\",\n    white: \"bg-white text-dark\",\n    grey: exports.GREY_BUTTON_CLASS,\n    nearBlack: \"bg-near-black text-white\",\n    primary: \"bg-signal-orange\"\n};\n/**\n * The data-* props, for the link form, which passes on nothing else from the button props. They\n * carry markers such as actionTracking() (PRODUCT-932), which are meant for whichever element renders.\n */\nfunction dataAttributes(props) {\n    return Object.fromEntries(Object.entries(props).filter(([key]) => key.startsWith(\"data-\")));\n}\nfunction Button({ children, icon, iconPosition = \"right\", variant, href, target, className, sizeClassName = DEFAULT_SIZE, ...rest }) {\n    const classes = [BASE, sizeClassName, variant ? VARIANTS[variant] : \"\", \"disabled:opacity-50\", className].filter(Boolean).join(\" \");\n    const content = (react_1.default.createElement(react_1.default.Fragment, null,\n        iconPosition === \"left\" && icon,\n        children,\n        iconPosition === \"right\" && icon));\n    if (href) {\n        return (react_1.default.createElement(link_1.default, { href: href, target: target, rel: target === \"_blank\" ? \"noopener noreferrer\" : undefined, className: classes, \"aria-label\": rest[\"aria-label\"], ...dataAttributes(rest) }, content));\n    }\n    return (react_1.default.createElement(\"button\", { className: classes, ...rest }, content));\n}\n\n};\n__defs[\"2\"] = function (module, exports, require) {\n\"use strict\";\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.CARDS = void 0;\n// TODO(lift): sample data — replace with real data source\nexports.CARDS = [\n    { id: \"1\", title: \"Perfect Portions\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"2\", title: \"The Immunity Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"3\", title: \"The Postpartum Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n    { id: \"4\", title: \"Protein Bundle\", image: \"/img/hero-portions.png\", href: \"#\" },\n];\n\n};\nmodule.exports = __req(\"0\");",
-    "src/components/website/Footer.tsx": "var __defs = {}, __cache = {};\nfunction __req(id) { var c = __cache[id]; if (c) return c.exports; var m = { exports: {} }; __cache[id] = m; __defs[id].call(m.exports, m, m.exports, require); return m.exports; }\n__defs[\"0\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.Footer = Footer;\nconst image_1 = __importDefault(require(\"next/image\"));\nconst link_1 = __importDefault(require(\"next/link\"));\nconst icons_1 = require(\"@/components/icons\");\nconst FooterAccordionNav_1 = __req(\"1\");\nfunction StarRating({ average }) {\n    const fullStars = Math.round(average);\n    return (React.createElement(\"div\", { className: \"flex gap-0.5\" }, Array.from({ length: 5 }).map((_, i) => (React.createElement(icons_1.StarIcon, { key: i, fill: i < fullStars ? \"black\" : \"#D1D5DB\" })))));\n}\n/** Port of every-website `src/components/website/Footer.tsx`: plain props, no Storyblok or reviews.io fetch. */\nfunction Footer({ logoSrc, tagline, nav, social, legal, payments, rating }) {\n    const socialLinks = social.map((item) => (React.createElement(\"a\", { key: item.label, href: item.href, target: \"_blank\", rel: \"noopener noreferrer\", \"aria-label\": `Follow us on ${item.label}` },\n        React.createElement(image_1.default, { src: item.icon, alt: item.label, width: 28, height: 28, unoptimized: true }))));\n    return (React.createElement(\"footer\", { className: \"bg-background\" },\n        React.createElement(\"div\", { className: \"flex flex-col gap-6 lg:hidden\" },\n            React.createElement(\"div\", { className: \"flex flex-col gap-6 px-4 pt-6\" },\n                React.createElement(\"div\", { className: \"flex flex-col gap-1\" },\n                    React.createElement(link_1.default, { href: \"#\", \"aria-label\": \"every home\" },\n                        React.createElement(image_1.default, { src: logoSrc, alt: \"every\", width: 64, height: 21, unoptimized: true, style: { width: \"auto\", height: \"auto\" } })),\n                    React.createElement(\"p\", { className: \"font-sans text-[14px] leading-[19px] tracking-[-0.28px] text-near-black\" }, tagline)),\n                React.createElement(\"div\", { className: \"flex gap-3\" }, socialLinks)),\n            React.createElement(FooterAccordionNav_1.FooterAccordionNav, { columns: nav }),\n            React.createElement(\"div\", { className: \"flex items-center justify-center gap-3 px-4\" }, payments.map((payment) => (React.createElement(image_1.default, { key: payment.label, src: payment.icon, alt: payment.label, width: 28, height: 20, unoptimized: true })))),\n            React.createElement(\"div\", { className: \"border-t border-light-grey-2 px-4 py-8\" },\n                React.createElement(\"div\", { className: \"flex w-[123px] flex-col gap-3\" },\n                    React.createElement(icons_1.ReviewsIoIcon, null),\n                    React.createElement(\"div\", { className: \"flex items-center gap-1.5\" },\n                        React.createElement(\"span\", { className: \"font-sans text-base leading-[22px] tracking-[-0.32px] text-near-black\" }, rating.average.toFixed(2)),\n                        React.createElement(StarRating, { average: rating.average }))))),\n        React.createElement(\"div\", { className: \"mx-auto hidden max-w-[1440px] px-7 py-16 lg:block\" },\n            React.createElement(\"div\", { className: \"grid grid-cols-6 gap-6\" },\n                React.createElement(\"div\", { className: \"col-span-1\" },\n                    React.createElement(link_1.default, { href: \"#\", \"aria-label\": \"every home\" },\n                        React.createElement(image_1.default, { src: logoSrc, alt: \"every\", width: 78, height: 27, unoptimized: true, style: { width: \"auto\", height: \"auto\" } })),\n                    React.createElement(\"p\", { className: \"mt-4 font-sans text-sm text-near-black\" }, tagline),\n                    React.createElement(\"div\", { className: \"mt-4 flex gap-3\" }, socialLinks),\n                    React.createElement(\"div\", { className: \"mt-6 flex flex-wrap gap-x-1 gap-y-1 font-sans text-xs text-near-black\" }, legal.map((link, i) => (React.createElement(\"span\", { key: link.label },\n                        React.createElement(link_1.default, { href: link.href, className: \"hover:underline\" }, link.label),\n                        i < legal.length - 1 && React.createElement(\"span\", { className: \"ml-1\" }, \"|\")))))),\n                nav.map((column) => (React.createElement(\"div\", { key: column.title, className: \"col-span-1\" },\n                    React.createElement(\"h3\", { className: \"font-sans text-xs font-bold uppercase tracking-[1.4px] text-near-black\" }, column.title),\n                    React.createElement(\"ul\", { className: \"mt-4 space-y-3\" }, column.links.map((link) => (React.createElement(\"li\", { key: link.label },\n                        React.createElement(link_1.default, { href: link.href, className: \"font-sans text-sm text-light-text hover:underline\" }, link.label)))))))),\n                React.createElement(\"div\", { className: \"col-span-1\" },\n                    React.createElement(\"div\", { className: \"mb-3\" },\n                        React.createElement(icons_1.ReviewsIoIcon, null)),\n                    React.createElement(\"div\", { className: \"flex items-center gap-1.5\" },\n                        React.createElement(\"span\", { className: \"mt-1 font-sans text-base text-near-black\" }, rating.average.toFixed(2)),\n                        React.createElement(StarRating, { average: rating.average })),\n                    React.createElement(\"div\", { className: \"mt-18 flex flex-wrap gap-2\" }, payments.map((payment) => (React.createElement(image_1.default, { key: payment.label, src: payment.icon, alt: payment.label, width: 38, height: 27, unoptimized: true })))))))));\n}\n\n};\n__defs[\"1\"] = function (module, exports, require) {\n\"use strict\";\n\"use client\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.FooterAccordionNav = FooterAccordionNav;\nconst react_1 = require(\"react\");\nconst link_1 = __importDefault(require(\"next/link\"));\nconst icons_1 = require(\"@/components/icons\");\nfunction AccordionSection({ column }) {\n    const [open, setOpen] = (0, react_1.useState)(false);\n    return (React.createElement(\"div\", { className: \"border-b border-light-grey-2\" },\n        React.createElement(\"button\", { type: \"button\", onClick: () => setOpen((v) => !v), \"aria-expanded\": open, \"aria-label\": column.title, className: \"flex w-full items-center justify-between px-4 py-[30px]\" },\n            React.createElement(\"span\", { className: \"font-sans text-[18px] uppercase leading-[22px] tracking-[-0.36px] text-near-black\" }, column.title),\n            React.createElement(icons_1.ChevronDownIcon, { size: 16, className: `transition-transform duration-200 ${open ? \"rotate-180\" : \"\"}` })),\n        React.createElement(\"div\", { className: \"grid transition-all duration-300 ease-in-out\", style: { gridTemplateRows: open ? \"1fr\" : \"0fr\" } },\n            React.createElement(\"div\", { className: \"overflow-hidden\" },\n                React.createElement(\"ul\", { className: \"flex flex-col gap-3 px-4 pb-6\" }, column.links.map((link) => (React.createElement(\"li\", { key: link.label },\n                    React.createElement(link_1.default, { href: link.href, className: \"font-sans text-sm text-light-text hover:underline\" }, link.label)))))))));\n}\n/** Port of every-website `src/components/website/FooterAccordionNav.tsx`: plain props instead of Storyblok links. */\nfunction FooterAccordionNav({ columns }) {\n    return (React.createElement(\"div\", { className: \"w-full\" }, columns.map((column) => (React.createElement(AccordionSection, { key: column.title, column: column })))));\n}\n\n};\nmodule.exports = __req(\"0\");",
     "src/components/shared/Button.tsx": "var __defs = {}, __cache = {};\nfunction __req(id) { var c = __cache[id]; if (c) return c.exports; var m = { exports: {} }; __cache[id] = m; __defs[id].call(m.exports, m, m.exports, require); return m.exports; }\n__defs[\"0\"] = function (module, exports, require) {\n\"use strict\";\nvar __importDefault = (this && this.__importDefault) || function (mod) {\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\n};\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.GREY_BUTTON_CLASS = void 0;\nexports.Button = Button;\nconst react_1 = __importDefault(require(\"react\"));\nconst link_1 = __importDefault(require(\"next/link\"));\nconst BASE = \"inline-flex items-center gap-2 rounded-full cursor-pointer\";\nconst DEFAULT_SIZE = \"px-4 py-2\";\n/** Shared grey treatment — reused by SbButton's \"grey\" color so the two button components can't drift apart. */\nexports.GREY_BUTTON_CLASS = \"bg-light-grey text-dark\";\nconst VARIANTS = {\n    dark: \"bg-dark text-white\",\n    white: \"bg-white text-dark\",\n    grey: exports.GREY_BUTTON_CLASS,\n    nearBlack: \"bg-near-black text-white\",\n    primary: \"bg-signal-orange\"\n};\n/**\n * The data-* props, for the link form, which passes on nothing else from the button props. They\n * carry markers such as actionTracking() (PRODUCT-932), which are meant for whichever element renders.\n */\nfunction dataAttributes(props) {\n    return Object.fromEntries(Object.entries(props).filter(([key]) => key.startsWith(\"data-\")));\n}\nfunction Button({ children, icon, iconPosition = \"right\", variant, href, target, className, sizeClassName = DEFAULT_SIZE, ...rest }) {\n    const classes = [BASE, sizeClassName, variant ? VARIANTS[variant] : \"\", \"disabled:opacity-50\", className].filter(Boolean).join(\" \");\n    const content = (react_1.default.createElement(react_1.default.Fragment, null,\n        iconPosition === \"left\" && icon,\n        children,\n        iconPosition === \"right\" && icon));\n    if (href) {\n        return (react_1.default.createElement(link_1.default, { href: href, target: target, rel: target === \"_blank\" ? \"noopener noreferrer\" : undefined, className: classes, \"aria-label\": rest[\"aria-label\"], ...dataAttributes(rest) }, content));\n    }\n    return (react_1.default.createElement(\"button\", { className: classes, ...rest }, content));\n}\n\n};\nmodule.exports = __req(\"0\");"
   },
   "kit": [
@@ -946,7 +1152,11 @@
           "optional": true,
           "type": "Record<string, SbResolvedLink>"
         }
-      ]
+      ],
+      "find": {
+        "tag": "nav",
+        "classes": []
+      }
     },
     {
       "name": "Footer",
@@ -1009,7 +1219,13 @@
           "optional": true,
           "type": "string"
         }
-      ]
+      ],
+      "find": {
+        "tag": "footer",
+        "classes": [
+          "bg-background"
+        ]
+      }
     },
     {
       "name": "FooterAccordionNav",
@@ -1018,7 +1234,13 @@
       "kind": "stand-in",
       "similarity": 0.61,
       "addedProps": [],
-      "removedProps": []
+      "removedProps": [],
+      "find": {
+        "tag": "div",
+        "classes": [
+          "w-full"
+        ]
+      }
     },
     {
       "name": "HeaderV2",
@@ -1101,7 +1323,15 @@
           "optional": true,
           "type": "Record<string, SbResolvedLink>"
         }
-      ]
+      ],
+      "find": {
+        "tag": "div",
+        "classes": [
+          "top-0",
+          "w-full",
+          "z-50"
+        ]
+      }
     },
     {
       "name": "MobileNavDrawer",
@@ -1138,7 +1368,18 @@
           "optional": true,
           "type": "Record<string, SbResolvedLink>"
         }
-      ]
+      ],
+      "find": {
+        "tag": "div",
+        "classes": [
+          "fixed",
+          "inset-0",
+          "z-50",
+          "flex",
+          "flex-col",
+          "bg-white"
+        ]
+      }
     }
   ],
   "fixed": [],
@@ -1179,9 +1420,5 @@
     ]
   },
   "applied": null,
-  "signOff": {
-    "by": "Luke",
-    "at": "2026-11-15T14:07:59.134Z",
-    "left": 0
-  }
+  "signOff": null
 }
