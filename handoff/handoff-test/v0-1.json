@@ -4,7 +4,7 @@
     "slug": "handoff-test",
     "version": "v0.1"
   },
-  "scannedAt": "2026-11-15T14:59:39.396Z",
+  "scannedAt": "2026-11-15T15:14:20.394Z",
   "scannedBy": "Luke",
   "designSystem": {
     "repo": "Every-Foods/every-website",
@@ -1420,9 +1420,5 @@
     ]
   },
   "applied": null,
-  "signOff": {
-    "by": "Luke",
-    "at": "2026-11-15T15:00:03.073Z",
-    "left": 0
-  }
+  "signOff": null
 }
