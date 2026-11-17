@@ -1,0 +1,57 @@
+{
+  "controls": [
+    {
+      "id": "variant",
+      "label": "Design",
+      "type": "choice",
+      "variants": true,
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A"
+        },
+        {
+          "value": "b",
+          "label": "B"
+        },
+        {
+          "value": "i",
+          "label": "PDP"
+        }
+      ]
+    },
+    {
+      "id": "card",
+      "label": "Card style",
+      "type": "choice",
+      "default": "colour",
+      "options": [
+        {
+          "value": "colour",
+          "label": "Brand colour background"
+        },
+        {
+          "value": "gradient",
+          "label": "Brand colour fading to white"
+        }
+      ]
+    },
+    {
+      "id": "images",
+      "label": "Card images",
+      "type": "choice",
+      "default": "old",
+      "options": [
+        {
+          "value": "old",
+          "label": "Existing"
+        },
+        {
+          "value": "new",
+          "label": "New (WIP)"
+        }
+      ]
+    }
+  ]
+}
