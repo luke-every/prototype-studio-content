@@ -1,0 +1,74 @@
+{
+  "controls": [
+    {
+      "id": "variant",
+      "label": "Design",
+      "type": "choice",
+      "variants": true,
+      "default": "a",
+      "options": [
+        {
+          "value": "a",
+          "label": "A"
+        },
+        {
+          "value": "b",
+          "label": "B"
+        },
+        {
+          "value": "i",
+          "label": "PDP"
+        }
+      ]
+    },
+    {
+      "id": "bundles",
+      "label": "Bundles",
+      "type": "multi",
+      "default": [
+        "immunity",
+        "protein",
+        "body-balance",
+        "new-parent"
+      ],
+      "options": [
+        {
+          "value": "immunity",
+          "label": "Immunity"
+        },
+        {
+          "value": "protein",
+          "label": "Protein"
+        },
+        {
+          "value": "body-balance",
+          "label": "Body Balance"
+        },
+        {
+          "value": "new-parent",
+          "label": "Postpartum"
+        },
+        {
+          "value": "gut",
+          "label": "Gut Health (sample)"
+        }
+      ]
+    },
+    {
+      "id": "images",
+      "label": "Card images",
+      "type": "choice",
+      "default": "old",
+      "options": [
+        {
+          "value": "old",
+          "label": "Existing"
+        },
+        {
+          "value": "new",
+          "label": "New (WIP)"
+        }
+      ]
+    }
+  ]
+}
