@@ -1,0 +1,83 @@
+{
+  "controls": [
+    {
+      "id": "page",
+      "label": "Page",
+      "type": "choice",
+      "default": "pdp",
+      "variants": true,
+      "options": [
+        {
+          "value": "pdp",
+          "label": "Product page"
+        },
+        {
+          "value": "lp",
+          "label": "Landing page"
+        }
+      ]
+    },
+    {
+      "id": "deficit",
+      "label": "Calorie deficit",
+      "type": "choice",
+      "default": "equation",
+      "variants": true,
+      "options": [
+        {
+          "value": "equation",
+          "label": "Equation"
+        },
+        {
+          "value": "tags",
+          "label": "Tags"
+        },
+        {
+          "value": "accordion",
+          "label": "Accordion"
+        },
+        {
+          "value": "cards",
+          "label": "Two cards"
+        },
+        {
+          "value": "balance",
+          "label": "Balance slider"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    },
+    {
+      "id": "satisfying",
+      "label": "Under 500 kcal",
+      "type": "choice",
+      "default": "stats",
+      "variants": true,
+      "options": [
+        {
+          "value": "stats",
+          "label": "Stat tiles"
+        },
+        {
+          "value": "pillars",
+          "label": "Pillars"
+        },
+        {
+          "value": "image",
+          "label": "Image + text"
+        },
+        {
+          "value": "label",
+          "label": "Nutrition label"
+        },
+        {
+          "value": "off",
+          "label": "Off"
+        }
+      ]
+    }
+  ]
+}
