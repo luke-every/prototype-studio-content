@@ -1,3 +1,0 @@
-/* Tokens, fonts, keyframes and utilities come from production's own stylesheet, so there is one source for them.
-   Anything only this prototype needs goes below the import. */
-@import "../../../../every-website-main/src/app/globals.css";
