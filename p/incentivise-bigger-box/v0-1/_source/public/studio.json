@@ -1,0 +1,83 @@
+{
+  "controls": [
+    {
+      "id": "variant",
+      "label": "Size selector idea",
+      "type": "choice",
+      "default": "control",
+      "variants": true,
+      "options": [
+        {
+          "value": "control",
+          "label": "Control (12 / 16 / 20)"
+        },
+        {
+          "value": "preview",
+          "label": "Grid shows the next size's dishes"
+        },
+        {
+          "value": "list",
+          "label": "Stacked list"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        },
+        {
+          "value": "breakdown",
+          "label": "Tier progress in the price breakdown"
+        }
+      ]
+    },
+    {
+      "id": "cartUi",
+      "label": "Cart UI",
+      "type": "choice",
+      "default": "old",
+      "options": [
+        { "value": "old", "label": "Old cart" },
+        { "value": "new", "label": "New cart" }
+      ]
+    },
+    {
+      "id": "cart",
+      "label": "Cart",
+      "type": "choice",
+      "default": "closed",
+      "options": [
+        {
+          "value": "closed",
+          "label": "Closed"
+        },
+        {
+          "value": "today",
+          "label": "Today: small green hint"
+        },
+        {
+          "value": "ladder",
+          "label": "Discount ladder"
+        },
+        {
+          "value": "add",
+          "label": "Add the extra meals"
+        },
+        {
+          "value": "both",
+          "label": "Ladder + add the extra meals"
+        },
+        {
+          "value": "save",
+          "label": "Save per meal"
+        },
+        {
+          "value": "unlock",
+          "label": "Unlock the next discount"
+        },
+        {
+          "value": "breakdown",
+          "label": "Tier progress in the price breakdown (New cart)"
+        }
+      ]
+    }
+  ]
+}
